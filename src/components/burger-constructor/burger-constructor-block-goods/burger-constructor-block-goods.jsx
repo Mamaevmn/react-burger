@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { goodsPropTypes } from '../../../../const';
+import { goodsPropTypes } from '../../../utils/const';
 import typesStyle from './burger-constructor-block-goods.module.css';
 import BurgerGoods from './burger-constructor-goods/burger-constructor-goods';
 

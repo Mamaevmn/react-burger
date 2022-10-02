@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { headerLinkPropTypes } from '../../../const';
+import { headerLinkPropTypes } from '../../../utils/const';
 import linkStyle from './header-link.module.css';
 
 function HeaderLink(props) {

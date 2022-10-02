@@ -1,30 +1,10 @@
 import classNames from 'classnames';
 import headerStyle from './app-header.module.css';
-import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import HeaderLink from './header-link/header-link';
+import { headerLinks } from '../../utils/const';
 
-function AppHeader(props) {
-    const headerLinks = [
-        {   
-            classes: ['color-text--primary', 'mr-2', 'pr-5', 'pl-5', 'pt-4', 'pb-4'],
-            link: 23,
-            icon: <BurgerIcon type="primary" />,
-            text: 'Конструктор'
-        },
-        {   
-            classes: ['color-text--secondary', 'pr-5', 'pl-5', 'pt-4', 'pb-4'],
-            link: '/',
-            icon: <ListIcon type="secondary" />,
-            text: 'Лента заказов'
-        },
-        {   
-            classes: ['color-text--secondary', 'pr-5', 'pl-5', 'pt-4', 'pb-4', 'ml-a'],
-            link: '/',
-            icon: <ProfileIcon type="secondary" />,
-            text: 'Личный кабинет'
-        },
-    ];
-
+function AppHeader() {
     return (
         <header className={classNames(headerStyle.header)}>
             <div className={classNames(headerStyle.container, 'container', 'pt-4', 'pb-4')}>

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import ingredientsStyle from './burger-ingredients-list.module.css'
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import touchSvg from './../../../../images/icons/touch-btn.svg'
-import { goodsPropTypes } from '../../../../const';
+import touchSvg from './../../../images/icons/touch-btn.svg'
+import { goodsPropTypes } from '../../../utils/const';
 
 function BurgerIngredientsList(props) {
     return (

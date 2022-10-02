@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { goodsPropTypes } from '../../const';
+import { goodsPropTypes } from '../../utils/const';
 import mainStyle from './app-main.module.css';
-import BurgerConstructor from './burger-constructor/burger-constructor';
-import BurgerIngredients from './burger-ingredients/burger-ingredients';
+import BurgerConstructor from './../burger-constructor/burger-constructor';
+import BurgerIngredients from './../burger-ingredients/burger-ingredients';
 
 function AppMain(props) {
     return (

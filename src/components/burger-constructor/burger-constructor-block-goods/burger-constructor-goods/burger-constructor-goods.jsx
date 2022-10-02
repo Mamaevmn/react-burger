@@ -1,8 +1,7 @@
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import goodsStyle from './burger-constructor-goods.module.css';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import { goodsPropTypes } from '../../../../../const';
+import { goodsPropTypes } from '../../../../utils/const';
 
 function BurgerGoods(props) {
     return (

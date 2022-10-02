@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { tabPropTypes } from '../../../../const';
+import { tabPropTypes } from '../../../utils/const';
 
 function Tabs(props) {
   const [current, setCurrent] = React.useState(props.tabs[0].text);

@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import totalStyle from './burger-ingredients-total.module.css';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { goodsPropTypes } from '../../../../const';
+import { goodsPropTypes } from '../../../utils/const';
 
 function BurgerIngredientsTotal(props) {
     let price_arr = [],

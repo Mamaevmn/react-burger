@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ingredientsStyle from './burger-ingredients.module.css'
 import BurgerIngredientsTotal from './burger-ingredients-total/burger-ingredients-total';
 import BurgerIngredientsList from './burger-ingredients-list/burger-ingredients-list';
-import { goodsPropTypes } from '../../../const';
+import { goodsPropTypes } from '../../utils/const';
 
 function BurgerIngredients(props) {
     return (
