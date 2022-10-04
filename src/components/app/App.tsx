@@ -1,7 +1,7 @@
 import appStyles from './App.module.css';
-import AppHeader from './app-header/app-header';
-import data from './../utils/data';
-import AppMain from './app-main/app-main';
+import AppHeader from './../app-header/app-header';
+import data from './../../utils/data';
+import AppMain from './../app-main/app-main';
 
 function App() {
   return (
