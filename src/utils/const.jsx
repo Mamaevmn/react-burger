@@ -36,13 +36,13 @@ export const headerLinks = [
         text: 'Конструктор'
     },
     {   
-        classes: ['color-text--secondary', 'pr-5', 'pl-5', 'pt-4', 'pb-4'],
+        classes: ['text_color_inactive', 'pr-5', 'pl-5', 'pt-4', 'pb-4'],
         link: '/',
         icon: <ListIcon type="secondary" />,
         text: 'Лента заказов'
     },
     {   
-        classes: ['color-text--secondary', 'pr-5', 'pl-5', 'pt-4', 'pb-4', 'ml-a'],
+        classes: ['text_color_inactive', 'pr-5', 'pl-5', 'pt-4', 'pb-4', 'ml-a'],
         link: '/',
         icon: <ProfileIcon type="secondary" />,
         text: 'Личный кабинет'
@@ -63,3 +63,5 @@ export const blocks = [
         type: 'main'
     },
 ];
+
+export const urlAPI = 'https://norma.nomoreparties.space/api/ingredients';
