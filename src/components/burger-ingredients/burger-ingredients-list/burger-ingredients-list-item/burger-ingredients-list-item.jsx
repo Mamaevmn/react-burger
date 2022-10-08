@@ -4,7 +4,6 @@ import Modal from '../../../modal/modal';
 import ingredientStyle from './burger-ingredients-list-item.module.css'
 
 function BurgerIngredientsListItem(props) {
-    console.log(props);
     const [visibleModal, setVisibleModal] = useState(false)
 
     const onOpenModal = () => {

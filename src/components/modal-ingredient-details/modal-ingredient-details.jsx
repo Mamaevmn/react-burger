@@ -1,3 +1,4 @@
+import { goodsPropTypes } from '../../utils/const'
 import modalContentStyle from './modal-ingredient-details.module.css'
 
 function IngredientDetails(props) {
@@ -26,5 +27,9 @@ function IngredientDetails(props) {
         </div>
     )
 } 
+
+IngredientDetails.propTypes = {
+    item: goodsPropTypes,
+}
 
 export default IngredientDetails

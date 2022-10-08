@@ -2,9 +2,9 @@ import PortalReactDOM from "react-dom";
 import { useEffect } from "react";
 import classNames from 'classnames';
 import modalStyle from './modal.module.css'
-import ModalOverlay from './modal-overlay/modal-overlay';
-import IngredientDetails from "./modal-ingredient-details/modal-ingredient-details";
-import OrderDetails from "./modal-order-details/modal-order-details";
+import ModalOverlay from '../modal-overlay/modal-overlay';
+import IngredientDetails from "../modal-ingredient-details/modal-ingredient-details";
+import OrderDetails from "../modal-order-details/modal-order-details";
 import { goodsPropTypes } from "../../utils/const";
 import PropTypes from 'prop-types';
 const modalRoot = document.getElementById("react-modals");
@@ -18,7 +18,7 @@ function Modal(props) {
             document.body.style.overflow = 'unset'
             window.removeEventListener('keyup', props.keypressCloseModal)
         })
-    }, props.isOpened)
+    }, [props.visibleModal])
 
     return PortalReactDOM.createPortal(
         <>
@@ -41,7 +41,7 @@ Modal.propTypes = {
     item: goodsPropTypes,
     ingredient: PropTypes.bool,
     order: PropTypes.bool,
-    visibleModal: PropTypes.bool,
+    visibleModal: PropTypes.bool.isRequired,
 }
 
 export default Modal

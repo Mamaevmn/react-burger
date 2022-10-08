@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import modalContentStyle from './modal-order-details.module.css'
-import accessIcon from './../../../images/icons/access-icon.svg'
+import accessIcon from './../../images/icons/access-icon.svg'
 
 function OrderDetails() {
     return (
