@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import appStyles from './App.module.css';
 import AppHeader from './../app-header/app-header';
 import AppMain from './../app-main/app-main';
-import { getData, urlAPI } from '../../utils/const';
+import { getData, urlAPI } from '../../utils/api';
 
 function App() {
   const [state, setState] = useState({ 
