@@ -1,0 +1,12 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    text-align: left;
+}
+
+.goods_list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 24px;
+}
