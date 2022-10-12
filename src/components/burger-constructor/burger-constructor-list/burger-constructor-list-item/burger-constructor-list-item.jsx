@@ -1,9 +1,9 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
 import Modal from '../../../modal/modal';
-import ingredientStyle from './burger-ingredients-list-item.module.css'
+import constructortyle from './burger-constructor-list-item.module.css'
 
-function BurgerIngredientsListItem(props) {
+function BurgerConstructorListItem(props) {
     const [visibleModal, setVisibleModal] = useState(false)
 
     const onOpenModal = () => {
@@ -20,7 +20,7 @@ function BurgerIngredientsListItem(props) {
 
     return (
         <>
-            <div className={ingredientStyle.ingredient} onClick={onOpenModal}>
+            <div className={constructortyle.ingredient} onClick={onOpenModal}>
                 <ConstructorElement 
                     type={props.type}
                     isLocked={props.isLocked}
@@ -43,4 +43,4 @@ function BurgerIngredientsListItem(props) {
     )
 }
 
-export default BurgerIngredientsListItem
+export default BurgerConstructorListItem

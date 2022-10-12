@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import goodsStyle from './burger-constructor-goods.module.css';
+import goodsStyle from './burger-ingredients-goods.module.css';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { goodsPropTypes } from '../../../../utils/const';
 import { useState } from 'react';

@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { goodsPropTypes } from '../../../utils/const';
-import typesStyle from './burger-constructor-block-goods.module.css';
-import BurgerGoods from './burger-constructor-goods/burger-constructor-goods';
+import typesStyle from './burger-ingredients-block-goods.module.css';
+import BurgerGoods from './burger-ingredients-goods/burger-ingredients-goods';
 
-function BurgerConstructorTypes(props) {
+function BurgerIngredientsTypes(props) {
     return (
         <ul className={classNames('scroll-block', 'scroll-block--big', 'mt-10')}>
             {props.blocks.map((block, idx) => 
@@ -25,8 +25,8 @@ function BurgerConstructorTypes(props) {
     )
 }
 
-BurgerConstructorTypes.propTypes = {
+BurgerIngredientsTypes.propTypes = {
     data: PropTypes.arrayOf(goodsPropTypes),
 }
 
-export default BurgerConstructorTypes
+export default BurgerIngredientsTypes

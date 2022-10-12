@@ -29,7 +29,7 @@ function Modal(props) {
                     <button className={classNames(modalStyle.modal_close_btn)} onClick={props.closeModal}></button>
                 </div>
                 {props.ingredient && <IngredientDetails item={props.item}/>}
-                {props.order && <OrderDetails item={props.item}/>}
+                {props.order && <OrderDetails numberOrder={props.numberOrder} loading={props.loading} hasError={props.hasError}/>}
             </section>
         </>,
         modalRoot
@@ -41,6 +41,7 @@ Modal.propTypes = {
     item: goodsPropTypes,
     ingredient: PropTypes.bool,
     order: PropTypes.bool,
+    numberOrder: PropTypes.number,
     visibleModal: PropTypes.bool.isRequired,
 }
 

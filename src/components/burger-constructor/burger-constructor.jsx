@@ -1,24 +1,42 @@
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import constructorStyle from './burger-constructor.module.css';
-import Tabs from './burger-constructor-types/burger-constructor-types';
-import BurgerConstructorTypes from './burger-constructor-block-goods/burger-constructor-block-goods';
-import { blocks, goodsPropTypes } from '../../utils/const';
+import constructorStyle from './burger-constructor.module.css'
+import BurgerConstructorTotal from './burger-constructor-total/burger-constructor-total';
+import BurgerConstructorList from './burger-constructor-list/burger-constructor-list';
+import { ConstructorDataContext } from '../../utils/constructorDataContext';
+import { useContext, useEffect, useState } from 'react';
+import { DataContext } from '../../utils/dataContext';
 
-function BurgerConstructor(props) {
+function BurgerConstructor() {
+    const [ constructorData, setConstructorData ] = useState(useContext(ConstructorDataContext));
+    const { data } = useContext(DataContext)
+
+    useEffect(() => {
+        setConstructorData(filterNumberBuns());
+    }, [setConstructorData])
+
+    function filterNumberBuns() {
+        const newData = [];
+        let hasBun = false;
+
+        data.map((ingredient, idx) => {
+            if (ingredient.type !== 'bun' && idx % 3 === 0) newData.push(ingredient);
+            if (ingredient.type === 'bun' && !hasBun) {
+                hasBun = true;
+                newData.unshift(ingredient)
+            }
+        })
+
+        return newData
+    }
+    
     return (
-        <section className={classNames(constructorStyle.section)}>
-            <h1 className="text text_type_main-large mb-5">
-                Соберите бургер
-            </h1>
-            <Tabs tabs={blocks}/>
-            <BurgerConstructorTypes data={props.data} blocks={blocks}/>
+        <section className={classNames(constructorStyle.section, 'pt-25', 'pl-4', 'pr-4')}>
+            <ConstructorDataContext.Provider value={{ constructorData, setConstructorData }}>
+                <BurgerConstructorList />
+                <BurgerConstructorTotal />
+            </ConstructorDataContext.Provider>
         </section>
     )
-}
-
-BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(goodsPropTypes),
 }
 
 export default BurgerConstructor

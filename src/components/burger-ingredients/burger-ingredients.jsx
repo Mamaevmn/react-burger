@@ -1,15 +1,18 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import ingredientsStyle from './burger-ingredients.module.css'
-import BurgerIngredientsTotal from './burger-ingredients-total/burger-ingredients-total';
-import BurgerIngredientsList from './burger-ingredients-list/burger-ingredients-list';
-import { goodsPropTypes } from '../../utils/const';
+import ingredientsStyle from './burger-ingredients.module.css';
+import Tabs from './burger-ingredients-types/burger-ingredients-types';
+import BurgerIngredientsTypes from './burger-ingredients-block-goods/burger-ingredients-block-goods';
+import { blocks, goodsPropTypes } from '../../utils/const';
 
 function BurgerIngredients(props) {
     return (
-        <section className={classNames(ingredientsStyle.section, 'pt-25', 'pl-4', 'pr-4')}>
-            <BurgerIngredientsList data={props.data} />
-            <BurgerIngredientsTotal data={props.data} />
+        <section className={classNames(ingredientsStyle.section)}>
+            <h1 className="text text_type_main-large mb-5">
+                Соберите бургер
+            </h1>
+            <Tabs tabs={blocks}/>
+            <BurgerIngredientsTypes data={props.data} blocks={blocks}/>
         </section>
     )
 }
