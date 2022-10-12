@@ -4,32 +4,34 @@ import touchSvg from './../../../images/icons/touch-btn.svg'
 import { useRef } from 'react';
 import BurgerConstructorListItem from './burger-constructor-list-item/burger-constructor-list-item';
 import { ConstructorDataContext } from '../../../utils/constructorDataContext';
+import classNames from 'classnames';
+import { nanoid } from 'nanoid';
 
 function BurgerConstructorList() {
     const { constructorData } = useContext(ConstructorDataContext)
     const itemRef = useRef();
 
     return (
-        <div className='pl-8' style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className={classNames(constructorStyle.wrapper, 'pl-8')}>
             {!!constructorData.length &&
                 <>                
                     <BurgerConstructorListItem 
-                        key="0"
+                        key={nanoid()}
                         isLocked={true}
                         text={`${constructorData[0].name} (верх)`}
                         {...constructorData[0]}
                     />
                     {
                         constructorData.length > 1 ?
-                            <ul className='scroll-block scroll-block--medium' style={{marginLeft: '-32px', paddingLeft: '32px'}}>
+                            <ul className={constructorStyle.list} style={{marginLeft: '-32px', paddingLeft: '32px'}}>
                                 {constructorData.map((goods, idx) => {
-                                    if (idx > 0) {
-                                        return <li key={idx} className={constructorStyle.constructor_element} ref={itemRef}>
+                                    if (idx > 0 && idx !== constructorData.length - 1 ) {
+                                        return <li key={nanoid()} className={constructorStyle.constructor_element} ref={itemRef}>
                                                 <button className={constructorStyle.touch_btn}>
                                                     <img src={touchSvg} alt="touch-icon" />
                                                 </button>
                                                 <BurgerConstructorListItem 
-                                                    key={idx}
+                                                    key={nanoid()}
                                                     {...goods}
                                                 />
                                             </li>
@@ -38,10 +40,10 @@ function BurgerConstructorList() {
                             </ul> : null
                     }
                     <BurgerConstructorListItem 
-                        key={constructorData[0]}
+                        key={nanoid()}
                         isLocked={true}
-                        text={`${constructorData[0].name} (низ)`}
-                        {...constructorData[0]}
+                        text={`${constructorData[constructorData.length - 1 ].name} (низ)`}
+                        {...constructorData[ constructorData.length - 1 ]}
                     />
                 </>
             }

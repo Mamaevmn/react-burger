@@ -5,6 +5,7 @@ import { useContext, useEffect, useState, useReducer } from 'react';
 import Modal from '../../modal/modal';
 import { ConstructorDataContext } from '../../../utils/constructorDataContext';
 import { postOrder } from '../../../utils/api';
+import OrderDetails from '../../modal-order-details/modal-order-details';
 
 const initialTotalPriceState = { total: 0 };
 
@@ -13,18 +14,18 @@ function totalReducer(totalPriceState, action) {
         case "sum":
             return { total: totalPriceState.total + action.number };
         case "reset":
-          return { total: 0 };
+            return { total: 0 };
         default:
-          throw new Error(`Wrong type of action: ${action.type}`);
-      }
-  }
+            throw new Error(`Wrong type of action: ${action.type}`);
+    }
+}
 
 function BurgerConstructorTotal() {
     const { constructorData } = useContext(ConstructorDataContext);
-    const [visibleModal, setVisibleModal] = useState(false);
-    const [totalPriceState, totalPriceDispatch] = useReducer(totalReducer, initialTotalPriceState);
+    const [ visibleModal, setVisibleModal ] = useState(false);
+    const [ totalPriceState, totalPriceDispatch ] = useReducer(totalReducer, initialTotalPriceState);
     const [ numberOrder, setNumberOrder ] = useState(0);
-    const [fetchState, setFetchState] = useState({ 
+    const [ fetchState, setFetchState ] = useState({ 
         hasError: false,
         loading: true,
       }
@@ -39,12 +40,7 @@ function BurgerConstructorTotal() {
     }, [constructorData])
 
     function calculateTotalPrice() {
-        for (let goods of constructorData) { 
-            if (goods.type === 'bun') {
-                totalPriceDispatch({type: 'sum', number: goods.price})
-            }
-            totalPriceDispatch({type: 'sum', number: goods.price})
-        };
+        constructorData.map(goods => totalPriceDispatch({ type: 'sum', number: goods.price }))
     }
 
     function createGoodsIdArray() {
@@ -54,7 +50,7 @@ function BurgerConstructorTotal() {
         return idArray;
     }
 
-    const onOpenModal = () => {
+    const makeOrder = () => {
         const orderIdArray = createGoodsIdArray();
 
         setFetchState({hasError: false, loading: true });
@@ -63,17 +59,13 @@ function BurgerConstructorTotal() {
                 if (message.success) {
                     setNumberOrder(message.order.number)
                     setFetchState({ ...fetchState, loading: false })
+                    setVisibleModal(true)
                 } else setFetchState({ hasError: true, loading: false });
             })
-        setVisibleModal(true)
     }
 
     const onCloseModal = () => {
         setVisibleModal(false)
-    }
-
-    const onKeyPressCloseModal = (e) => {
-        if (e.keyCode === 27) onCloseModal();
     }
 
     return (
@@ -85,20 +77,21 @@ function BurgerConstructorTotal() {
                     </span>
                     <CurrencyIcon type="primary" />
                 </p>
-                <Button type="primary" size="large" htmlType="button" onClick={() => onOpenModal()}>
+                <Button type="primary" size="large" htmlType="button" onClick={makeOrder}>
                     Оформить заказ
                 </Button>
             </div>
             {visibleModal && 
                 <Modal
                     closeModal={onCloseModal}
-                    keypressCloseModal={onKeyPressCloseModal}
                     visibleModal={visibleModal}
-                    order={true}
-                    numberOrder={numberOrder}
-                    hasError={fetchState.hasError}
-                    loading={fetchState.loading}
-                />
+                >
+                    <OrderDetails 
+                        numberOrder={numberOrder}
+                        hasError={fetchState.hasError}
+                        loading={fetchState.loading}
+                    />
+                </Modal>
             }
         </>
     )

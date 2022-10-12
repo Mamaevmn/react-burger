@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import { DataContext } from '../../utils/dataContext';
 
 function BurgerConstructor() {
-    const [ constructorData, setConstructorData ] = useState(useContext(ConstructorDataContext));
+    const [ constructorData, setConstructorData ] = useState([]);
     const { data } = useContext(DataContext)
 
     useEffect(() => {
@@ -18,11 +18,17 @@ function BurgerConstructor() {
         const newData = [];
         let hasBun = false;
 
-        data.map((ingredient, idx) => {
-            if (ingredient.type !== 'bun' && idx % 3 === 0) newData.push(ingredient);
+        data.data.map((ingredient, idx) => {
             if (ingredient.type === 'bun' && !hasBun) {
                 hasBun = true;
                 newData.unshift(ingredient)
+                newData.push(ingredient)
+            }
+            if (ingredient.type !== 'bun' && idx % 3 === 0) {
+                { newData.length ? 
+                    newData.splice( newData.length - 1, 0 , ingredient) :
+                    newData.push(ingredient)
+                }
             }
         })
 

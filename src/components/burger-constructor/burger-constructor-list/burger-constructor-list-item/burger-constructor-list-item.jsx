@@ -1,10 +1,11 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
+import IngredientDetails from '../../../modal-ingredient-details/modal-ingredient-details';
 import Modal from '../../../modal/modal';
 import constructortyle from './burger-constructor-list-item.module.css'
 
 function BurgerConstructorListItem(props) {
-    const [visibleModal, setVisibleModal] = useState(false)
+    const [ visibleModal, setVisibleModal ] = useState(false)
 
     const onOpenModal = () => {
         setVisibleModal(true)
@@ -12,10 +13,6 @@ function BurgerConstructorListItem(props) {
 
     const onCloseModal = () => {
         setVisibleModal(false)
-    }
-
-    const onKeyPressCloseModal = (e) => {
-        if (e.keyCode === 27) onCloseModal();
     }
 
     return (
@@ -30,14 +27,13 @@ function BurgerConstructorListItem(props) {
                 />
             </div>
             {visibleModal && 
-                <Modal 
+                <Modal
                     title='Детали ингредиента'
                     closeModal={onCloseModal}
-                    keypressCloseModal={onKeyPressCloseModal}
                     visibleModal={visibleModal}
-                    item={props}
-                    ingredient={true}
-                />
+                >
+                    <IngredientDetails item={props}/>
+                </Modal>
             }
         </>
     )

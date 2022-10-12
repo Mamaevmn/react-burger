@@ -4,9 +4,10 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import { goodsPropTypes } from '../../../../utils/const';
 import { useState } from 'react';
 import Modal from '../../../modal/modal';
+import IngredientDetails from '../../../modal-ingredient-details/modal-ingredient-details';
 
 function BurgerGoods(props) {
-    const [visibleModal, setVisibleModal] = useState(false)
+    const [ visibleModal, setVisibleModal ] = useState(false)
 
     const onOpenModal = () => {
         setVisibleModal(true)
@@ -14,10 +15,6 @@ function BurgerGoods(props) {
 
     const onCloseModal = () => {
         setVisibleModal(false)
-    }
-
-    const onKeyPressCloseModal = (e) => {
-        if (e.keyCode === 27) onCloseModal();
     }
 
     return (
@@ -39,11 +36,10 @@ function BurgerGoods(props) {
                 <Modal
                     title='Детали ингредиента'
                     closeModal={onCloseModal}
-                    keypressCloseModal={onKeyPressCloseModal}
                     visibleModal={visibleModal}
-                    item={props.goods}
-                    ingredient={true}
-                />
+                >
+                    <IngredientDetails item={props.goods}/>
+                </Modal>
             }
         </>
     )

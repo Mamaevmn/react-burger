@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useReducer } from 'react';
 import classNames from 'classnames';
 import mainStyle from './app-main.module.css';
 import BurgerIngredients from './../burger-ingredients/burger-ingredients';
@@ -6,8 +6,21 @@ import BurgerConstructor from './../burger-constructor/burger-constructor';
 import { DataContext } from '../../utils/dataContext';
 import { getData } from '../../utils/api';
 
+const initialDataState = [];
+
+function dataReducer(data, action) {
+  switch (action.type) {
+      case "set":
+          return { data: [...action.data] };
+      case "reset":
+          return { data: initialDataState };
+      default:
+          throw new Error(`Wrong type of action: ${action.type}`);
+  }
+}
+
 function AppMain() {
-    const [ data, setData ] = useState(useContext(DataContext));
+    const [ data, dataDispatch ] = useReducer(dataReducer, initialDataState);
     const [fetchState, setFetchState] = useState({ 
         hasError: false,
         loading: true,
@@ -17,8 +30,8 @@ function AppMain() {
     useEffect(() => {
       setFetchState({hasError: false, loading: true });
       
-      getData().then(data => {
-        setData(data.data)
+      getData().then(message => {
+        dataDispatch({type: 'set', data: message.data})
         setFetchState({ ...fetchState, loading: false })
       })
         .catch(e => {
@@ -33,10 +46,10 @@ function AppMain() {
                 {fetchState.hasError && 'Произошла ошибка'}
                 {!fetchState.loading &&
                  !fetchState.hasError &&
-                 data.length &&
+                 data.data.length &&
                     <>
-                        <BurgerIngredients data={data}/>
-                        <DataContext.Provider value={{ data, setData }}>
+                        <BurgerIngredients data={data.data}/>
+                        <DataContext.Provider value={{ data, dataDispatch }}>
                             <BurgerConstructor />
                         </ DataContext.Provider>
                     </>

@@ -4,8 +4,6 @@ import accessIcon from './../../images/icons/access-icon.svg'
 import PropTypes from 'prop-types';
 
 function OrderDetails(props) {
-    console.log(props);
-
     return (
         <div className={modalContentStyle.modal_content}>
             {props.loading && 'Загрузка...'}

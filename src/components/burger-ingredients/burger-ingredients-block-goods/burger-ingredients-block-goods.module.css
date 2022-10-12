@@ -1,11 +1,24 @@
-.section {
+.wrapper {
     display: flex;
     flex-direction: column;
-    max-width: 600px;
-    text-align: left;
+    gap: 16px;
+    overflow: auto;
+    max-height: 664px;
+}
+  
+.wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+  
+.wrapper::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+  
+.wrapper::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
 }
 
-.goods_list {
+.list {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 32px 24px;
