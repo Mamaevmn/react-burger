@@ -36,7 +36,6 @@ function BurgerGoods(props) {
                 <Modal
                     title='Детали ингредиента'
                     closeModal={onCloseModal}
-                    visibleModal={visibleModal}
                 >
                     <IngredientDetails item={props.goods}/>
                 </Modal>

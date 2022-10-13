@@ -16,7 +16,7 @@ function Modal(props) {
             document.body.style.overflow = 'unset'
             window.removeEventListener('keyup', onKeyPressCloseModal)
         })
-    }, [props.visibleModal])
+    }, [])
 
     const onKeyPressCloseModal = (e) => {
         if (e.keyCode === ESC_KEYCODE) props.closeModal();
@@ -40,7 +40,7 @@ function Modal(props) {
 Modal.propTypes = {
     title: PropTypes.string,
     order: PropTypes.bool,
-    visibleModal: PropTypes.bool.isRequired,
+    children: PropTypes.element,
 }
 
 export default Modal

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import mainStyle from './app-main.module.css';
 import BurgerIngredients from './../burger-ingredients/burger-ingredients';
 import BurgerConstructor from './../burger-constructor/burger-constructor';
-import { DataContext } from '../../utils/dataContext';
+import { DataContext } from '../../contexts/dataContext';
 import { getData } from '../../utils/api';
 
 const initialDataState = [];

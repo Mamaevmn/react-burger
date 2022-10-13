@@ -30,7 +30,6 @@ function BurgerConstructorListItem(props) {
                 <Modal
                     title='Детали ингредиента'
                     closeModal={onCloseModal}
-                    visibleModal={visibleModal}
                 >
                     <IngredientDetails item={props}/>
                 </Modal>

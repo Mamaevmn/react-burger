@@ -31,3 +31,19 @@ ul {
 .ml-a {
   margin-left: auto;
 }
+
+.scroll-block {
+  overflow: auto;
+}
+
+.scroll-block::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-block::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.scroll-block::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}

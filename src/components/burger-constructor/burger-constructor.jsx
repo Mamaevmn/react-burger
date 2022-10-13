@@ -2,9 +2,10 @@ import classNames from 'classnames';
 import constructorStyle from './burger-constructor.module.css'
 import BurgerConstructorTotal from './burger-constructor-total/burger-constructor-total';
 import BurgerConstructorList from './burger-constructor-list/burger-constructor-list';
-import { ConstructorDataContext } from '../../utils/constructorDataContext';
+import { ConstructorDataContext } from '../../contexts/constructorDataContext';
 import { useContext, useEffect, useState } from 'react';
-import { DataContext } from '../../utils/dataContext';
+import { DataContext } from '../../contexts/dataContext';
+import { nanoid } from 'nanoid';
 
 function BurgerConstructor() {
     const [ constructorData, setConstructorData ] = useState([]);
@@ -29,6 +30,12 @@ function BurgerConstructor() {
                     newData.splice( newData.length - 1, 0 , ingredient) :
                     newData.push(ingredient)
                 }
+            }
+        })
+
+        newData.map(ingredient => {
+            if (ingredient.type !== 'bun') {
+                ingredient.u_id = nanoid()
             }
         })
 

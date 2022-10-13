@@ -3,7 +3,7 @@ import totalStyle from './burger-constructor-total.module.css';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useContext, useEffect, useState, useReducer } from 'react';
 import Modal from '../../modal/modal';
-import { ConstructorDataContext } from '../../../utils/constructorDataContext';
+import { ConstructorDataContext } from '../../../contexts/constructorDataContext';
 import { postOrder } from '../../../utils/api';
 import OrderDetails from '../../modal-order-details/modal-order-details';
 
@@ -12,7 +12,7 @@ const initialTotalPriceState = { total: 0 };
 function totalReducer(totalPriceState, action) {
     switch (action.type) {
         case "sum":
-            return { total: totalPriceState.total + action.number };
+            return { total: totalPriceState.total + action.payload };
         case "reset":
             return { total: 0 };
         default:
@@ -40,7 +40,7 @@ function BurgerConstructorTotal() {
     }, [constructorData])
 
     function calculateTotalPrice() {
-        constructorData.map(goods => totalPriceDispatch({ type: 'sum', number: goods.price }))
+        constructorData.map(goods => totalPriceDispatch({ type: 'sum', payload: goods.price }))
     }
 
     function createGoodsIdArray() {
@@ -84,7 +84,6 @@ function BurgerConstructorTotal() {
             {visibleModal && 
                 <Modal
                     closeModal={onCloseModal}
-                    visibleModal={visibleModal}
                 >
                     <OrderDetails 
                         numberOrder={numberOrder}

@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import typesStyle from './burger-ingredients-types.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { tabPropTypes } from '../../../utils/const';
-import { nanoid } from 'nanoid';
 
 function Tabs(props) {
   const [ current, setCurrent ] = React.useState(props.tabs[0].text);
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div className={typesStyle.wrapper}>
       {props.tabs.map((curr_tab, idx) => 
-        <Tab key={nanoid()} value={curr_tab.text} active={current === curr_tab.text} onClick={setCurrent}>
+        <Tab key={idx} value={curr_tab.text} active={current === curr_tab.text} onClick={setCurrent}>
           {curr_tab.text}
         </Tab>
       )}
