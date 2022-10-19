@@ -23,11 +23,6 @@ export const headerLinkPropTypes = PropTypes.shape({
     text: PropTypes.string
 })
 
-export const tabPropTypes = PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    type: PropTypes.string,
-})
-
 export const headerLinks = [
     {   
         classes: ['color-text--primary', 'mr-2', 'pr-5', 'pl-5', 'pt-4', 'pb-4'],
@@ -49,19 +44,8 @@ export const headerLinks = [
     },
 ];
 
-export const blocks = [
-    {
-        text: 'Булки',
-        type: 'bun'
-    },
-    {
-        text: 'Соусы',
-        type: 'sauce'
-    },
-    {
-        text: 'Начинки',
-        type: 'main'
-    },
-];
-
 export const ESC_KEYCODE = 27;
+
+export const INGREDIENTS_TYPE = 'ingredient';
+export const ORDER_TYPE = 'order';
+export const INGREDIENTS_DETAIL_MODAL_TITLE = 'Детали ингредиента';

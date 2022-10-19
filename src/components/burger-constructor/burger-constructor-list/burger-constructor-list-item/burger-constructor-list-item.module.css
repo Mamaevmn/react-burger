@@ -1,5 +1,28 @@
+.constructor_element {
+    position: relative;
+    display: flex;
+}
+
+.opacity {
+    opacity: 0.5;
+}
+
 .ingredient {
     width: 100%;
     max-width: 536px;
     cursor: pointer;
+}
+
+.touch_btn {
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    padding: 0;
+    margin: 0;
+    width: 24px;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transform: translate(-100%, -50%);
 }

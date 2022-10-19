@@ -1,58 +1,33 @@
-import { useEffect, useState, useContext, useReducer } from 'react';
+import { useSelector } from 'react-redux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
 import classNames from 'classnames';
 import mainStyle from './app-main.module.css';
 import BurgerIngredients from './../burger-ingredients/burger-ingredients';
 import BurgerConstructor from './../burger-constructor/burger-constructor';
-import { DataContext } from '../../contexts/dataContext';
-import { getData } from '../../utils/api';
-
-const initialDataState = [];
-
-function dataReducer(data, action) {
-  switch (action.type) {
-      case "set":
-          return { data: [...action.data] };
-      case "reset":
-          return { data: initialDataState };
-      default:
-          throw new Error(`Wrong type of action: ${action.type}`);
-  }
-}
+import Modal from '../modal/modal';
+import IngredientDetails from '../modal-ingredient-details/modal-ingredient-details';
+import OrderDetails from '../modal-order-details/modal-order-details';
+import { INGREDIENTS_TYPE } from '../../utils/const';
 
 function AppMain() {
-    const [ data, dataDispatch ] = useReducer(dataReducer, initialDataState);
-    const [fetchState, setFetchState] = useState({ 
-        hasError: false,
-        loading: true,
-      }
-    )
-  
-    useEffect(() => {
-      setFetchState({hasError: false, loading: true });
-      
-      getData().then(message => {
-        dataDispatch({type: 'set', data: message.data})
-        setFetchState({ ...fetchState, loading: false })
-      })
-        .catch(e => {
-          setFetchState({ hasError: true, loading: false });
-        });
-    }, [])
+    const { visibleModal, modalType } = useSelector(store => ({
+        visibleModal: store.modals.visible,
+        modalType: store.modals.type
+    }));
 
     return (
         <main className={classNames(mainStyle.main, 'pt-10')}>
             <div className={classNames(mainStyle.main_container, 'container')}>
-                {fetchState.loading && 'Загрузка...'}
-                {fetchState.hasError && 'Произошла ошибка'}
-                {!fetchState.loading &&
-                 !fetchState.hasError &&
-                 data.data.length &&
-                    <>
-                        <BurgerIngredients data={data.data}/>
-                        <DataContext.Provider value={{ data, dataDispatch }}>
-                            <BurgerConstructor />
-                        </ DataContext.Provider>
-                    </>
+                <DndProvider backend={HTML5Backend}>
+                    <BurgerIngredients />
+                    <BurgerConstructor />
+                </DndProvider>
+                {visibleModal && 
+                    <Modal>
+                        {modalType === INGREDIENTS_TYPE ? <IngredientDetails /> :<OrderDetails /> }
+                    </Modal>
                 }
             </div>
         </main>

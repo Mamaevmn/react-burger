@@ -1,53 +1,47 @@
+import { useDispatch } from 'react-redux';
+import { useDrop } from 'react-dnd';
+
 import classNames from 'classnames';
 import constructorStyle from './burger-constructor.module.css'
 import BurgerConstructorTotal from './burger-constructor-total/burger-constructor-total';
 import BurgerConstructorList from './burger-constructor-list/burger-constructor-list';
-import { ConstructorDataContext } from '../../contexts/constructorDataContext';
-import { useContext, useEffect, useState } from 'react';
-import { DataContext } from '../../contexts/dataContext';
-import { nanoid } from 'nanoid';
+import { ADD_BUN, ADD_INGREDIENT } from '../../services/actions/constructor';
+import { INCREASE_ITEM_COUNT } from '../../services/actions/ingredients';
+import { v4 as uuidv4 } from 'uuid';
 
 function BurgerConstructor() {
-    const [ constructorData, setConstructorData ] = useState([]);
-    const { data } = useContext(DataContext)
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        setConstructorData(filterNumberBuns());
-    }, [setConstructorData])
+    const [{ isHover }, dropTarget] = useDrop({
+        accept: 'items',
+        collect: monitor => ({
+            isHover: monitor.isOver(),
+        }),
+        drop(item) {
+            addIngredient(item)
+        }
+    });
 
-    function filterNumberBuns() {
-        const newData = [];
-        let hasBun = false;
+    const borderColor = isHover ? 'bc-lightgreen' : 'bc-transparent';
 
-        data.data.map((ingredient, idx) => {
-            if (ingredient.type === 'bun' && !hasBun) {
-                hasBun = true;
-                newData.unshift(ingredient)
-                newData.push(ingredient)
-            }
-            if (ingredient.type !== 'bun' && idx % 3 === 0) {
-                { newData.length ? 
-                    newData.splice( newData.length - 1, 0 , ingredient) :
-                    newData.push(ingredient)
-                }
-            }
-        })
-
-        newData.map(ingredient => {
-            if (ingredient.type !== 'bun') {
-                ingredient.u_id = nanoid()
-            }
-        })
-
-        return newData
+    const addIngredient = (item) => {
+        if (item.type === 'bun') {
+            dispatch({ type: ADD_BUN, payload: item })
+            dispatch({ type: INCREASE_ITEM_COUNT, payload: item._id })
+        };
+        if (item.type !== 'bun') {
+            dispatch({ type: ADD_INGREDIENT, payload: {
+                ...item,
+                u_id: uuidv4(),
+            } })
+            dispatch({ type: INCREASE_ITEM_COUNT, payload: item._id })
+        };
     }
     
     return (
-        <section className={classNames(constructorStyle.section, 'pt-25', 'pl-4', 'pr-4')}>
-            <ConstructorDataContext.Provider value={{ constructorData, setConstructorData }}>
-                <BurgerConstructorList />
-                <BurgerConstructorTotal />
-            </ConstructorDataContext.Provider>
+        <section className={classNames(constructorStyle.section, borderColor, 'pt-25', 'pl-4', 'pr-4')} ref={dropTarget}>
+            <BurgerConstructorList />
+            <BurgerConstructorTotal />
         </section>
     )
 }

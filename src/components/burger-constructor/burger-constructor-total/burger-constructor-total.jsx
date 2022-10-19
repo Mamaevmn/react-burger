@@ -1,79 +1,46 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import classNames from 'classnames';
 import totalStyle from './burger-constructor-total.module.css';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useContext, useEffect, useState, useReducer } from 'react';
-import Modal from '../../modal/modal';
-import { ConstructorDataContext } from '../../../contexts/constructorDataContext';
-import { postOrder } from '../../../utils/api';
-import OrderDetails from '../../modal-order-details/modal-order-details';
-
-const initialTotalPriceState = { total: 0 };
-
-function totalReducer(totalPriceState, action) {
-    switch (action.type) {
-        case "sum":
-            return { total: totalPriceState.total + action.payload };
-        case "reset":
-            return { total: 0 };
-        default:
-            throw new Error(`Wrong type of action: ${action.type}`);
-    }
-}
+import { CALCULATE_TOTAL_PRICE } from '../../../services/actions/constructor';
+import { getOrder } from '../../../services/actions/order';
 
 function BurgerConstructorTotal() {
-    const { constructorData } = useContext(ConstructorDataContext);
-    const [ visibleModal, setVisibleModal ] = useState(false);
-    const [ totalPriceState, totalPriceDispatch ] = useReducer(totalReducer, initialTotalPriceState);
-    const [ numberOrder, setNumberOrder ] = useState(0);
-    const [ fetchState, setFetchState ] = useState({ 
-        hasError: false,
-        loading: true,
-      }
-    )
+    const dispatch = useDispatch();
+    const totalPrice = useSelector(store => store.burgerConstructor.totalPrice);
+
+    const { constructorData, bunData } = useSelector(store => ({
+        constructorData: store.burgerConstructor.items,
+        bunData: store.burgerConstructor.bun
+    }));
 
     useEffect(() => {
-        totalPriceDispatch({type: 'reset'})
-
-        if (constructorData.length) {
-            calculateTotalPrice();
-        }
-    }, [constructorData])
-
-    function calculateTotalPrice() {
-        constructorData.map(goods => totalPriceDispatch({ type: 'sum', payload: goods.price }))
-    }
+        dispatch({ type: CALCULATE_TOTAL_PRICE })
+    }, [constructorData, bunData, dispatch])
 
     function createGoodsIdArray() {
         let idArray = [];
-        constructorData.map(goods => idArray.push(goods._id));
+
+        bunData && idArray.push(bunData._id);
+        constructorData.length && constructorData.map(goods => idArray.push(goods._id));
+        bunData && idArray.push(bunData._id);
 
         return idArray;
     }
 
     const makeOrder = () => {
         const orderIdArray = createGoodsIdArray();
-
-        setFetchState({hasError: false, loading: true });
-        postOrder(orderIdArray)
-            .then(message => {
-                if (message.success) {
-                    setNumberOrder(message.order.number)
-                    setFetchState({ ...fetchState, loading: false })
-                    setVisibleModal(true)
-                } else setFetchState({ hasError: true, loading: false });
-            })
-    }
-
-    const onCloseModal = () => {
-        setVisibleModal(false)
+        dispatch(getOrder(orderIdArray))
     }
 
     return (
-        <>
+        (constructorData.length || !!bunData) && 
             <div className={classNames(totalStyle.total, 'pt-10')}>
                 <p className={classNames(totalStyle.text, 'text', 'text_type_digits-medium', 'pr-10')}>
                     <span className='mr-2'>
-                        {totalPriceState.total}
+                        { totalPrice }
                     </span>
                     <CurrencyIcon type="primary" />
                 </p>
@@ -81,18 +48,6 @@ function BurgerConstructorTotal() {
                     Оформить заказ
                 </Button>
             </div>
-            {visibleModal && 
-                <Modal
-                    closeModal={onCloseModal}
-                >
-                    <OrderDetails 
-                        numberOrder={numberOrder}
-                        hasError={fetchState.hasError}
-                        loading={fetchState.loading}
-                    />
-                </Modal>
-            }
-        </>
     )
 }
 

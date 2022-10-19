@@ -1,51 +1,66 @@
-import { useContext } from 'react';
-import constructorStyle from './burger-constructor-list.module.css'
-import touchSvg from './../../../images/icons/touch-btn.svg'
-import { useRef } from 'react';
-import BurgerConstructorListItem from './burger-constructor-list-item/burger-constructor-list-item';
-import { ConstructorDataContext } from '../../../contexts/constructorDataContext';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import classNames from 'classnames';
+import constructorStyle from './burger-constructor-list.module.css'
+
+import BurgerConstructorListItem from './burger-constructor-list-item/burger-constructor-list-item';
+import { UPDATE_CONSTRUCTOR_LIST } from '../../../services/actions/constructor';
 
 function BurgerConstructorList() {
-    const { constructorData } = useContext(ConstructorDataContext)
-    const itemRef = useRef();
+    const dispatch = useDispatch();
+
+    const { constructorData, bunData } = useSelector(store => ({
+        constructorData: store.burgerConstructor.items,
+        bunData: store.burgerConstructor.bun
+    }));
+
+    const moveConstructorIngredient = useCallback((dragIndex, hoverIndex) => {
+        const dragConstructorIngredient = constructorData[dragIndex];
+        const newConstructorIngredients = [...constructorData];
+
+        newConstructorIngredients.splice(dragIndex, 1)
+        newConstructorIngredients.splice(hoverIndex, 0, dragConstructorIngredient)
+        
+        dispatch({
+          type: UPDATE_CONSTRUCTOR_LIST,
+          payload: newConstructorIngredients,
+        })
+      }, [constructorData, dispatch]);
 
     return (
-        <div className={classNames(constructorStyle.wrapper, 'pl-8')}>
-            {!!constructorData.length &&
-                <>                
-                    <BurgerConstructorListItem 
-                        isLocked={true}
-                        text={`${constructorData[0].name} (верх)`}
-                        {...constructorData[0]}
-                    />
-                    {
-                        constructorData.length > 1 ?
-                            <ul className={classNames(constructorStyle.list, 'scroll-block')}>
-                                {constructorData.map((goods, idx) => {
-                                    if (idx > 0 && idx !== constructorData.length - 1 ) {
-                                        return (
-                                            <li key={goods.u_id} className={constructorStyle.constructor_element} ref={itemRef}>
-                                                <button className={constructorStyle.touch_btn}>
-                                                    <img src={touchSvg} alt="touch-icon" />
-                                                </button>
-                                                <BurgerConstructorListItem 
-                                                    {...goods}
-                                                />
-                                            </li>
-                                        )
-                                    }
-                                })}
-                            </ul> : null
-                    }
-                    <BurgerConstructorListItem 
-                        isLocked={true}
-                        text={`${constructorData[ constructorData.length - 1 ].name} (низ)`}
-                        {...constructorData[ constructorData.length - 1 ]}
-                    />
-                </>
-            }
-        </div>
+        <>
+            <div className={classNames(constructorStyle.wrapper, 'pl-8')}>
+                {!constructorData.length && !bunData ?
+                    <p className='text text_type_main-default ml-2'>
+                        Тут пока пусто... Добавьте сюда ингредиенты
+                    </p> :
+                    <>
+                        { bunData &&
+                            <BurgerConstructorListItem 
+                                isLocked={true}
+                                addClass={'top'}
+                                text={`${bunData.name} (верх)`}
+                                {...bunData}
+                            />
+                        }         
+                        { constructorData.length ?
+                                <ul className={classNames(constructorStyle.list, 'scroll-block')}>
+                                    {constructorData.map((goods, index) => <BurgerConstructorListItem key={goods.u_id} idx={index} {...goods} moveConstructorIngredient={moveConstructorIngredient}/>)}
+                                </ul> : null
+                        }
+                        { bunData &&
+                            <BurgerConstructorListItem 
+                                isLocked={true}
+                                addClass={'bottom'}
+                                text={`${bunData.name} (низ)`}
+                                {...bunData}
+                            />
+                        }
+                    </>
+                }
+            </div>
+        </>
     )
 }
 
