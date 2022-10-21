@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export const goodsPropTypes = PropTypes.shape({
+    u_id: PropTypes.string,
     _id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -13,7 +14,8 @@ export const goodsPropTypes = PropTypes.shape({
     fat: PropTypes.number,
     carbohydrates: PropTypes.number,
     proteins: PropTypes.number,
-    __v: PropTypes.number
+    __v: PropTypes.number,
+    counter: PropTypes.number,
 })
 
 export const headerLinkPropTypes = PropTypes.shape({
@@ -21,11 +23,6 @@ export const headerLinkPropTypes = PropTypes.shape({
     link: PropTypes.string.isRequired,
     icon: PropTypes.element,
     text: PropTypes.string
-})
-
-export const tabPropTypes = PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    type: PropTypes.string,
 })
 
 export const headerLinks = [
@@ -49,17 +46,16 @@ export const headerLinks = [
     },
 ];
 
-export const blocks = [
-    {
-        text: 'Булки',
-        type: 'bun'
-    },
-    {
-        text: 'Соусы',
-        type: 'sauce'
-    },
-    {
-        text: 'Начинки',
-        type: 'main'
-    },
-];
+export const ESC_KEYCODE = 27;
+
+export const INGREDIENTS_TYPE = 'ingredient';
+export const ORDER_TYPE = 'order';
+export const INGREDIENTS_DETAIL_MODAL_TITLE = 'Детали ингредиента';
+
+export const BUN_TYPE = 'bun'
+export const MAIN_TYPE = 'main'
+export const SAUCE_TYPE = 'sauce'
+
+export const BUN_TYPE_RU_TRANSLATE = 'Булка'
+export const MAIN_TYPE_RU_TRANSLATE = 'Начинка'
+export const SAUCE_TYPE_RU_TRANSLATE = 'Соус'

@@ -1,21 +1,27 @@
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import ingredientsStyle from './burger-ingredients.module.css'
-import BurgerIngredientsTotal from './burger-ingredients-total/burger-ingredients-total';
-import BurgerIngredientsList from './burger-ingredients-list/burger-ingredients-list';
-import { goodsPropTypes } from '../../utils/const';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-function BurgerIngredients(props) {
+import classNames from 'classnames';
+import ingredientsStyle from './burger-ingredients.module.css';
+import Tabs from './burger-ingredients-tabs/burger-ingredients-tabs';
+import BurgerIngredientsTypes from './burger-ingredients-block-goods/burger-ingredients-block-goods';
+
+import { getIngredients } from '../../services/actions/ingredients';
+
+function BurgerIngredients() {
+    const dispatch = useDispatch();
+
+    useEffect(() => { dispatch(getIngredients()) }, [dispatch]);
+
     return (
-        <section className={classNames(ingredientsStyle.section, 'pt-25', 'pl-4', 'pr-4')}>
-            <BurgerIngredientsList data={props.data} />
-            <BurgerIngredientsTotal data={props.data} />
+        <section className={classNames(ingredientsStyle.section)}>
+            <h1 className="text text_type_main-large mb-5">
+                Соберите бургер
+            </h1>
+            <Tabs />
+            <BurgerIngredientsTypes />
         </section>
     )
-}
-
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(goodsPropTypes),
 }
 
 export default BurgerIngredients

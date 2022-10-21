@@ -1,24 +1,50 @@
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import constructorStyle from './burger-constructor.module.css';
-import Tabs from './burger-constructor-types/burger-constructor-types';
-import BurgerConstructorTypes from './burger-constructor-block-goods/burger-constructor-block-goods';
-import { blocks, goodsPropTypes } from '../../utils/const';
+import { useDispatch } from 'react-redux';
+import { useDrop } from 'react-dnd';
 
-function BurgerConstructor(props) {
+import classNames from 'classnames';
+import constructorStyle from './burger-constructor.module.css'
+import BurgerConstructorTotal from './burger-constructor-total/burger-constructor-total';
+import BurgerConstructorList from './burger-constructor-list/burger-constructor-list';
+import { ADD_BUN, ADD_INGREDIENT } from '../../services/actions/constructor';
+import { INCREASE_ITEM_COUNT } from '../../services/actions/ingredients';
+import { v4 as uuidv4 } from 'uuid';
+import { BUN_TYPE } from '../../utils/const';
+
+function BurgerConstructor() {
+    const dispatch = useDispatch();
+
+    const [{ isHover }, dropTarget] = useDrop({
+        accept: 'items',
+        collect: monitor => ({
+            isHover: monitor.isOver(),
+        }),
+        drop(item) {
+            addIngredient(item)
+        }
+    });
+
+    const borderColor = isHover ? constructorStyle.section__lightgreen : null;
+
+    const addIngredient = (item) => {
+        if (item.type === BUN_TYPE) {
+            dispatch({ type: ADD_BUN, payload: item });
+            dispatch({ type: INCREASE_ITEM_COUNT, payload: item._id });
+            return
+        };
+        
+        dispatch({ type: ADD_INGREDIENT, payload: {
+            ...item,
+            u_id: uuidv4(),
+        } })
+        dispatch({ type: INCREASE_ITEM_COUNT, payload: item._id })
+    }
+    
     return (
-        <section className={classNames(constructorStyle.section)}>
-            <h1 className="text text_type_main-large mb-5">
-                Соберите бургер
-            </h1>
-            <Tabs tabs={blocks}/>
-            <BurgerConstructorTypes data={props.data} blocks={blocks}/>
+        <section className={classNames(constructorStyle.section, borderColor, 'pt-25', 'pl-4', 'pr-4')} ref={dropTarget}>
+            <BurgerConstructorList />
+            <BurgerConstructorTotal />
         </section>
     )
-}
-
-BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(goodsPropTypes),
 }
 
 export default BurgerConstructor

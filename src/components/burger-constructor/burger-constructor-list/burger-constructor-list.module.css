@@ -1,0 +1,14 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.list {
+    margin-left: -32px;
+    padding-left: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 464px;
+}

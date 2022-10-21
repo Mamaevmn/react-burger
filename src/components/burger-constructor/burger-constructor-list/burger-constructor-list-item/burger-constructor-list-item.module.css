@@ -3,6 +3,16 @@
     display: flex;
 }
 
+.opacity {
+    opacity: 0.5;
+}
+
+.ingredient {
+    width: 100%;
+    max-width: 536px;
+    cursor: pointer;
+}
+
 .touch_btn {
     position: absolute;
     left: -8px;

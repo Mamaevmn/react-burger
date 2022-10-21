@@ -6,6 +6,10 @@
     cursor: pointer;
 }
 
+.opacity {
+    opacity: 0.5;
+}
+
 .name {
     min-height: 48px;
 }

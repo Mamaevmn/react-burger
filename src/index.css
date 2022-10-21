@@ -33,18 +33,7 @@ ul {
 }
 
 .scroll-block {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
   overflow: auto;
-}
-
-.scroll-block--medium {
-  max-height: 464px;
-}
-
-.scroll-block--big {
-  max-height: 664px;
 }
 
 .scroll-block::-webkit-scrollbar {
