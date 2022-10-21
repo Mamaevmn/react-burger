@@ -1,4 +1,13 @@
 import { nanoid } from 'nanoid';
+import { 
+  BUN_TYPE, 
+  BUN_TYPE_RU_TRANSLATE, 
+  MAIN_TYPE, 
+  MAIN_TYPE_RU_TRANSLATE, 
+  SAUCE_TYPE, 
+  SAUCE_TYPE_RU_TRANSLATE 
+} from '../../utils/const';
+
 import {
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS,
@@ -28,26 +37,27 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
       };
     }
     case GET_INGREDIENTS_SUCCESS: {
-      return { ...state, itemsFailed: false, items: action.items, itemsRequest: false };
+      return { 
+        ...state, 
+        items: action.items.map(item => ({...item, counter: 0})), 
+        itemsFailed: false, 
+        itemsRequest: false 
+      };
     }
     case GET_INGREDIENTS_FAILED: {
       return { ...state, itemsFailed: true, itemsRequest: false };
     }
     case GET_INGREDIENTS_TYPES: {
-      let types = [];
-      let typesObjArray = [];
-
-      state.items.forEach(item => {
-        if (!types.includes(item.type)) {types.push(item.type)}
-      });
-
-      for (let type of types) {
-        typesObjArray.push({
-          type: type,
-          name: type === 'bun' ? 'Булка' : type === 'main' ? 'Начинки' : type === 'sauce' ? 'Соусы' : '',
-          u_id: nanoid(),
-        })
-      }
+      const typesObjArray = state.items.reduce((types, item) => {
+            if (!types.includes(item.type)) types.push(item.type)
+            return types
+          }, []).map(type => ({
+              type: type,
+              name: type === BUN_TYPE ? BUN_TYPE_RU_TRANSLATE : 
+                    type === MAIN_TYPE ? MAIN_TYPE_RU_TRANSLATE : 
+                    type === SAUCE_TYPE ? SAUCE_TYPE_RU_TRANSLATE : '',
+              u_id: nanoid(),
+            }))
 
       return {
         ...state,
@@ -58,31 +68,31 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
       return { ...state, currentTab: action.payload };
     }
     case INCREASE_ITEM_COUNT: {
-      const isBun = state.items.find(item => item._id === action.payload).type === 'bun';
+      const isBun = state.items.find(item => item._id === action.payload)?.type === BUN_TYPE;
       
       if (isBun) {
         return {
           ...state,
           items: [...state.items].map(item => {
-              if (item.type === 'bun') {
-                if (item._id === action.payload && item.__v === 0) return { ...item, __v: ++item.__v + 1 } 
-                if (item._id !== action.payload && item.__v > 0) return { ...item, __v: 0 } 
+              if (item.type === BUN_TYPE) {
+                if (item._id === action.payload && item.counter === 0) return { ...item, counter: ++item.counter + 1 } 
+                if (item._id !== action.payload && item.counter > 0) return { ...item, counter: 0 } 
                 else return item
               } else return item
           })
         }
       } else return {
         ...state,
-        items: [...state.items].map(item => item._id === action.payload ? { ...item, __v: ++item.__v } : item)
+        items: [...state.items].map(item => item._id === action.payload ? { ...item, counter: ++item.counter } : item)
       }
     }
     case DECREASE_ITEM_COUNT: {
-      const isBun = state.items.find(item => item._id === action.payload).type === 'bun';
+      const isBun = state.items.find(item => item._id === action.payload).type === BUN_TYPE;
       
       if (!isBun) {
         return {
           ...state,
-          items: [...state.items].map(item => item._id === action.payload ? { ...item, __v: --item.__v } : item)
+          items: [...state.items].map(item => item._id === action.payload ? { ...item, counter: --item.counter } : item)
         }
       } else break
     }

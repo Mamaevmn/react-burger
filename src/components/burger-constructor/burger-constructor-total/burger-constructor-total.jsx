@@ -20,15 +20,7 @@ function BurgerConstructorTotal() {
         dispatch({ type: CALCULATE_TOTAL_PRICE })
     }, [constructorData, bunData, dispatch])
 
-    function createGoodsIdArray() {
-        let idArray = [];
-
-        bunData && idArray.push(bunData._id);
-        constructorData.length && constructorData.map(goods => idArray.push(goods._id));
-        bunData && idArray.push(bunData._id);
-
-        return idArray;
-    }
+    const createGoodsIdArray = () => [bunData._id, ...constructorData.map(goods => goods._id), bunData._id];
 
     const makeOrder = () => {
         const orderIdArray = createGoodsIdArray();

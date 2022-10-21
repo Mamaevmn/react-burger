@@ -8,7 +8,7 @@ import BurgerIngredientsTypes from './burger-ingredients-block-goods/burger-ingr
 
 import { getIngredients } from '../../services/actions/ingredients';
 
-function BurgerIngredients(props) {
+function BurgerIngredients() {
     const dispatch = useDispatch();
 
     useEffect(() => { dispatch(getIngredients()) }, [dispatch]);

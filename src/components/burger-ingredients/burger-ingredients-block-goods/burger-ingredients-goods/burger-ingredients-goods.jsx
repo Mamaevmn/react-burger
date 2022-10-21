@@ -27,7 +27,7 @@ function BurgerGoods({ goods }) {
 
     return (
         <li className={`${goodsStyle.item} ${opacity && goodsStyle.opacity}`} onClick={onOpenModal} ref={ingredientRef}>
-            { !!goods.__v && <Counter count={goods.__v} size="default" /> }
+            { !!goods.counter && <Counter count={goods.counter} size="default" /> }
             <img className='pl-4 pr-4' src={goods.image} alt="" />
             <p className={classNames(goodsStyle.price, 'text', 'text_type_main-medium', 'mb-1', 'mt-1')}>
                 <span className='mr-2'>

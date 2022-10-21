@@ -11,7 +11,6 @@ export const SET_CURRENT_TAB = 'SET_CURRENT_TAB';
 export const INCREASE_ITEM_COUNT = 'INCREASE_ITEM_COUNT';
 export const DECREASE_ITEM_COUNT = 'DECREASE_ITEM_COUNT';
 
-
 export function getIngredients() {
   return function(dispatch) {
     dispatch({

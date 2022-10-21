@@ -47,11 +47,3 @@ ul {
 .scroll-block::-webkit-scrollbar-thumb {
   background-color: #8585AD;
 }
-
-.bc-lightgreen {
-  border-color: lightgreen !important;
-}
-
-.bc-tranparent {
-  border-color: transparent;
-}

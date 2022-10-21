@@ -9,7 +9,7 @@ import touchSvg from './../../../../images/icons/touch-btn.svg'
 import { DELETE_INGREDIENTS } from '../../../../services/actions/constructor';
 import { OPEN_MODAL } from '../../../../services/actions/modals';
 import { DECREASE_ITEM_COUNT } from '../../../../services/actions/ingredients';
-import { INGREDIENTS_DETAIL_MODAL_TITLE, INGREDIENTS_TYPE } from '../../../../utils/const';
+import { BUN_TYPE, INGREDIENTS_DETAIL_MODAL_TITLE, INGREDIENTS_TYPE } from '../../../../utils/const';
 
 function BurgerConstructorListItem(props) {
     const dispatch = useDispatch();
@@ -74,7 +74,7 @@ function BurgerConstructorListItem(props) {
     }
 
     return (
-        props.type !== 'bun' ? 
+        props.type !== BUN_TYPE ? 
         <li className={`${constructorElementStyle.constructor_element} ${opacity && constructorElementStyle.opacity}`} 
             ref={ref}
             onDrop={preventDefault}
