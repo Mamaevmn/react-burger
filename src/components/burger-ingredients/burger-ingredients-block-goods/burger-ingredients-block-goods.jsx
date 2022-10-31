@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import classNames from 'classnames';
@@ -14,11 +14,7 @@ function BurgerIngredientsTypes() {
         currentTab: store.ingredients.currentTab
     }));
 
-    useEffect(() => {
-        scrollBlock()
-    }, [currentTab]);
-
-    const scrollBlock = () => {
+    const scrollBlock = useCallback(() => {
         if (currentTab) {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const listToTop = Math.ceil(list.current.getBoundingClientRect().top + scrollTop);
@@ -33,7 +29,11 @@ function BurgerIngredientsTypes() {
                 })
             }
         }
-    }
+    }, [currentTab]) 
+
+    useEffect(() => {
+        scrollBlock()
+    }, [currentTab, scrollBlock]);
 
     return (
         <ul className={classNames(typesStyle.wrapper, 'scroll-block', 'mt-10')} ref={list}>

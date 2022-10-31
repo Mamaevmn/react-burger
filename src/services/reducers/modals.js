@@ -22,6 +22,7 @@ export const modalsReducer = (state = modalsInitialState, action) => {
             }
         }
         case CLOSE_MODAL: {
+            window.history.replaceState(null, null, '/')
             return {
                 ...state,
                 visible: false,

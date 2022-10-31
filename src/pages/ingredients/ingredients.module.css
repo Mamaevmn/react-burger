@@ -1,0 +1,8 @@
+.wrapper {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 180px;
+    height: calc(100vh - 88px);
+}

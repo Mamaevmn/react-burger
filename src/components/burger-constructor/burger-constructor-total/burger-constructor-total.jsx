@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import classNames from 'classnames';
@@ -9,11 +10,13 @@ import { getOrder } from '../../../services/actions/order';
 
 function BurgerConstructorTotal() {
     const dispatch = useDispatch();
+    const history = useHistory()
     const totalPrice = useSelector(store => store.burgerConstructor.totalPrice);
 
-    const { constructorData, bunData } = useSelector(store => ({
+    const { constructorData, bunData, userAuth } = useSelector(store => ({
         constructorData: store.burgerConstructor.items,
-        bunData: store.burgerConstructor.bun
+        bunData: store.burgerConstructor.bun,
+        userAuth: store.user.auth,
     }));
 
     useEffect(() => {
@@ -23,8 +26,12 @@ function BurgerConstructorTotal() {
     const createGoodsIdArray = () => [bunData._id, ...constructorData.map(goods => goods._id), bunData._id];
 
     const makeOrder = () => {
-        const orderIdArray = createGoodsIdArray();
-        dispatch(getOrder(orderIdArray))
+        if (userAuth) {
+            const orderIdArray = createGoodsIdArray();
+            dispatch(getOrder(orderIdArray))
+        } else {
+            history.replace({ pathname: '/login'})
+        }
     }
 
     return (
