@@ -9,7 +9,7 @@ function OrderDetails() {
 
     return (
         <div className={modalContentStyle.modal_content}>
-            <p className={classNames(modalContentStyle.modal_content_title, 'text', 'text_type_digits-large', 'pt-9')}>
+            <p className={classNames(modalContentStyle.modal_content_title, 'text', 'text_type_digits-large')}>
                 {number}
             </p>
             <p className='text text_type_main-medium pt-8 pb-10'>идентификатор заказа</p>

@@ -1,42 +1,51 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux'
+import classNames from 'classnames';
 
 import modalContentStyle from './modal-ingredient-details.module.css'
-import { ingredientPropTypes } from '../../utils/const';
-import { useEffect } from 'react';
 
-function IngredientDetails({_id, name, image_large, calories, proteins, fat, carbohydrates}) {
-    let item = useSelector(store => store.modals.item);
+import { ingredientPropTypes } from '../../utils/const';
+
+function IngredientDetails() {
+    const { id } = useParams();
+    const [ item, setItem ] = useState({})
+    const { items, title } = useSelector(store => ({
+        items: store.ingredients.items,
+        title: store.modals.title,
+    }));
 
     useEffect(() => {
-        window.history.replaceState(null, null, `/ingredients/${_id ? _id : item._id}`)
-    }, [_id, item])
+        setItem(items.find(item => id === item._id))
+    }, [setItem, items, id])
 
     return (
         <div className={modalContentStyle.modal_content}>
-            <img className={modalContentStyle.modal_content_img} src={image_large ? image_large : item.image_large} alt={name ? name : item.name}/>
-            <p className="text text_type_main-medium pt-4 pb-8">{name ? name : item.name}</p>
+            {title && <p className={classNames(modalContentStyle.title, 'text', 'text_type_main-large')}>{title}</p>}
+            <img className={modalContentStyle.modal_content_img} src={item?.image_large} alt={item?.name}/>
+            <p className="text text_type_main-medium pt-4 pb-8">{item?.name}</p>
             <div className={modalContentStyle.modal_content_compound}>
                 <p className="text text_type_main-default text_color_inactive pr-5">
                     <span>Калории,ккал</span>
-                    <span className="text text_type_digits-default">{calories ? calories : item.calories}</span>
+                    <span className="text text_type_digits-default">{item?.calories}</span>
                 </p>
                 <p className="text text_type_main-default text_color_inactive pr-5">
                     <span>Белки, г</span>
-                    <span className="text text_type_digits-default">{proteins ? proteins : item.proteins}</span>
+                    <span className="text text_type_digits-default">{item?.proteins}</span>
                 </p>
                 <p className="text text_type_main-default text_color_inactive pr-5">
                     <span>Жиры, г</span>
-                    <span className="text text_type_digits-default">{fat ? fat : item.fat}</span>
+                    <span className="text text_type_digits-default">{item?.fat}</span>
                 </p>
                 <p className="text text_type_main-default text_color_inactive">
                     <span>Углеводы, г</span>
-                    <span className="text text_type_digits-default">{carbohydrates ? carbohydrates : item.carbohydrates}</span>
+                    <span className="text text_type_digits-default">{item?.carbohydrates}</span>
                 </p>
             </div>
         </div>
     )
 }
 
-IngredientDetails.propTypes = ingredientPropTypes;
+IngredientDetails.propTypes = ingredientPropTypes.isRequired;
 
 export default IngredientDetails

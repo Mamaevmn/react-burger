@@ -12,26 +12,29 @@ export const REGISTRATION_DATA_FAILED = 'REGISTRATION_DATA_FAILED';
 
 export function setUserRegistration(name, email, password) {
     return function(dispatch) {
-        dispatch({
-            type: REGISTRATION_DATA_REQUEST
-        });
+        dispatch(registrationRequestAC());
         postUserRegistration(name, email, password).then(res => {
-            if (res && res.success) {
-                dispatch({
-                    type: REGISTRATION_DATA_SUCCESS,
-                });
-                dispatch({ type: CLEAR_REGISTRATION_FIELDS })
-            } else {
-                dispatch({
-                    type: REGISTRATION_DATA_FAILED,
-                    payload: res.message === 'User already exists'
-                });
-            }
-        }).catch(e => {
-            dispatch({
-                type: REGISTRATION_DATA_FAILED,
-                payload: false,
-            });
-        });
+            dispatch(registrationSuccessRequestAC());
+            dispatch(clearRegistrationFieldsAC())
+        }).catch(() => dispatch(registrationFailedRequestAC()));
     };
+}
+
+function registrationRequestAC() {
+    return { type: REGISTRATION_DATA_REQUEST }
+}
+
+function registrationSuccessRequestAC() {
+    return { type: REGISTRATION_DATA_SUCCESS }
+}
+
+function registrationFailedRequestAC() {
+    return {
+        type: REGISTRATION_DATA_FAILED,
+        payload: false,
+    }
+}
+
+function clearRegistrationFieldsAC() {
+    return { type: CLEAR_REGISTRATION_FIELDS }
 }

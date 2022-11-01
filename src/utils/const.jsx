@@ -91,3 +91,10 @@ export const SAUCE_TYPE = 'sauce'
 export const BUN_TYPE_RU_TRANSLATE = 'Булка'
 export const MAIN_TYPE_RU_TRANSLATE = 'Начинка'
 export const SAUCE_TYPE_RU_TRANSLATE = 'Соус'
+
+export const checkResponse = (res) => {
+    if (res.ok) {
+        return res.json();
+    }
+    return Promise.reject(`Ошибка ${res.status}`);
+}

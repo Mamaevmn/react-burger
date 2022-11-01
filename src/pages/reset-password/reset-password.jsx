@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { useCallback, useEffect } from 'react';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './reset-password.module.css';
@@ -10,6 +10,7 @@ import { getUser } from '../../services/actions/user';
 
 function ResetPassword() {
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const { code, password, codeIsValid, passwordIsValid, authUser, recoveryPasswordSuccess } = useSelector(store => ({
         password: store.resetPassword.password,
@@ -25,9 +26,14 @@ function ResetPassword() {
         dispatch(getUser());
     }, [dispatch])
 
+    const submitForm = useCallback((e) => {
+        e.preventDefault();
+        console.log('password is reset');
+    }, [])
+
     if (!authUser && recoveryPasswordSuccess) {
         return (
-            <form className={ styles.wrapper }>
+            <form className={ styles.wrapper } onSubmit={(e) => submitForm(e)}>
                 <h2 className='text text_type_main-medium mb-6'>
                     Восстановление пароля
                 </h2>
@@ -60,7 +66,10 @@ function ResetPassword() {
         return (
             <Redirect
                 to={{
-                    pathname: '/'
+                    pathname: '/',
+                    state: {
+                        from: location
+                    }
                 }}
             />
         );

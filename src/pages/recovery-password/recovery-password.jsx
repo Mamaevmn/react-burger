@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 
 import styles from './recovery-password.module.css';
 
@@ -10,6 +10,7 @@ import { getUser } from '../../services/actions/user';
 
 function RecoveryPassword() {
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const { email, emailIsValid, recoveryPasswordSuccess, userAuth } = useSelector(store => ({
         email: store.recovery.email,
@@ -40,7 +41,7 @@ function RecoveryPassword() {
 
     if (!userAuth) {
         return (
-            <form className={ styles.wrapper }>
+            <form className={ styles.wrapper } onSubmit={(e) => resetPassword(e)}>
                 <h2 className='text text_type_main-medium mb-6'>
                     Восстановление пароля
                 </h2>
@@ -52,8 +53,7 @@ function RecoveryPassword() {
                 <Button 
                     extraClass={ !emailIsValid ? styles.btn_not_active : ''} 
                     type="primary" 
-                    htmlType="submit" 
-                    onClick={() => resetPassword()}>
+                    htmlType="submit" >
                     Восстановить
                 </Button>
                 <p className='text text_type_main-default text_color_inactive mt-20'>
@@ -68,7 +68,10 @@ function RecoveryPassword() {
         return (
             <Redirect
                 to={{
-                    pathname: '/'
+                    pathname: '/',
+                    state: {
+                        from: location,
+                    }
                 }}
             />
         );

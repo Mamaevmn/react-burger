@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 
@@ -10,9 +11,11 @@ import { DELETE_INGREDIENTS } from '../../../../services/actions/constructor';
 import { OPEN_MODAL } from '../../../../services/actions/modals';
 import { DECREASE_ITEM_COUNT } from '../../../../services/actions/ingredients';
 import { BUN_TYPE, INGREDIENTS_DETAIL_MODAL_TITLE, INGREDIENTS_TYPE } from '../../../../utils/const';
+import classNames from 'classnames';
 
 function BurgerConstructorListItem(props) {
     const dispatch = useDispatch();
+    const location = useLocation()
 
     const ref = useRef(null);
     const [{ handlerId }, drop] = useDrop({
@@ -62,7 +65,6 @@ function BurgerConstructorListItem(props) {
     const preventDefault = (e) => e.preventDefault();
 
     const onOpenModal = () => dispatch({ type: OPEN_MODAL, payload: {
-        item: props,
         type: INGREDIENTS_TYPE,
         title: INGREDIENTS_DETAIL_MODAL_TITLE
     }})
@@ -83,18 +85,34 @@ function BurgerConstructorListItem(props) {
             <button className={constructorElementStyle.touch_btn}>
                 <img src={touchSvg} alt="touch-icon" />
             </button>
-            <div className={constructorElementStyle.ingredient} onClick={onOpenModal} >
-                <ConstructorElement 
-                    type={props.type}
-                    isLocked={props.isLocked}
-                    text={props.text ? props.text : props.name}
-                    price={props.price}
-                    thumbnail={props.image_mobile}
-                    handleClose={(e) => deleteConstructorIngredient(e)}
-                />
-            </div>
+            <Link
+              className={classNames(constructorElementStyle.ingredient, 'text', 'text_color_primary')} 
+              onClick={onOpenModal}
+                to={{
+                    pathname: `/ingredients/${props._id}`,
+                    state: {
+                        background: location
+                    }
+                }}>  
+                  <ConstructorElement 
+                      type={props.type}
+                      isLocked={props.isLocked}
+                      text={props.text ? props.text : props.name}
+                      price={props.price}
+                      thumbnail={props.image_mobile}
+                      handleClose={(e) => deleteConstructorIngredient(e)}
+                  />
+                </Link>
         </li> :
-        <div className={constructorElementStyle.ingredient} onClick={onOpenModal} >
+        <Link
+        className={classNames(constructorElementStyle.ingredient, 'text', 'text_color_primary')} 
+        onClick={onOpenModal}
+          to={{
+              pathname: `/ingredients/${props._id}`,
+              state: {
+                  background: location
+              }
+          }}>  
             <ConstructorElement 
                 type={props.addClass}
                 isLocked={props.isLocked}
@@ -103,7 +121,7 @@ function BurgerConstructorListItem(props) {
                 thumbnail={props.image_mobile}
                 handleClose={(e) => deleteConstructorIngredient(e)}
             />
-        </div>
+          </Link>
     )
 }
 

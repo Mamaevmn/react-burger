@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './login.module.css';
@@ -10,6 +10,7 @@ import { getUser } from '../../services/actions/user';
 
 function Login() {
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const { email, password, emailIsValid, passwordIsValid, loginFailed, userAuth } = useSelector(store => ({
         email: store.login.email,
@@ -32,7 +33,7 @@ function Login() {
 
     if (!userAuth) {
         return (
-            <form className={ styles.wrapper }>
+            <form className={ styles.wrapper } onSubmit={(e) => login(e)}>
                 <h2 className='text text_type_main-medium mb-6'>
                     Вход
                 </h2>
@@ -49,8 +50,7 @@ function Login() {
                 <Button 
                     extraClass={ (!emailIsValid || !passwordIsValid) ? styles.btn_not_active : ''} 
                     type="primary" 
-                    htmlType="submit" 
-                    onClick={(e) => login(e)}>
+                    htmlType="submit" >
                     Войти
                 </Button>
                 <p className='text text_type_main-default text_color_inactive mt-20'>
@@ -74,9 +74,7 @@ function Login() {
     } else {
         return (
             <Redirect
-                to={{
-                    pathname: '/'
-                }}
+                to={location?.state?.from || '/'}
             />
         );
     }

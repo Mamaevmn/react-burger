@@ -10,25 +10,29 @@ export const RECOVERY_PASSWORD_FAILED = 'RECOVERY_PASSWORD_FAILED';
 
 export function setPasswordRecovery(email) {
     return function(dispatch) {
-        dispatch({
-            type: RECOVERY_PASSWORD_REQUEST
-        });
+        dispatch(recoveryPasswordRequestAC());
         postPasswordReсovery(email).then(res => {
-            if (res && res.success) {
-                dispatch({
-                    type: RECOVERY_PASSWORD_SUCCESS,
-                    payload: res.message,
-                });
-                dispatch({ type: CLEAR_EMAIL_VALUE })
-            } else {
-                dispatch({
-                    type: RECOVERY_PASSWORD_FAILED
-                });
-            }
-        }).catch(e => {
-            dispatch({
-                type: RECOVERY_PASSWORD_FAILED
-            });
-        });
+            dispatch(recoveryPasswordSuccessRequestAC(res.message));
+            dispatch(clearRecoveryPasswordFieldsAC())
+        }).catch(() => dispatch(recoveryPasswordFailedRequestAC()));
     };
+}
+
+function recoveryPasswordRequestAC() {
+    return { type: RECOVERY_PASSWORD_REQUEST }
+}
+
+function recoveryPasswordSuccessRequestAC(message) {
+    return {
+        type: RECOVERY_PASSWORD_SUCCESS,
+        payload: message,
+    }
+}
+
+function recoveryPasswordFailedRequestAC() {
+    return { type: RECOVERY_PASSWORD_FAILED }
+}
+
+function clearRecoveryPasswordFieldsAC() {
+    return { type: CLEAR_EMAIL_VALUE }
 }

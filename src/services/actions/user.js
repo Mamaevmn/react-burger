@@ -15,90 +15,65 @@ export const USER_FAILED = 'USER_FAILED';
 
 export function getUser() {
     return function(dispatch) {
-        dispatch({
-            type: USER_REQUEST
-        });
+        dispatch(userRequestAC());
         getUserInfo().then(res => {
-            if (res && res.success) {
-                dispatch({ 
-                    type: USER_SUCCESS, 
-                    payload: {
-                        name: res.user.name,
-                        email: res.user.email,
-                }})
-            } else {
-                dispatch({
-                    type: USER_FAILED
-                });
-                dispatch(updateToken())
-            }
-        }).catch(e => {
-            dispatch({
-                type: USER_FAILED
-            });
+            dispatch(userSuccessRequestAC(res.user.name, res.user.email))
+        }).catch(() => {
+            dispatch(updateToken())
+            dispatch(userFailedRequestAC())
         });
     };
 }
 
 export function userLogout() {
     return function(dispatch) {
-        dispatch({
-            type: USER_REQUEST
-        });
+        dispatch(userRequestAC());
         postUserLogout().then(res => {
-            if (res && res.success) {
-                deleteCookie('token')
-                deleteCookie('refreshToken')
-                dispatch({ type: CLEAR_USER_DATA })
-            } else {
-                dispatch({
-                    type: USER_FAILED
-                });
-            }
-        }).catch(e => {
-            dispatch({
-                type: USER_FAILED
-            });
-        });
+            deleteCookie('token')
+            deleteCookie('refreshToken')
+            dispatch(clearUserDataAC())
+        }).catch(() => dispatch(userFailedRequestAC()));
     };
 }
 
 export function updateToken() {
     return function(dispatch) {
-        dispatch({
-            type: USER_REQUEST
-        });
+        dispatch(userRequestAC());
         postUpdateToken().then(res => {
-            if (res && res.success) {
-                const authToken = res.accessToken.split('Bearer ')[1];
-
-                if (authToken) {
-                    setCookie('token', authToken);
-                }
-            } else {
-                dispatch({
-                    type: USER_FAILED
-                });
-            }
-        }).catch(e => {
-            dispatch({
-                type: USER_FAILED
-            });
-        });
+            const authToken = res.accessToken.split('Bearer ')[1];
+            if (authToken) {
+                setCookie('token', authToken)
+                setCookie('refreshToken', res.refreshToken);
+            };
+        }).catch(() => dispatch(userFailedRequestAC()));
     };
 }
 
 export function setUserData() {
     return function(dispatch) {
-        dispatch({
-            type: USER_REQUEST
-        });
-        editUserInfo().then(res => {
-            console.log(res);
-        }).catch(e => {
-            dispatch({
-                type: USER_FAILED
-            });
-        });
+        dispatch(userRequestAC());
+        editUserInfo().then().catch(() => dispatch(userFailedRequestAC()));
     };
+}
+
+function userRequestAC() {
+    return { type: USER_REQUEST }
+}
+
+function userSuccessRequestAC(name, email) {
+    return { 
+        type: USER_SUCCESS, 
+        payload: {
+            name: name,
+            email: email,
+        }
+    }
+}
+
+function userFailedRequestAC() {
+    return { type: USER_FAILED }
+}
+
+function clearUserDataAC() {
+    return { type: CLEAR_USER_DATA }
 }

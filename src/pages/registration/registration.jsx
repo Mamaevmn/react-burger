@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 
 import styles from './registration.module.css';
 
@@ -16,6 +16,7 @@ import { getUser } from '../../services/actions/user';
 
 function Registration() {
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const { name, email, password, emailIsValid, passwordIsValid, userIsExist, registrationSuccess, authUser } = useSelector(store => ({
         name: store.registration.name,
@@ -50,7 +51,7 @@ function Registration() {
 
     if (!authUser) {
         return (
-            <form className={ styles.wrapper }>
+            <form className={ styles.wrapper } onSubmit={(e) => registration(e)}>
                 <h2 className='text text_type_main-medium mb-6'>
                     Регистрация
                 </h2>
@@ -79,8 +80,7 @@ function Registration() {
                 <Button 
                     extraClass={ (!emailIsValid || !passwordIsValid) ? styles.btn_not_active : ''} 
                     type="primary" 
-                    htmlType="submit" 
-                    onClick={() => registration()}>
+                    htmlType="submit" >
                     Зарегистрироваться
                 </Button>
                 <p className='text text_type_main-default text_color_inactive mt-20'>
@@ -95,7 +95,10 @@ function Registration() {
         return (
             <Redirect
                 to={{
-                    pathname: '/'
+                    pathname: '/',
+                    state: {
+                        from: location
+                    }
                 }}
             />
         );

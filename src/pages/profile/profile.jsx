@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -7,10 +7,11 @@ import styles from './profile.module.css';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import ProfileTabs from '../../components/profile-tabs/profile-tabs';
-import { CLEAR_USER_CHANGING, setUserData, SET_USER_EMAIL_VALUE, SET_USER_NAME_VALUE, SET_USER_PASSWORD_VALUE } from '../../services/actions/user';
+import { CLEAR_USER_CHANGING, SET_USER_EMAIL_VALUE, SET_USER_PASSWORD_VALUE, setUserData } from '../../services/actions/user';
 
 function Profile() {
     const dispatch = useDispatch();
+    const location = useLocation();
     const { name, email, password, userAuth } = useSelector(store => ({
         name: store.user.name,
         email: store.user.email,
@@ -43,7 +44,7 @@ function Profile() {
 
     if (userAuth) {
         return (
-            <section className={ classNames(styles.wrapper, 'container') }>
+            <section className={ classNames(styles.wrapper, 'container') } onSubmit={(e) => submitNewUserData(e)}>
                 <ProfileTabs />
                 <form className={styles.inner}>
                     <Input 
@@ -75,9 +76,7 @@ function Profile() {
                         </button>
                         <Button
                             type="primary" 
-                            htmlType="submit" 
-                            onClick={(e) => submitNewUserData(e)}
-                            >
+                            htmlType="submit" >
                                 Сохранить
                         </Button>
                     </div>
@@ -88,7 +87,10 @@ function Profile() {
         return (
             <Redirect
                 to={{
-                    pathname: '/login'
+                    pathname: '/login',
+                    state: {
+                        from: location
+                    }
                 }}
             />
         );

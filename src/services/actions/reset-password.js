@@ -11,25 +11,29 @@ export const PASSWORD_FAILED = 'PASSWORD_FAILED';
 
 export function setPasswordReset(email) {
     return function(dispatch) {
-        dispatch({
-            type: PASSWORD_REQUEST
-        });
+        dispatch(resetPasswordRequestAC());
         postPasswordReset(email).then(res => {
-            if (res && res.success) {
-                dispatch({
-                    type: PASSWORD_SUCCESS,
-                    payload: res.message,
-                });
-                dispatch({ type: CLEAR_RESET_PASSWORD_FIELDS })
-            } else {
-                dispatch({
-                    type: PASSWORD_FAILED
-                });
-            }
-        }).catch(e => {
-            dispatch({
-                type: PASSWORD_FAILED
-            });
-        });
+            dispatch(resetPasswordSuccessRequestAC(res.message));
+            dispatch(clearResetPasswordFieldsAC())
+        }).catch(() => dispatch(resetPasswordFailedRequestAC()))
     };
+}
+
+function resetPasswordRequestAC() {
+    return { type: PASSWORD_REQUEST }
+}
+
+function resetPasswordSuccessRequestAC(message) {
+    return {
+        type: PASSWORD_SUCCESS,
+        payload: message,
+    }
+}
+
+function resetPasswordFailedRequestAC() {
+    return { type: PASSWORD_FAILED }
+}
+
+function clearResetPasswordFieldsAC() {
+    return { type: CLEAR_RESET_PASSWORD_FIELDS }
 }

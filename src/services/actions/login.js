@@ -13,34 +13,39 @@ export const LOGIN_FAILED = 'LOGIN_FAILED';
 
 export function setLogin(email, password) {
     return function(dispatch) {
-        dispatch({
-            type: LOGIN_REQUEST
-        });
+        dispatch(loginRequestAC());
         postUserLogin(email, password).then(res => {
-            if (res && res.success) {
-                const authToken = res.accessToken.split('Bearer ')[1];
+            const authToken = res.accessToken.split('Bearer ')[1];
 
-                dispatch({ 
-                    type: SET_USER_DATA, 
-                    payload: {
-                        name: res.user.name,
-                        email: email,
-                        password: password,
-                }})
-                if (authToken) {
-                    setCookie('token', authToken);
-                    setCookie('refreshToken', res.refreshToken);
-                }
-                dispatch({ type: CLEAR_LOGIN_FIELDS })
-            } else {
-                dispatch({
-                    type: LOGIN_FAILED
-                });
+            dispatch(loginSuccessRequestAC(res.user.name, email, password))
+            if (authToken) {
+                setCookie('token', authToken);
+                setCookie('refreshToken', res.refreshToken);
             }
-        }).catch(e => {
-            dispatch({
-                type: LOGIN_FAILED
-            });
-        });
+            dispatch(clearLoginFieldsAC())
+        }).catch(() => dispatch(loginFailedRequestAC()));
     };
+}
+
+function loginRequestAC() {
+    return { type: LOGIN_REQUEST }
+}
+
+function loginSuccessRequestAC(name, email, password) {
+    return { 
+        type: SET_USER_DATA, 
+        payload: {
+            name: name,
+            email: email,
+            password: password,
+        }
+    }
+}
+
+function loginFailedRequestAC() {
+    return { type: LOGIN_FAILED }
+}
+
+function clearLoginFieldsAC() {
+    return { type: CLEAR_LOGIN_FIELDS }
 }

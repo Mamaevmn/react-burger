@@ -13,25 +13,29 @@ export const DECREASE_ITEM_COUNT = 'DECREASE_ITEM_COUNT';
 
 export function getIngredients() {
   return function(dispatch) {
-    dispatch({
-      type: GET_INGREDIENTS_REQUEST
-    });
+    dispatch(ingredientsRequestAC());
     getData().then(res => {
-      if (res && res.success) {
-        dispatch({
-          type: GET_INGREDIENTS_SUCCESS,
-          items: res.data,
-        });
-        dispatch({ type: GET_INGREDIENTS_TYPES });
-      } else {
-        dispatch({
-          type: GET_INGREDIENTS_FAILED
-        });
-      }
-    }).catch(e => {
-      dispatch({
-        type: GET_INGREDIENTS_FAILED
-      });
-    });
+        dispatch(ingredientsSuccessRequestAC(res.data));
+        dispatch(getIngredientsTypesAC());
+    }).catch(() => dispatch(ingredientsFailedRequestAC()));
   };
+}
+
+function ingredientsRequestAC() {
+  return { type: GET_INGREDIENTS_REQUEST }
+}
+
+function ingredientsSuccessRequestAC(data) {
+  return {
+      type: GET_INGREDIENTS_SUCCESS,
+      payload: data,
+  }
+}
+
+function ingredientsFailedRequestAC() {
+  return { type: GET_INGREDIENTS_FAILED }
+}
+
+function getIngredientsTypesAC() {
+  return { type: GET_INGREDIENTS_TYPES }
 }

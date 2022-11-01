@@ -1,3 +1,4 @@
+import { checkResponse } from "./const";
 import { getCookie } from "./cookie";
 
 export const BASE_API_URL = 'https://norma.nomoreparties.space/api';
@@ -13,9 +14,9 @@ export const UPDATE_TOKEN_URL = `${AUTH_URL}/token`;
 export const USER_REGISTRATION_URL = `${AUTH_URL}/register`;
 export const USER_INFO_URL = `${AUTH_URL}/user`;
 
-export const getData = () => fetch(INGREDIENTS_URL).then(res => res.json())
+export const getData = () => request(INGREDIENTS_URL)
 
-export const postOrder = (goodsIdArray) => fetch(ORDERS_URL, {
+export const postOrder = (goodsIdArray) => request(ORDERS_URL, {
   method: 'POST',
   mode: 'cors',
   cache: 'no-cache',
@@ -28,9 +29,9 @@ export const postOrder = (goodsIdArray) => fetch(ORDERS_URL, {
   body: JSON.stringify({ 
     "ingredients": goodsIdArray
   })
-}).then(res => res.json())
+}) 
 
-export const postUserRegistration = (name, email, password) => fetch(USER_REGISTRATION_URL, {
+export const postUserRegistration = (name, email, password) => request( USER_REGISTRATION_URL, {
   method: 'POST',
   mode: 'cors',
   cache: 'no-cache',
@@ -45,9 +46,9 @@ export const postUserRegistration = (name, email, password) => fetch(USER_REGIST
     "password": password, 
     "name": name,
   })
-}).then(res => res.json())
+})
 
-export const postUserLogin = (email, password) => fetch(LOGIN_URL, {
+export const postUserLogin = (email, password) => request(LOGIN_URL, {
   method: 'POST',
   mode: 'cors',
   cache: 'no-cache',
@@ -61,9 +62,9 @@ export const postUserLogin = (email, password) => fetch(LOGIN_URL, {
     "email": email, 
     "password": password, 
   })
-}).then(res => res.json())
+})
 
-export const postUserLogout = () => fetch(LOGOUT_URL, {
+export const postUserLogout = () => request(LOGOUT_URL, {
   method: 'POST',
   mode: 'cors',
   cache: 'no-cache',
@@ -76,9 +77,9 @@ export const postUserLogout = () => fetch(LOGOUT_URL, {
   body: JSON.stringify({ 
     "token": getCookie('refreshToken'), 
   })
-}).then(res => res.json())
+})
 
-export const getUserInfo = () => fetch(USER_INFO_URL, {
+export const getUserInfo = () => request(USER_INFO_URL, {
   method: 'GET',
   mode: 'cors',
   cache: 'no-cache',
@@ -89,9 +90,9 @@ export const getUserInfo = () => fetch(USER_INFO_URL, {
   },
   redirect: 'follow',
   referrerPolicy: 'no-referrer'
-}).then(res => res.json())
+})
 
-export const editUserInfo = (name, email, password) => fetch(USER_INFO_URL, {
+export const editUserInfo = (name, email, password) => request(USER_INFO_URL, {
   method: 'PATCH',
   mode: 'cors',
   cache: 'no-cache',
@@ -107,9 +108,9 @@ export const editUserInfo = (name, email, password) => fetch(USER_INFO_URL, {
     "password": password, 
     "name": name,
   })
-}).then(res => res.json())
+})
 
-export const postPasswordReсovery = (email) => fetch(PASSWORD_RECOVERY_URL, {
+export const postPasswordReсovery = (email) => request(PASSWORD_RECOVERY_URL, {
   method: 'POST',
   mode: 'cors',
   cache: 'no-cache',
@@ -122,9 +123,9 @@ export const postPasswordReсovery = (email) => fetch(PASSWORD_RECOVERY_URL, {
   body: JSON.stringify({ 
     "email": email
   })
-}).then(res => res.json())
+})
 
-export const postPasswordReset = (password, token) => fetch(PASSWORD_RESET_URL, {
+export const postPasswordReset = (password, token) => request(PASSWORD_RESET_URL,{
   method: 'POST',
   mode: 'cors',
   cache: 'no-cache',
@@ -138,9 +139,9 @@ export const postPasswordReset = (password, token) => fetch(PASSWORD_RESET_URL, 
     "password": password,
     "token": token
   })
-}).then(res => res.json())
+}) 
 
-export const postUpdateToken = () => fetch(UPDATE_TOKEN_URL, {
+export const postUpdateToken = () => request(UPDATE_TOKEN_URL, {
   method: 'POST',
   mode: 'cors',
   cache: 'no-cache',
@@ -153,4 +154,9 @@ export const postUpdateToken = () => fetch(UPDATE_TOKEN_URL, {
   body: JSON.stringify({ 
     "token": getCookie('refreshToken'), 
   })
-}).then(res => res.json())
+})
+
+
+function request(url, options) {
+  return fetch(url, options).then(checkResponse)
+}
