@@ -1,28 +1,30 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './reset-password.module.css';
 
-import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CLEAR_RESET_PASSWORD_FIELDS, SET_CODE_VALUE, SET_RESET_PASSWORD_VALUE } from '../../services/actions/reset-password';
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getUser } from '../../services/actions/user';
+import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
 function ResetPassword() {
     const dispatch = useDispatch();
     const location = useLocation();
-
-    const { code, password, codeIsValid, passwordIsValid, authUser, recoveryPasswordSuccess } = useSelector(store => ({
-        password: store.resetPassword.password,
-        code: store.resetPassword.code,
-        passwordIsValid: store.resetPassword.passwordIsValid,
-        codeIsValid: store.resetPassword.codeIsValid,
+    const [fieldsNotEmpty, setFiledsNotEmpty] = useState(false);
+    const { authUser, recoveryPasswordSuccess } = useSelector(store => ({
         authUser: store.user.auth,
         recoveryPasswordSuccess: store.recovery.recoveryPasswordSuccess,
     }))
+    const { values, handleChange, errors, isValid } = useFormAndValidation({ code: '', password: ''})
 
     useEffect(() => {
-        dispatch({ type: CLEAR_RESET_PASSWORD_FIELDS })
+        if (values.code.length && values.password.length) {
+            setFiledsNotEmpty(true);
+        } else setFiledsNotEmpty(false);
+    }, [fieldsNotEmpty, values])
+
+    useEffect(() => {
         dispatch(getUser());
     }, [dispatch])
 
@@ -37,19 +39,26 @@ function ResetPassword() {
                 <h2 className='text text_type_main-medium mb-6'>
                     Восстановление пароля
                 </h2>
-                <PasswordInput 
-                    extraClass='mb-6' 
-                    placeholder='Введите новый пароль'
-                    value={ password } 
-                    onChange={(e)=> dispatch({ type: SET_RESET_PASSWORD_VALUE, payload: e.target.value })}/> 
                 <Input 
-                    extraClass='mb-6' 
-                    placeholder='Введите код из письма' 
+                    extraClass='mb-6'
+                    name='password'
+                    type='password' 
+                    placeholder='Пароль'
+                    value={ values.password || '' }
+                    error={ isValid === false }
+                    errorText={ errors.password || '' }
+                    onChange={(e)=> handleChange(e)}/> 
+                <Input 
+                    extraClass='mb-6'
+                    name='code'
                     type='text' 
-                    value={ code } 
-                    onChange={(e)=> dispatch({ type: SET_CODE_VALUE, payload: e.target.value })}/> 
+                    placeholder='Введите код из письма'
+                    value={ values.code || '' }
+                    error={ isValid === false }
+                    errorText={ errors.code || '' }
+                    onChange={(e)=> handleChange(e)}/> 
                 <Button 
-                    extraClass={ (!passwordIsValid || !codeIsValid) ? styles.btn_not_active : ''} 
+                    extraClass={ (!isValid || !fieldsNotEmpty) ? styles.btn_not_active : ''} 
                     type="primary" 
                     htmlType="submit">
                     Сохранить

@@ -68,3 +68,12 @@ p.input__error {
   opacity: 0 !important;
   pointer-events: none;
 }
+
+.input__container {
+  max-width: 480px;
+}
+
+.input__error {
+  position: relative !important;
+  transform: none !important;
+}

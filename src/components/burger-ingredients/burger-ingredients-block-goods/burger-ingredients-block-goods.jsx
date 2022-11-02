@@ -53,7 +53,7 @@ function BurgerIngredientsTypesTab({ type, name}) {
     const items = useSelector(store => store.ingredients.items);
 
     const { ref, inView } = useInView({
-        threshold: 0,
+        threshold: 0.25,
     });
 
     useEffect(() => {

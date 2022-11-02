@@ -1,35 +1,35 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './login.module.css';
 
-import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { SET_EMAIL_VALUE, SET_PASSWORD_VALUE, CLEAR_LOGIN_FIELDS, setLogin } from '../../services/actions/login';
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { setLogin } from '../../services/actions/login';
 import { getUser } from '../../services/actions/user';
+import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
 function Login() {
     const dispatch = useDispatch();
     const location = useLocation();
-
-    const { email, password, emailIsValid, passwordIsValid, loginFailed, userAuth } = useSelector(store => ({
-        email: store.login.email,
-        password: store.login.password,
-        emailIsValid: store.login.emailIsValid,
-        passwordIsValid: store.login.passwordIsValid,
-        loginFailed: store.login.loginFailed,
-        userAuth: store.user.auth,
-    }))
+    const [fieldsNotEmpty, setFiledsNotEmpty] = useState(false);
+    const userAuth = useSelector(store => store.user.auth)
+    const { values, handleChange, errors, isValid } = useFormAndValidation({ email: '', password: ''})
 
     useEffect(() => {
-        dispatch({ type: CLEAR_LOGIN_FIELDS })
+        if (values.email.length && values.password.length) {
+            setFiledsNotEmpty(true);
+        } else setFiledsNotEmpty(false);
+    }, [fieldsNotEmpty, values])
+
+    useEffect(() => {
         dispatch(getUser());
     }, [dispatch])
 
     const login = useCallback((e) => {
         e.preventDefault()
-        dispatch(setLogin(email, password))
-    }, [dispatch, email, password])
+        dispatch(setLogin(values.email, values.password))
+    }, [dispatch, values])
 
     if (!userAuth) {
         return (
@@ -37,18 +37,27 @@ function Login() {
                 <h2 className='text text_type_main-medium mb-6'>
                     Вход
                 </h2>
-                <EmailInput 
+                <Input
                     extraClass='mb-6' 
-                    value={ email } 
-                    error={ loginFailed }
-                    onChange={(e)=> dispatch({ type: SET_EMAIL_VALUE, payload: e.target.value })}/> 
-                <PasswordInput 
-                    extraClass='mb-6' 
-                    value={ password } 
-                    error={ loginFailed }
-                    onChange={(e)=> dispatch({ type: SET_PASSWORD_VALUE, payload: e.target.value })}/>
+                    name='email'
+                    type='email'
+                    placeholder='Укажите e-mail' 
+                    value={ values.email || '' } 
+                    error={ isValid === false }
+                    errorText={ errors.email || '' }
+                    onChange={(e)=> handleChange(e)}
+                    /> 
+                <Input 
+                    extraClass='mb-6'
+                    name='password'
+                    type='password' 
+                    placeholder='Пароль'
+                    value={ values.password || '' }
+                    error={ isValid === false }
+                    errorText={ errors.password || '' }
+                    onChange={(e)=> handleChange(e)}/> 
                 <Button 
-                    extraClass={ (!emailIsValid || !passwordIsValid) ? styles.btn_not_active : ''} 
+                    extraClass={ (!isValid || !fieldsNotEmpty) ? styles.btn_not_active : ''} 
                     type="primary" 
                     htmlType="submit" >
                     Войти

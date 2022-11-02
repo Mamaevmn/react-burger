@@ -15,7 +15,7 @@ import Orders from '../pages/orders/orders';
 import { getIngredients } from '../services/actions/ingredients';
 import Modal from '../components/modal/modal';
 import IngredientDetails from '../components/modal-ingredient-details/modal-ingredient-details';
-import { CLOSE_MODAL } from '../services/actions/modals';
+import { CLOSE_MODAL, OPEN_MODAL } from '../services/actions/modals';
 
 function App() {
   const dispatch = useDispatch();
@@ -24,6 +24,9 @@ function App() {
   let background = location.state && location.state.background;
   const modalVisible = useSelector(store => store.modals.visible);
     
+  useEffect(() => {
+    if (background) dispatch({ type: OPEN_MODAL })
+  }, [dispatch, modalVisible, background])
 
   useEffect(() => { dispatch(getIngredients()) }, [dispatch]);
 
@@ -47,7 +50,7 @@ function App() {
         <Route component={ NotFound } />
       </Switch>
 
-      {background && modalVisible && 
+      {background && 
         <Switch>
           <Route 
             path='/ingredients/:id'

@@ -7,39 +7,30 @@ import styles from './profile.module.css';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import ProfileTabs from '../../components/profile-tabs/profile-tabs';
-import { CLEAR_USER_CHANGING, SET_USER_EMAIL_VALUE, SET_USER_PASSWORD_VALUE, setUserData } from '../../services/actions/user';
+import { setUserData } from '../../services/actions/user';
+import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
 function Profile() {
     const dispatch = useDispatch();
     const location = useLocation();
+    const [fieldsIsChange, setFieldsIsChange] = useState(false);
     const { name, email, password, userAuth } = useSelector(store => ({
         name: store.user.name,
         email: store.user.email,
         password: store.user.password,
         userAuth: store.user.auth,
     }))
-
-    const [ currentName, setCurrentName] = useState(name);
-    const [ currentEmail, setCurrentEmail] = useState(email);
-    const [ currentPassword, setCurrentPassword] = useState(password);
-    const [ fieldsIsChange, setFieldsIsChange] = useState(false);
+    const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation({ name: name, email: email, password: password})
 
     useEffect(() => {
-        (name === currentName && email === currentEmail && password === currentPassword) ?
-            setFieldsIsChange(false) :
-            setFieldsIsChange(true)
-    }, [name, email, password, currentName, currentEmail, currentPassword])
+        if (name === values.name && email === values.email && password === values.password) {
+            setFieldsIsChange(false)
+        } else setFieldsIsChange(true)
+    }, [values, name, email, password, fieldsIsChange])
 
     const submitNewUserData = useCallback((e) => {
         e.preventDefault()
         dispatch(setUserData(name, email, password))
-    }, [dispatch, name, email, password])
-
-    const resetFields = useCallback(() => {
-        setCurrentName(name)
-        setCurrentEmail(email)
-        setCurrentPassword(password)
-        dispatch({type: CLEAR_USER_CHANGING})
     }, [dispatch, name, email, password])
 
     if (userAuth) {
@@ -48,30 +39,37 @@ function Profile() {
                 <ProfileTabs />
                 <form className={styles.inner}>
                     <Input 
-                        extraClass='text_color_inactive mb-6' 
+                        extraClass='mb-6'
+                        name='name'
                         type='text' 
                         placeholder='Имя'
-                        value={currentName} 
-                        icon='EditIcon' 
-                        onChange={(e)=> setCurrentName(e.target.value)}/>
+                        value={ values.name || '' }
+                        error={ isValid === false }
+                        errorText={ errors.name || '' }
+                        onChange={(e)=> handleChange(e)}/> 
                     <Input 
-                        extraClass='text_color_inactive mb-6' 
-                        type='email' 
-                        placeholder='Логин' 
-                        value={email}
-                        icon='EditIcon' 
-                        onChange={(e)=> dispatch({ type: SET_USER_EMAIL_VALUE, payload: e.target.value })}/>
+                        extraClass='mb-6' 
+                        name='email'
+                        type='email'
+                        placeholder='Укажите e-mail' 
+                        value={ values.email || '' } 
+                        error={ isValid === false }
+                        errorText={ errors.email || '' }
+                        onChange={(e)=> handleChange(e)}
+                        /> 
                     <Input 
-                        extraClass='text_color_inactive mb-6' 
+                        extraClass='mb-6'
+                        name='password'
                         type='password' 
-                        placeholder='Пароль' 
-                        value={password} 
-                        icon='EditIcon' 
-                        onChange={(e)=> dispatch({ type: SET_USER_PASSWORD_VALUE, payload: e.target.value })}/>
+                        placeholder='Пароль'
+                        value={ values.password || '' }
+                        error={ isValid === false }
+                        errorText={ errors.password || '' }
+                        onChange={(e)=> handleChange(e)}/> 
                     <div className={classNames(styles.buttons, !fieldsIsChange ? 'hidden' : '')}>
                         <button className={classNames(styles.btn_reset, 'mr-5', 'text', 'text_type_main-default', 'text_color_accent')}
                             type="reset"
-                            onClick={() => resetFields()}>
+                            onClick={() => resetForm({name, email, password})}>
                             Отмена
                         </button>
                         <Button

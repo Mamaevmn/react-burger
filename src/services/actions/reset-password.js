@@ -1,10 +1,5 @@
 import { postPasswordReset } from "../../utils/api";
 
-export const SET_RESET_PASSWORD_VALUE = 'SET_RESET_PASSWORD_VALUE';
-export const SET_CODE_VALUE = 'SET_CODE_VALUE';
-
-export const CLEAR_RESET_PASSWORD_FIELDS = 'CLEAR_RESET_PASSWORD_FIELDS';
-
 export const PASSWORD_REQUEST = 'PASSWORD_REQUEST';
 export const PASSWORD_SUCCESS = 'PASSWORD_SUCCESS';
 export const PASSWORD_FAILED = 'PASSWORD_FAILED';
@@ -14,7 +9,6 @@ export function setPasswordReset(email) {
         dispatch(resetPasswordRequestAC());
         postPasswordReset(email).then(res => {
             dispatch(resetPasswordSuccessRequestAC(res.message));
-            dispatch(clearResetPasswordFieldsAC())
         }).catch(() => dispatch(resetPasswordFailedRequestAC()))
     };
 }
@@ -32,8 +26,4 @@ function resetPasswordSuccessRequestAC(message) {
 
 function resetPasswordFailedRequestAC() {
     return { type: PASSWORD_FAILED }
-}
-
-function clearResetPasswordFieldsAC() {
-    return { type: CLEAR_RESET_PASSWORD_FIELDS }
 }

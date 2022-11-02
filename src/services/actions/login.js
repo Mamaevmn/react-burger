@@ -2,11 +2,6 @@ import { postUserLogin } from "../../utils/api";
 import { setCookie } from "../../utils/cookie";
 import { SET_USER_DATA } from "./user";
 
-export const SET_EMAIL_VALUE = 'SET_EMAIL_VALUE';
-export const SET_PASSWORD_VALUE = 'SET_PASSWORD_VALUE';
-
-export const CLEAR_LOGIN_FIELDS = 'CLEAR_LOGIN_FIELDS';
-
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
@@ -22,7 +17,6 @@ export function setLogin(email, password) {
                 setCookie('token', authToken);
                 setCookie('refreshToken', res.refreshToken);
             }
-            dispatch(clearLoginFieldsAC())
         }).catch(() => dispatch(loginFailedRequestAC()));
     };
 }
@@ -44,8 +38,4 @@ function loginSuccessRequestAC(name, email, password) {
 
 function loginFailedRequestAC() {
     return { type: LOGIN_FAILED }
-}
-
-function clearLoginFieldsAC() {
-    return { type: CLEAR_LOGIN_FIELDS }
 }

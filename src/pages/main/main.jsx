@@ -11,7 +11,6 @@ import BurgerConstructor from '../../components/burger-constructor/burger-constr
 import Modal from '../../components/modal/modal';
 import OrderDetails from '../../components/modal-order-details/modal-order-details';
 import { ORDER_TYPE } from '../../utils/const';
-import { CLEAR_LOGIN_FIELDS } from '../../services/actions/login';
 import { getUser } from '../../services/actions/user';
 import { CLOSE_MODAL } from '../../services/actions/modals';
 import Loader from '../../components/loader/loader';
@@ -25,9 +24,7 @@ function Main() {
         loading: store.order.orderRequest,
     }));
 
-    console.log(loading);
     useEffect(()=> {
-        dispatch({ type: CLEAR_LOGIN_FIELDS });
         dispatch(getUser());
     }, [dispatch])
 

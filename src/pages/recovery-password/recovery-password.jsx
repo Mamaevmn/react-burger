@@ -3,31 +3,30 @@ import { Link, Redirect, useLocation } from 'react-router-dom';
 
 import styles from './recovery-password.module.css';
 
-import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CLEAR_EMAIL_VALUE, setPasswordRecovery, SET_RECOVERY_EMAIL_VALUE } from '../../services/actions/recovery-password';
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { setPasswordRecovery } from '../../services/actions/recovery-password';
 import { useCallback, useEffect } from 'react';
 import { getUser } from '../../services/actions/user';
+import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
 function RecoveryPassword() {
     const dispatch = useDispatch();
     const location = useLocation();
-
-    const { email, emailIsValid, recoveryPasswordSuccess, userAuth } = useSelector(store => ({
-        email: store.recovery.email,
-        emailIsValid: store.recovery.emailIsValid,
+    const { recoveryPasswordSuccess, userAuth } = useSelector(store => ({
         recoveryPasswordSuccess: store.recovery.recoveryPasswordSuccess,
         userAuth: store.user.auth
     }));
+    const {values, handleChange, errors, isValid} = useFormAndValidation({ email: ''})
+
 
     useEffect(() => {
-        dispatch({ type: CLEAR_EMAIL_VALUE })
         dispatch(getUser());
     }, [dispatch])
 
     const resetPassword = useCallback((e) => {
         e.preventDefault()
-        dispatch(setPasswordRecovery(email))
-    },[email, dispatch]); 
+        dispatch(setPasswordRecovery(values.email))
+    },[values, dispatch]); 
     
     if (recoveryPasswordSuccess) {
         return (
@@ -45,13 +44,18 @@ function RecoveryPassword() {
                 <h2 className='text text_type_main-medium mb-6'>
                     Восстановление пароля
                 </h2>
-                <EmailInput 
+                <Input 
                     extraClass='mb-6' 
+                    name='email'
+                    type='email'
                     placeholder='Укажите e-mail' 
-                    value={ email } 
-                    onChange={(e)=> dispatch({ type: SET_RECOVERY_EMAIL_VALUE, payload: e.target.value})}/> 
+                    error={ isValid === false }
+                    errorText={ errors.email || '' }
+                    value={ values.email || '' } 
+                    onChange={(e)=> handleChange(e)}
+                    /> 
                 <Button 
-                    extraClass={ !emailIsValid ? styles.btn_not_active : ''} 
+                    extraClass={ !isValid ? styles.btn_not_active : ''} 
                     type="primary" 
                     htmlType="submit" >
                     Восстановить

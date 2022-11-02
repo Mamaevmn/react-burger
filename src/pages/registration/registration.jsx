@@ -1,43 +1,39 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 
 import styles from './registration.module.css';
 
-import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { 
-    SET_REGISTRATION_EMAIL_VALUE, 
-    SET_REGISTRATION_NAME_VALUE, 
-    SET_REGISTRATION_PASSWORD_VALUE, 
-    CLEAR_REGISTRATION_FIELDS, 
-    setUserRegistration, 
-} from '../../services/actions/registration';
+import { setUserRegistration } from '../../services/actions/registration';
 import { getUser } from '../../services/actions/user';
+import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
 function Registration() {
     const dispatch = useDispatch();
     const location = useLocation();
-
-    const { name, email, password, emailIsValid, passwordIsValid, userIsExist, registrationSuccess, authUser } = useSelector(store => ({
-        name: store.registration.name,
-        email: store.registration.email,
-        password: store.registration.password,
-        emailIsValid: store.registration.emailIsValid,
-        passwordIsValid: store.registration.passwordIsValid,
-        userIsExist: store.registration.userIsExist,
+    const [fieldsNotEmpty, setFiledsNotEmpty] = useState(false);
+    const { registrationSuccess, registrationFailed, authUser } = useSelector(store => ({
         registrationSuccess: store.registration.registrationSuccess,
+        registrationFailed: store.registration.registrationFailed,
         authUser: store.user.auth
     }))
+    const { values, handleChange, errors, isValid } = useFormAndValidation({ name: '', email: '', password: ''})
 
     useEffect(() => {
-        dispatch({ type: CLEAR_REGISTRATION_FIELDS })
+        if (values.name.length && values.email.length && values.password.length) {
+            setFiledsNotEmpty(true);
+        } else setFiledsNotEmpty(false);
+    }, [fieldsNotEmpty, values])
+
+    useEffect(() => {
         dispatch(getUser());
     }, [dispatch])
 
     const registration = useCallback((e) => {
         e.preventDefault()
-        dispatch(setUserRegistration(name, email, password));
-    }, [dispatch, name, email, password])
+        dispatch(setUserRegistration(values.name, values.email, values.password));
+    }, [dispatch, values])
 
     if (registrationSuccess) {
         return (
@@ -55,30 +51,41 @@ function Registration() {
                 <h2 className='text text_type_main-medium mb-6'>
                     Регистрация
                 </h2>
-                { userIsExist && 
+                { registrationFailed && 
                     <p className='test text_type_main-default text_color_error mt-1'>
                         Такой пользователь уже существует!
                     </p>
                 }
                 <Input 
                     extraClass='mb-6'
-                    placeholder='Имя'
-                    value={ name }
+                    name='name'
                     type='text' 
-                    error={ userIsExist }
-                    onChange={(e)=> dispatch({ type: SET_REGISTRATION_NAME_VALUE, payload: e.target.value })}/> 
-                <EmailInput 
+                    placeholder='Имя'
+                    value={ values.name || '' }
+                    error={ isValid === false }
+                    errorText={ errors.name || '' }
+                    onChange={(e)=> handleChange(e)}/> 
+                <Input 
                     extraClass='mb-6' 
-                    value={ email } 
-                    error={ userIsExist }
-                    onChange={(e)=> dispatch({ type: SET_REGISTRATION_EMAIL_VALUE, payload: e.target.value })}/> 
-                <PasswordInput 
-                    extraClass='mb-6' 
-                    value={ password } 
-                    error={ userIsExist }
-                    onChange={(e)=> dispatch({ type: SET_REGISTRATION_PASSWORD_VALUE, payload: e.target.value })}/>
+                    name='email'
+                    type='email'
+                    placeholder='Укажите e-mail' 
+                    value={ values.email || '' } 
+                    error={ isValid === false }
+                    errorText={ errors.email || '' }
+                    onChange={(e)=> handleChange(e)}
+                    /> 
+                <Input 
+                    extraClass='mb-6'
+                    name='password'
+                    type='password' 
+                    placeholder='Пароль'
+                    value={ values.password || '' }
+                    error={ isValid === false }
+                    errorText={ errors.password || '' }
+                    onChange={(e)=> handleChange(e)}/> 
                 <Button 
-                    extraClass={ (!emailIsValid || !passwordIsValid) ? styles.btn_not_active : ''} 
+                    extraClass={ (!isValid || !fieldsNotEmpty) ? styles.btn_not_active : ''} 
                     type="primary" 
                     htmlType="submit" >
                     Зарегистрироваться

@@ -1,18 +1,22 @@
 import {useState, useCallback} from 'react';
 
-export function useFormAndValidation() {
-  const [ values, setValues ] = useState({});
+export function useFormAndValidation(props) {
+  const [ values, setValues ] = useState({...props});
   const [ errors, setErrors ] = useState({});
-  const [ isValid, setIsValid ] = useState(false);
+  const [ isValid, setIsValid ] = useState(null);
 
   const handleChange = (e) => {
-    const {name, value} = e.target
+    const {name, value} = e.target;
+    
     setValues({...values, [name]: value });
     setErrors({...errors, [name]: e.target.validationMessage});
-    setIsValid(e.target.closest('form').checkValidity());
+
+    if (value.length) {
+      setIsValid(e.target.closest('form').checkValidity());
+    } else setIsValid(null);
   };
 
-  const resetForm = useCallback((newValues = {}, newErrors = {}, newIsValid = false) => {
+  const resetForm = useCallback((newValues = {}, newErrors = {}, newIsValid = null) => {
     setValues(newValues);
     setErrors(newErrors);
     setIsValid(newIsValid);
