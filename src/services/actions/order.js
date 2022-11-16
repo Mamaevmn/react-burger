@@ -7,25 +7,34 @@ export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
 
 export function getOrder(array) {
     return function(dispatch) {
-        dispatch({
-            type: GET_ORDER_REQUEST
-        });
+        dispatch(orderRequestAC());
         postOrder(array).then(res => {
-            if (res && res.success) {
-                dispatch({
-                    type: GET_ORDER_SUCCESS,
-                    payload: res.order.number,
-                });
-                dispatch({ type: OPEN_MODAL, payload: {type: 'order'} })
-            } else {
-                dispatch({
-                type: GET_ORDER_FAILED
-                });
-            }
-        }).catch(e => {
-            dispatch({
-                type: GET_ORDER_FAILED
-            });
-        });
+            dispatch(orderSuccessRequestAC(res.order.number));
+            dispatch(openModalAC())
+        }).catch(() => dispatch(orderFailedRequestAC()));
     };
+}
+
+function orderRequestAC() {
+    return { type: GET_ORDER_REQUEST }
+}
+
+function orderSuccessRequestAC(number) {
+    return {
+        type: GET_ORDER_SUCCESS,
+        payload: number,
+    }
+}
+
+function orderFailedRequestAC() {
+    return { type: GET_ORDER_FAILED }
+}
+
+function openModalAC() {
+    return { 
+        type: OPEN_MODAL, 
+        payload: {
+            type: 'order'
+        } 
+    }
 }

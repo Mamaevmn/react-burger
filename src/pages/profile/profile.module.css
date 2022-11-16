@@ -1,0 +1,29 @@
+.wrapper {
+    box-sizing: border-box;
+    display: flex;
+    padding-top: 120px;
+    height: calc(100vh - 88px);
+}
+
+.wrapper .container {
+    display: flex;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.btn_reset {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}

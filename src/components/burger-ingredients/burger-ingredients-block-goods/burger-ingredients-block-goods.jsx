@@ -1,24 +1,22 @@
-import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useCallback, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useInView } from 'react-intersection-observer';
+import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 import typesStyle from './burger-ingredients-block-goods.module.css';
 import BurgerGoods from './burger-ingredients-goods/burger-ingredients-goods';
+import { SET_CURRENT_TAB } from '../../../services/actions/ingredients';
 
 function BurgerIngredientsTypes() {
     const list = useRef()
 
-    const { items, ingredientTypes, currentTab } = useSelector(store => ({
-        items: store.ingredients.items,
+    const { ingredientTypes, currentTab } = useSelector(store => ({
         ingredientTypes: store.ingredients.ingredientTypes,
         currentTab: store.ingredients.currentTab
     }));
 
-    useEffect(() => {
-        scrollBlock()
-    }, [currentTab]);
-
-    const scrollBlock = () => {
+    const scrollBlock = useCallback(() => {
         if (currentTab) {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const listToTop = Math.ceil(list.current.getBoundingClientRect().top + scrollTop);
@@ -33,22 +31,48 @@ function BurgerIngredientsTypes() {
                 })
             }
         }
-    }
+    }, [currentTab]) 
+
+    useEffect(() => {
+        scrollBlock()
+    }, [currentTab, scrollBlock]);
 
     return (
         <ul className={classNames(typesStyle.wrapper, 'scroll-block', 'mt-10')} ref={list}>
             {ingredientTypes.map(type => 
-                <li key={type.u_id} data-tab-content={type.type}>
-                    <p className="text text_type_main-medium mb-6">
-                        {type.name}
-                    </p>
-                    <ul className={classNames(typesStyle.list, 'pb-6', 'pl-4', 'pr-4')}>
-                        { items.map(goods => type.type === goods.type && <BurgerGoods key={goods._id} goods={goods}/>) }
-                    </ul>
-                </li>
+                <BurgerIngredientsTypesTab key={type.u_id} {...type} />
             )}
         </ul>
     )
 }
 
 export default BurgerIngredientsTypes
+
+function BurgerIngredientsTypesTab({ type, name}) {
+    const dispatch = useDispatch()
+    const items = useSelector(store => store.ingredients.items);
+
+    const { ref, inView } = useInView({
+        threshold: 0.25,
+    });
+
+    useEffect(() => {
+        if (inView) dispatch({ type: SET_CURRENT_TAB, payload: type })
+    }, [dispatch, inView, type])
+
+    return (
+        <li  data-tab-content={type} ref={ref}>
+            <p className="text text_type_main-medium mb-6">
+                {name}
+            </p>
+            <ul className={classNames(typesStyle.list, 'pb-6', 'pl-4', 'pr-4')}>
+                { items.map(goods => type === goods.type && <BurgerGoods key={goods._id} goods={goods}/>) }
+            </ul>
+        </li>
+    )
+} 
+
+BurgerIngredientsTypesTab.propTypes = {
+    name: PropTypes.string,
+    type: PropTypes.string
+}

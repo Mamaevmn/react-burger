@@ -1,30 +1,38 @@
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import classNames from 'classnames';
 import totalStyle from './burger-constructor-total.module.css';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CALCULATE_TOTAL_PRICE } from '../../../services/actions/constructor';
+import { CALCULATE_TOTAL_PRICE, CLEAR_CONSTRUCTOR } from '../../../services/actions/constructor';
 import { getOrder } from '../../../services/actions/order';
 
 function BurgerConstructorTotal() {
     const dispatch = useDispatch();
+    const history = useHistory()
     const totalPrice = useSelector(store => store.burgerConstructor.totalPrice);
 
-    const { constructorData, bunData } = useSelector(store => ({
+    const { constructorData, bunData, userAuth } = useSelector(store => ({
         constructorData: store.burgerConstructor.items,
-        bunData: store.burgerConstructor.bun
+        bunData: store.burgerConstructor.bun,
+        userAuth: store.user.auth,
     }));
 
     useEffect(() => {
         dispatch({ type: CALCULATE_TOTAL_PRICE })
     }, [constructorData, bunData, dispatch])
 
-    const createGoodsIdArray = () => [bunData._id, ...constructorData.map(goods => goods._id), bunData._id];
+    const createGoodsIdArray = () => [bunData?._id && bunData._id, ...constructorData.map(goods => goods._id), bunData?._id && bunData._id];
 
     const makeOrder = () => {
-        const orderIdArray = createGoodsIdArray();
-        dispatch(getOrder(orderIdArray))
+        if (userAuth) {
+            const orderIdArray = createGoodsIdArray();
+            dispatch(getOrder(orderIdArray))
+            dispatch({ type: CLEAR_CONSTRUCTOR })
+        } else {
+            history.replace({ pathname: '/login'})
+        }
     }
 
     return (

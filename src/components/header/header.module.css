@@ -7,14 +7,14 @@
     position: relative;
 }
 
-.header_logo {
+.logo {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-.header_nav {
+.nav {
     display: flex;
     align-items: center;
 }

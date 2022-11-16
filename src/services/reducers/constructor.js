@@ -2,6 +2,7 @@ import {
     ADD_BUN,
     ADD_INGREDIENT, 
     CALCULATE_TOTAL_PRICE, 
+    CLEAR_CONSTRUCTOR, 
     DELETE_INGREDIENTS, 
     UPDATE_CONSTRUCTOR_LIST
 } from "../actions/constructor";
@@ -47,6 +48,14 @@ export const constructorReducer = (state = constructorInitialState, action) => {
             return {
                 ...state,
                 totalPrice: total,
+            }
+        }
+        case CLEAR_CONSTRUCTOR: {
+            return {
+                items: [],
+                bun: null,
+            
+                totalPrice: 0,
             }
         }
         default: {

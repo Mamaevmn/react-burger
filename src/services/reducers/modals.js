@@ -5,7 +5,6 @@ import {
 
 const modalsInitialState = {
     visible: false,
-    item: {},
     type: null,
     title: '',
 };
@@ -16,16 +15,15 @@ export const modalsReducer = (state = modalsInitialState, action) => {
             return {
                 ...state,
                 visible: true,
-                item: {...action.payload.item},
-                type: action.payload.type,
-                title: action.payload.title,
+                type: action.payload?.type,
+                title: action.payload?.title,
             }
         }
         case CLOSE_MODAL: {
+            window.history.replaceState(null, null, '/')
             return {
                 ...state,
                 visible: false,
-                item: {},
                 type: null,
                 title: '',
             }

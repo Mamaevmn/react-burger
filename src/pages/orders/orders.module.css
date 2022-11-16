@@ -1,0 +1,15 @@
+.wrapper {
+    box-sizing: border-box;
+    display: flex;
+    padding-top: 120px;
+    height: calc(100vh - 88px);
+}
+
+.wrapper .container {
+    display: flex;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+}

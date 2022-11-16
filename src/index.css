@@ -47,3 +47,33 @@ ul {
 .scroll-block::-webkit-scrollbar-thumb {
   background-color: #8585AD;
 }
+
+a {
+  text-decoration: none;
+}
+
+.input__container {
+  position: relative;
+}
+
+p.input__error {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 0;
+  transform: translateY(100%);
+} 
+
+.hidden {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+.input__container {
+  max-width: 480px;
+}
+
+.input__error {
+  position: relative !important;
+  transform: none !important;
+}

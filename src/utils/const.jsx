@@ -21,9 +21,24 @@ export const goodsPropTypes = PropTypes.shape({
 export const headerLinkPropTypes = PropTypes.shape({
     classes: PropTypes.arrayOf(PropTypes.string),
     link: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
     icon: PropTypes.element,
-    text: PropTypes.string
 })
+
+export const profileTabsPropTypes = PropTypes.shape({
+    link: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    help: PropTypes.string
+})
+
+export const ingredientPropTypes = {
+    name: PropTypes.string,
+    image_large: PropTypes.string,
+    calories: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    proteins: PropTypes.number,
+}
 
 export const headerLinks = [
     {   
@@ -40,9 +55,26 @@ export const headerLinks = [
     },
     {   
         classes: ['text_color_inactive', 'pr-5', 'pl-5', 'pt-4', 'pb-4', 'ml-a'],
-        link: '/',
+        link: '/login',
         icon: <ProfileIcon type="secondary" />,
         text: 'Личный кабинет'
+    },
+];
+
+export const profileTabs = [
+    {   
+        link: '/profile',
+        text: 'Профиль',
+        help: 'В этом разделе вы можете изменить&nbsp;свои персональные данные'
+    },
+    {   
+        link: '/profile/orders',
+        text: 'История заказов',
+        help: 'В этом разделе вы можете посмотреть историю заказов'
+    },
+    {   
+        link: '/login',
+        text: 'Выход',
     },
 ];
 
@@ -59,3 +91,10 @@ export const SAUCE_TYPE = 'sauce'
 export const BUN_TYPE_RU_TRANSLATE = 'Булка'
 export const MAIN_TYPE_RU_TRANSLATE = 'Начинка'
 export const SAUCE_TYPE_RU_TRANSLATE = 'Соус'
+
+export const checkResponse = (res) => {
+    if (res.ok) {
+        return res.json();
+    }
+    return Promise.reject(`Ошибка ${res.status}`);
+}

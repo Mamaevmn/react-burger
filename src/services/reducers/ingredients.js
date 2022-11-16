@@ -39,7 +39,7 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
     case GET_INGREDIENTS_SUCCESS: {
       return { 
         ...state, 
-        items: action.items.map(item => ({...item, counter: 0})), 
+        items: action.payload.map(item => ({...item, counter: 0})), 
         itemsFailed: false, 
         itemsRequest: false 
       };
