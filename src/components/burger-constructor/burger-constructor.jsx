@@ -31,7 +31,7 @@ function BurgerConstructor() {
             dispatch({ type: ADD_BUN, payload: item });
             dispatch({ type: INCREASE_ITEM_COUNT, payload: item._id });
             return
-        };
+        }
         
         dispatch({ type: ADD_INGREDIENT, payload: {
             ...item,

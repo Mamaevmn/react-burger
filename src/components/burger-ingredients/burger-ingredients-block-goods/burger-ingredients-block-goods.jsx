@@ -66,7 +66,7 @@ function BurgerIngredientsTypesTab({ type, name}) {
                 {name}
             </p>
             <ul className={classNames(typesStyle.list, 'pb-6', 'pl-4', 'pr-4')}>
-                { items.map(goods => type === goods.type && <BurgerGoods key={goods._id} goods={goods}/>) }
+                { items.map(goods => type === goods.type && <BurgerGoods key={goods._id} {...goods}/>) }
             </ul>
         </li>
     )

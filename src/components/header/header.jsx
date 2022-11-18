@@ -22,9 +22,7 @@ function Header() {
                         const link = curr_link.link !== '/login' ? curr_link.link : userAuth ? '/profile' : curr_link.link;
                         const text = curr_link.text !== 'Личный кабинет' ? curr_link.text : userAuth ? name : curr_link.text;
 
-                        return <HeaderLink key={idx} text={text} link={link} classes={curr_link.classes}>
-                            {curr_link.icon}
-                        </HeaderLink>
+                        return <HeaderLink key={idx} text={text} link={link} classes={curr_link.classes} icon={curr_link.icon}/>
                     })}
                 </nav>
                 <Link className={headerStyle.logo} to="/">

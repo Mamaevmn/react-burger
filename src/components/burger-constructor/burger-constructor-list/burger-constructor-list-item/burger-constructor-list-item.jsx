@@ -14,6 +14,7 @@ import { BUN_TYPE, INGREDIENTS_DETAIL_MODAL_TITLE, INGREDIENTS_TYPE } from '../.
 import classNames from 'classnames';
 
 function BurgerConstructorListItem(props) {
+  console.log(props);
     const dispatch = useDispatch();
     const location = useLocation()
 

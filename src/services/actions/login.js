@@ -12,12 +12,12 @@ export function setLogin(email, password) {
         postUserLogin(email, password).then(res => {
             const authToken = res.accessToken.split('Bearer ')[1];
 
-            dispatch(loginSuccessRequestAC(res.user.name, email, password))
             if (authToken) {
                 setCookie('token', authToken);
                 setCookie('refreshToken', res.refreshToken);
             }
-        }).catch(() => dispatch(loginFailedRequestAC()));
+            dispatch(loginSetUserDataAC(res.user.name, email, password))
+        }).then(() => dispatch(loginSuccessRequestAC())).catch(() => dispatch(loginFailedRequestAC()));
     };
 }
 
@@ -25,7 +25,7 @@ function loginRequestAC() {
     return { type: LOGIN_REQUEST }
 }
 
-function loginSuccessRequestAC(name, email, password) {
+function loginSetUserDataAC(name, email, password) {
     return { 
         type: SET_USER_DATA, 
         payload: {
@@ -34,6 +34,10 @@ function loginSuccessRequestAC(name, email, password) {
             password: password,
         }
     }
+}
+
+function loginSuccessRequestAC() {
+    return { type: LOGIN_SUCCESS }
 }
 
 function loginFailedRequestAC() {

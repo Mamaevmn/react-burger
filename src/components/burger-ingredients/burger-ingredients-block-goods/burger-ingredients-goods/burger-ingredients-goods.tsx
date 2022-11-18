@@ -1,15 +1,23 @@
+import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useDrag } from 'react-dnd';
 
 import classNames from 'classnames';
 import goodsStyle from './burger-ingredients-goods.module.css';
-import { goodsPropTypes, INGREDIENTS_DETAIL_MODAL_TITLE, INGREDIENTS_TYPE } from '../../../../utils/const';
+import { INGREDIENTS_DETAIL_MODAL_TITLE, INGREDIENTS_TYPE } from '../../../../utils/const';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { OPEN_MODAL } from '../../../../services/actions/modals';
+import { TFullIngredient } from '../../../../utils/types';
 
-function BurgerGoods({ goods }) {
+type TBurgerGoods = TFullIngredient & {
+    u_id: string;
+}
+
+const BurgerGoods: FC<TBurgerGoods> = ({ ...goods }) => {
+    console.log(goods);
+    
     const dispatch = useDispatch();
     const location = useLocation();
 
@@ -17,7 +25,7 @@ function BurgerGoods({ goods }) {
         type: 'items',
         item: { ...goods },
         collect: monitor => ({
-          opacity: monitor.isDragging() ? 'opacity' : ''
+            opacity: monitor.isDragging() ? 'opacity' : ''
         })
     });
 
@@ -49,10 +57,6 @@ function BurgerGoods({ goods }) {
             </Link>
         </li>
     )
-}
-
-BurgerGoods.propTypes = {
-    goods: goodsPropTypes.isRequired,
 }
 
 export default BurgerGoods;

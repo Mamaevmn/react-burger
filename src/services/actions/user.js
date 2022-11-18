@@ -25,14 +25,15 @@ export function getUser() {
     };
 }
 
-export function userLogout() {
+export function userLogout(redirect) {
     return function(dispatch) {
         dispatch(userRequestAC());
-        postUserLogout().then(res => {
+        postUserLogout().then(() => {
             deleteCookie('token')
-            deleteCookie('refreshToken')
-            dispatch(clearUserDataAC())
-        }).catch(() => dispatch(userFailedRequestAC()));
+        }).then(() => deleteCookie('refreshToken')
+        ).then(() => dispatch(clearUserDataAC())
+        ).then(() => redirect()
+        ).catch(() => dispatch(userFailedRequestAC()));
     };
 }
 
@@ -44,7 +45,7 @@ export function updateToken() {
             if (authToken) {
                 setCookie('token', authToken)
                 setCookie('refreshToken', res.refreshToken);
-            };
+            }
         }).catch(() => dispatch(userFailedRequestAC()));
     };
 }

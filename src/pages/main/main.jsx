@@ -30,7 +30,7 @@ function Main() {
 
     const handleModalClose = () => {    
         dispatch({ type: CLOSE_MODAL })
-      }
+    }
 
     return (
         <main className='pt-10 pb-20'>

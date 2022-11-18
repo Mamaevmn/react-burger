@@ -7,7 +7,7 @@ export const REGISTRATION_DATA_FAILED = 'REGISTRATION_DATA_FAILED';
 export function setUserRegistration(name, email, password) {
     return function(dispatch) {
         dispatch(registrationRequestAC());
-        postUserRegistration(name, email, password).then(res => {
+        postUserRegistration(name, email, password).then(() => {
             dispatch(registrationSuccessRequestAC());
         }).catch(() => dispatch(registrationFailedRequestAC()));
     };
