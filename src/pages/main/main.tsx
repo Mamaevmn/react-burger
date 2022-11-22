@@ -15,21 +15,27 @@ import { getUser } from '../../services/actions/user';
 import { CLOSE_MODAL } from '../../services/actions/modals';
 import Loader from '../../components/loader/loader';
 
+type TStore = {
+    modals: {
+        type: string;
+        visible: boolean;
+    },
+    order: {orderRequest: boolean}
+}
+
 function Main() {
     const dispatch = useDispatch();
+    
+    const visibleModal: any = useSelector<TStore>(store => store.modals.visible);
+    const modalType: any = useSelector<TStore>(store => store.modals.type);
+    const loading: any = useSelector<TStore>(store => store.order.orderRequest);
 
-    const { visibleModal, modalType, loading } = useSelector(store => ({
-        visibleModal: store.modals.visible,
-        modalType: store.modals.type,
-        loading: store.order.orderRequest,
-    }));
-
-    useEffect(()=> {
-        dispatch(getUser());
+    useEffect(() => {
+        dispatch<any>(getUser());
     }, [dispatch])
 
     const handleModalClose = () => {    
-        dispatch({ type: CLOSE_MODAL })
+        dispatch<any>({ type: CLOSE_MODAL })
     }
 
     return (

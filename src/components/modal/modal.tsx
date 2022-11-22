@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, FC } from "react";
 import PortalReactDOM from "react-dom";
 import { useDispatch } from "react-redux";
 import PropTypes from 'prop-types';
@@ -12,11 +12,16 @@ import { CLOSE_MODAL } from "../../services/actions/modals";
 
 const modalRoot = document.getElementById("react-modals");
 
-function Modal({ children, onClose }) {
+type TModalOverlay = {
+    onClose: () => void;
+    children: React.ReactNode;
+}
+
+const Modal: FC<TModalOverlay> = ({ children, onClose }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const onKeyPressCloseModal = (e) => {
+        const onKeyPressCloseModal = (e: KeyboardEvent) => {
             if (e.keyCode === ESC_KEYCODE) dispatch({ type: CLOSE_MODAL });
         }
 

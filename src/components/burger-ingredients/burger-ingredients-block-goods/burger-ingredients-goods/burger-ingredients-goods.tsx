@@ -11,13 +11,7 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import { OPEN_MODAL } from '../../../../services/actions/modals';
 import { TFullIngredient } from '../../../../utils/types';
 
-type TBurgerGoods = TFullIngredient & {
-    u_id: string;
-}
-
-const BurgerGoods: FC<TBurgerGoods> = ({ ...goods }) => {
-    console.log(goods);
-    
+const BurgerGoods: FC<TFullIngredient> = ({ ...goods }) => {
     const dispatch = useDispatch();
     const location = useLocation();
 

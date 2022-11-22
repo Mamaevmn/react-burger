@@ -16,19 +16,24 @@ import { getIngredients } from '../services/actions/ingredients';
 import Modal from '../components/modal/modal';
 import IngredientDetails from '../components/modal-ingredient-details/modal-ingredient-details';
 import { CLOSE_MODAL, OPEN_MODAL } from '../services/actions/modals';
+import { ILocation } from '../utils/types';
+
+type TStore = {
+  modals: {visible: boolean},
+}
 
 function App() {
   const dispatch = useDispatch();
-  const location = useLocation();
+  const location = useLocation<ILocation | Location | any>();
   const history = useHistory();
-  let background = location.state && location.state.background;
-  const modalVisible = useSelector(store => store.modals.visible);
+  const background = location.state && location.state.background;
+  const modalVisible: any = useSelector<TStore>(store => store.modals.visible);
     
   useEffect(() => {
     if (background) dispatch({ type: OPEN_MODAL })
   }, [dispatch, modalVisible, background])
 
-  useEffect(() => { dispatch(getIngredients()) }, [dispatch]);
+  useEffect(() => { dispatch<any>(getIngredients()) }, [dispatch]);
 
   const handleModalClose = () => {    
     history.goBack()

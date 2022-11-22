@@ -9,17 +9,26 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import ProfileTabs from '../../components/profile-tabs/profile-tabs';
 import { setUserData } from '../../services/actions/user';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+import { ILocation } from '../../utils/types';
+
+type TStore = {
+    user: {
+        name: string;
+        email: string;
+        password: string;
+        auth: boolean;
+    };
+}
 
 function Profile() {
     const dispatch = useDispatch();
-    const location = useLocation();
+    const location = useLocation<ILocation>();
     const [fieldsIsChange, setFieldsIsChange] = useState(false);
-    const { name, email, password, userAuth } = useSelector(store => ({
-        name: store.user.name,
-        email: store.user.email,
-        password: store.user.password,
-        userAuth: store.user.auth,
-    }))
+    const name: any = useSelector<TStore>(store => store.user.name)
+    const email: any = useSelector<TStore>(store => store.user.email)
+    const password: any = useSelector<TStore>(store => store.user.password)
+    const userAuth: any = useSelector<TStore>(store => store.user.auth)
+
     const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation({ name: name, email: email, password: password})
 
     useEffect(() => {
@@ -28,14 +37,14 @@ function Profile() {
         } else setFieldsIsChange(true)
     }, [values, name, email, password, fieldsIsChange])
 
-    const submitNewUserData = useCallback((e) => {
+    const submitNewUserData = useCallback((e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch(setUserData(name, email, password))
+        dispatch<any>(setUserData(name, email, password))
     }, [dispatch, name, email, password])
 
     if (userAuth) {
         return (
-            <section className={ classNames(styles.wrapper, 'container') } onSubmit={(e) => submitNewUserData(e)}>
+            <section className={ classNames(styles.wrapper, 'container') } onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => submitNewUserData(e)}>
                 <ProfileTabs />
                 <form className={styles.inner}>
                     <Input 
@@ -46,7 +55,7 @@ function Profile() {
                         value={ values.name || '' }
                         error={ isValid === false }
                         errorText={ errors.name || '' }
-                        onChange={(e)=> handleChange(e)}/> 
+                        onChange={() => handleChange}/> 
                     <Input 
                         extraClass='mb-6' 
                         name='email'
@@ -55,7 +64,7 @@ function Profile() {
                         value={ values.email || '' } 
                         error={ isValid === false }
                         errorText={ errors.email || '' }
-                        onChange={(e)=> handleChange(e)}
+                        onChange={() => handleChange}
                         /> 
                     <Input 
                         extraClass='mb-6'
@@ -65,7 +74,7 @@ function Profile() {
                         value={ values.password || '' }
                         error={ isValid === false }
                         errorText={ errors.password || '' }
-                        onChange={(e)=> handleChange(e)}/> 
+                        onChange={() => handleChange}/> 
                     <div className={classNames(styles.buttons, !fieldsIsChange ? 'hidden' : '')}>
                         <button className={classNames(styles.btn_reset, 'mr-5', 'text', 'text_type_main-default', 'text_color_accent')}
                             type="reset"

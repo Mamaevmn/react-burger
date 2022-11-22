@@ -1,11 +1,15 @@
 import {useState, useCallback} from 'react';
 
-export function useFormAndValidation(props) {
-  const [ values, setValues ] = useState({...props});
-  const [ errors, setErrors ] = useState({});
-  const [ isValid, setIsValid ] = useState(null);
+interface IFormValidation {
+  [key: string]: string;
+}
 
-  const handleChange = (e) => {
+export const useFormAndValidation = (props: IFormValidation) => {
+  const [ values, setValues ] = useState<IFormValidation>({...props});
+  const [ errors, setErrors ] = useState<IFormValidation>({});
+  const [ isValid, setIsValid ] = useState<boolean>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const {name, value} = e.target;
     
     setValues({...values, [name]: value });
@@ -16,7 +20,7 @@ export function useFormAndValidation(props) {
     } else setIsValid(null);
   };
 
-  const resetForm = useCallback((newValues = {}, newErrors = {}, newIsValid = null) => {
+  const resetForm = useCallback((newValues = {}, newErrors = {}, newIsValid: boolean = null) => {
     setValues(newValues);
     setErrors(newErrors);
     setIsValid(newIsValid);

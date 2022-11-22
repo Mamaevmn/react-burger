@@ -50,10 +50,10 @@ export function updateToken() {
     };
 }
 
-export function setUserData() {
+export function setUserData(name, email, password) {
     return function(dispatch) {
         dispatch(userRequestAC());
-        editUserInfo().then().catch(() => dispatch(userFailedRequestAC()));
+        editUserInfo(name, email, password).then().catch(() => dispatch(userFailedRequestAC()));
     };
 }
 

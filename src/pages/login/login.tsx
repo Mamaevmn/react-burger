@@ -9,21 +9,20 @@ import { setLogin } from '../../services/actions/login';
 import { getUser } from '../../services/actions/user';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import Loader from '../../components/loader/loader';
-import { TEmail, TName } from '../../utils/types';
+import { ILocation } from '../../utils/types';
 
 type TStore = {
     user: {auth: boolean},
     login: {loginRequest: boolean}
 }
 
-type TValues = TName & TEmail;
-
 function Login() {
     const dispatch = useDispatch();
-    const location = useLocation();
+    const location = useLocation<ILocation>();
     const [ fieldsNotEmpty, setFiledsNotEmpty ] = useState<boolean>(false);
-    const userAuth = useSelector<TStore>(store => store.user.auth)
-    const loading = useSelector<TStore>(store => store.login.loginRequest)
+    const userAuth: any = useSelector<TStore>(store => store.user.auth)
+    const loading: any = useSelector<TStore>(store => store.login.loginRequest)
+
     const { values, handleChange, errors, isValid } = useFormAndValidation({ email: '', password: ''});
 
     useEffect(() => {

@@ -4,17 +4,22 @@ import { useSelector } from 'react-redux'
 import classNames from 'classnames';
 
 import modalContentStyle from './modal-ingredient-details.module.css'
+import { TFullIngredient } from '../../utils/types';
+
+type TStore = {
+    ingredients: {items: TFullIngredient},
+    modals: {title: string}
+}
 
 function IngredientDetails() {
-    const { id } = useParams();
-    const [ item, setItem ] = useState({})
-    const { items, title } = useSelector(store => ({
-        items: store.ingredients.items,
-        title: store.modals.title,
-    }));
+    const { id } = useParams<{ id?: string }>();
+    const [ item, setItem ] = useState<TFullIngredient>()
+
+    const items: any = useSelector<TStore>(store => store.ingredients.items)
+    const title: any = useSelector<TStore>(store => store.modals.title)
     
     useEffect(() => {
-        setItem(items.find(item => id === item._id));
+        setItem(items.find((item: TFullIngredient) => id === item._id));
     }, [setItem, items, id])
 
     return (

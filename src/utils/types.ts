@@ -16,20 +16,15 @@ export type TINGREDIENTS_TYPE = 'ingredient';
 export type TORDER_TYPE = 'order';
 export type TINGREDIENTS_DETAIL_MODAL_TITLE = 'Детали ингредиента';
 
-export type TBUN_TYPE = 'bun';
-export type TMAIN_TYPE = 'main';
-export type TSAUCE_TYPE = 'sauce';
-
-export type TBUN_TYPE_RU_TRANSLATE = 'Булка';
-export type TMAIN_TYPE_RU_TRANSLATE = 'Начинка';
-export type TSAUCE_TYPE_RU_TRANSLATE = 'Соус';
+export type TIngredientsTypesName = 'bun' | 'main' | 'sauce';
+export type TIngredientsTypesNameOnRussia = 'Булка' | 'Начинка' | 'Соус';
 
 export type TName = {name: string}
 export type TEmail = {email: string}
 export type TPassword = {password: string}
 export type TToken = {token: string}
 
-export type Tlink = {
+export type TLink = {
     link: string;
     text: string;
 }
@@ -41,12 +36,18 @@ export type TCompound = {
     proteins: number;
 }
 
-export type THeaderLinks = Tlink & {
+export type TIngredientsType = {
+    type?: TIngredientsTypesName;
+    name?: TIngredientsTypesNameOnRussia;
+    u_id?: string;
+};
+
+export type THeaderLinks = TLink & {
     classes?: Array<string>;
     icon?: React.ReactNode;
 }
 
-export type TProfileTabs = Tlink & {
+export type TProfileTabs = TLink & {
     help?: string;
 }
 
@@ -55,6 +56,7 @@ export type TShortIngredient = TName & TCompound & {
 }
 
 export type TFullIngredient = TShortIngredient & {
+    u_id: string;
     _id: string;
     __v: number;
     counter: number;
@@ -62,4 +64,11 @@ export type TFullIngredient = TShortIngredient & {
     price: number;
     image: string;
     image_mobile: string;
+}
+
+export interface ILocation {
+    from?: {
+        pathname: string
+    }
+    background?: Location
 }

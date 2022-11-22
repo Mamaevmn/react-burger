@@ -9,15 +9,23 @@ import { setUserRegistration } from '../../services/actions/registration';
 import { getUser } from '../../services/actions/user';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
+type TStore = {
+    registration: {
+        registrationSuccess: boolean;
+        registrationFailed: boolean;
+    }
+    user: {auth: boolean},
+}
+
 function Registration() {
     const dispatch = useDispatch();
     const location = useLocation();
     const [fieldsNotEmpty, setFiledsNotEmpty] = useState(false);
-    const { registrationSuccess, registrationFailed, authUser } = useSelector(store => ({
-        registrationSuccess: store.registration.registrationSuccess,
-        registrationFailed: store.registration.registrationFailed,
-        authUser: store.user.auth
-    }))
+
+    const registrationSuccess: any = useSelector<TStore>(store => store.registration.registrationSuccess);
+    const registrationFailed: any = useSelector<TStore>(store => store.registration.registrationFailed);
+    const userAuth: any = useSelector<TStore>(store => store.user.auth);
+
     const { values, handleChange, errors, isValid } = useFormAndValidation({ name: '', email: '', password: ''})
 
     useEffect(() => {
@@ -27,12 +35,12 @@ function Registration() {
     }, [fieldsNotEmpty, values])
 
     useEffect(() => {
-        dispatch(getUser());
+        dispatch<any>(getUser());
     }, [dispatch])
 
-    const registration = useCallback((e) => {
+    const registration = useCallback((e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch(setUserRegistration(values.name, values.email, values.password));
+        dispatch<any>(setUserRegistration(values.name, values.email, values.password));
     }, [dispatch, values])
 
     if (registrationSuccess) {
@@ -45,9 +53,9 @@ function Registration() {
         );
     }
 
-    if (!authUser) {
+    if (!userAuth) {
         return (
-            <form className={ styles.wrapper } onSubmit={(e) => registration(e)}>
+            <form className={ styles.wrapper } onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => registration(e)}>
                 <h2 className='text text_type_main-medium mb-6'>
                     Регистрация
                 </h2>

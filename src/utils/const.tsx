@@ -1,12 +1,14 @@
 import { BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { 
-    TBUN_TYPE,
-    TBUN_TYPE_RU_TRANSLATE,
     TESC_KEYCODE,
-    THeaderLinks,
     TINGREDIENTS_DETAIL_MODAL_TITLE,
-    TINGREDIENTS_TYPE, TMAIN_TYPE, TMAIN_TYPE_RU_TRANSLATE, TORDER_TYPE, TProfileTabs, TSAUCE_TYPE, TSAUCE_TYPE_RU_TRANSLATE,
+    TINGREDIENTS_TYPE, 
+    TORDER_TYPE, 
+    THeaderLinks,
+    TProfileTabs,
+    TIngredientsTypesName,
+    TIngredientsTypesNameOnRussia, 
 } from "./types";
 
 export const headerLinks: Array<THeaderLinks> = [
@@ -53,13 +55,13 @@ export const INGREDIENTS_TYPE: TINGREDIENTS_TYPE = 'ingredient';
 export const ORDER_TYPE: TORDER_TYPE = 'order';
 export const INGREDIENTS_DETAIL_MODAL_TITLE: TINGREDIENTS_DETAIL_MODAL_TITLE = 'Детали ингредиента';
 
-export const BUN_TYPE: TBUN_TYPE = 'bun'
-export const MAIN_TYPE: TMAIN_TYPE = 'main'
-export const SAUCE_TYPE: TSAUCE_TYPE = 'sauce'
+export const BUN_TYPE: TIngredientsTypesName = 'bun'
+export const MAIN_TYPE: TIngredientsTypesName = 'main'
+export const SAUCE_TYPE: TIngredientsTypesName = 'sauce'
 
-export const BUN_TYPE_RU_TRANSLATE: TBUN_TYPE_RU_TRANSLATE = 'Булка'
-export const MAIN_TYPE_RU_TRANSLATE: TMAIN_TYPE_RU_TRANSLATE = 'Начинка'
-export const SAUCE_TYPE_RU_TRANSLATE: TSAUCE_TYPE_RU_TRANSLATE = 'Соус'
+export const BUN_TYPE_RU_TRANSLATE: TIngredientsTypesNameOnRussia = 'Булка'
+export const MAIN_TYPE_RU_TRANSLATE: TIngredientsTypesNameOnRussia = 'Начинка'
+export const SAUCE_TYPE_RU_TRANSLATE: TIngredientsTypesNameOnRussia = 'Соус'
 
 export const checkResponse = (res: any) => {
     if (res.ok) {

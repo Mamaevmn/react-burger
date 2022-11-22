@@ -15,7 +15,7 @@ function ProfileTabs() {
 
     const logout = useCallback(
         () => {
-            dispatch(userLogout(history.replace({
+            dispatch<any>(userLogout(history.replace({
                 pathname: '/login',
                 state: {
                     from: location
