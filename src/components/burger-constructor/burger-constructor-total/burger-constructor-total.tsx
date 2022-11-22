@@ -7,29 +7,40 @@ import totalStyle from './burger-constructor-total.module.css';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CALCULATE_TOTAL_PRICE, CLEAR_CONSTRUCTOR } from '../../../services/actions/constructor';
 import { getOrder } from '../../../services/actions/order';
+import { CLEAR_ITEMS_COUNT } from '../../../services/actions/ingredients';
+import { TFullIngredient, TIngredientsType } from '../../../utils/types';
+
+type TStore = {
+    burgerConstructor: {
+        totalPrice: number;
+        items: TFullIngredient;
+        bun: TIngredientsType;
+    },
+    user: {
+        auth: boolean
+    }
+}
 
 function BurgerConstructorTotal() {
     const dispatch = useDispatch();
     const history = useHistory()
-    const totalPrice = useSelector(store => store.burgerConstructor.totalPrice);
-
-    const { constructorData, bunData, userAuth } = useSelector(store => ({
-        constructorData: store.burgerConstructor.items,
-        bunData: store.burgerConstructor.bun,
-        userAuth: store.user.auth,
-    }));
+    const totalPrice: any = useSelector<TStore>(store => store.burgerConstructor.totalPrice);
+    const constructorData: any = useSelector<TStore>(store => store.burgerConstructor.items);
+    const bunData: any = useSelector<TStore>(store => store.burgerConstructor.bun);
+    const userAuth: any = useSelector<TStore>(store => store.user.auth);
 
     useEffect(() => {
         dispatch({ type: CALCULATE_TOTAL_PRICE })
     }, [constructorData, bunData, dispatch])
 
-    const createGoodsIdArray = () => [bunData?._id && bunData._id, ...constructorData.map(goods => goods._id), bunData?._id && bunData._id];
+    const createGoodsIdArray = () => [bunData?._id && bunData._id, ...constructorData.map((goods: TFullIngredient) => goods._id), bunData?._id && bunData._id];
 
     const makeOrder = () => {
         if (userAuth) {
             const orderIdArray = createGoodsIdArray();
-            dispatch(getOrder(orderIdArray))
+            dispatch<any>(getOrder(orderIdArray))
             dispatch({ type: CLEAR_CONSTRUCTOR })
+            dispatch({ type: CLEAR_ITEMS_COUNT })
         } else {
             history.replace({ pathname: '/login'})
         }

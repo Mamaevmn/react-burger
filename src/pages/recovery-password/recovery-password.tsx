@@ -9,23 +9,28 @@ import { useCallback, useEffect } from 'react';
 import { getUser } from '../../services/actions/user';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
+type TStore = {
+    recovery: {recoveryPasswordSuccess: boolean}
+    user: {auth: boolean},
+}
+
 function RecoveryPassword() {
     const dispatch = useDispatch();
     const location = useLocation();
-    const { recoveryPasswordSuccess, userAuth } = useSelector(store => ({
-        recoveryPasswordSuccess: store.recovery.recoveryPasswordSuccess,
-        userAuth: store.user.auth
-    }));
+
+    const recoveryPasswordSuccess: any = useSelector<TStore>(store => store.recovery.recoveryPasswordSuccess);
+    const userAuth: any = useSelector<TStore>(store => store.user.auth);
+
     const {values, handleChange, errors, isValid} = useFormAndValidation({ email: ''})
 
 
     useEffect(() => {
-        dispatch(getUser());
+        dispatch<any>(getUser());
     }, [dispatch])
 
-    const resetPassword = useCallback((e) => {
+    const resetPassword = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch(setPasswordRecovery(values.email))
+        dispatch<any>(setPasswordRecovery(values.email))
     },[values, dispatch]); 
     
     if (recoveryPasswordSuccess) {
@@ -40,7 +45,7 @@ function RecoveryPassword() {
 
     if (!userAuth) {
         return (
-            <form className={ styles.wrapper } onSubmit={(e) => resetPassword(e)}>
+            <form className={ styles.wrapper } onSubmit={resetPassword}>
                 <h2 className='text text_type_main-medium mb-6'>
                     Восстановление пароля
                 </h2>

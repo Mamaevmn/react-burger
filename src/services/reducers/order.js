@@ -14,8 +14,8 @@ export const orderReducer = (state = orderInitialState, action) => {
     switch (action.type) {
         case GET_ORDER_REQUEST: {
             return {
-              ...state,
-              orderRequest: true
+                ...state,
+                orderRequest: true
             };
         }
         case GET_ORDER_SUCCESS: {

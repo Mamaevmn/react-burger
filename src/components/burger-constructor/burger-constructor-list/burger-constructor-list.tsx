@@ -6,16 +6,22 @@ import constructorStyle from './burger-constructor-list.module.css'
 
 import BurgerConstructorListItem from './burger-constructor-list-item/burger-constructor-list-item';
 import { UPDATE_CONSTRUCTOR_LIST } from '../../../services/actions/constructor';
+import { TFullIngredient, TIngredientsType } from '../../../utils/types';
+
+type TStore = {
+    burgerConstructor: {
+        items: TFullIngredient;
+        bun: TIngredientsType;
+    },
+}
 
 function BurgerConstructorList() {
     const dispatch = useDispatch();
 
-    const { constructorData, bunData } = useSelector(store => ({
-        constructorData: store.burgerConstructor.items,
-        bunData: store.burgerConstructor.bun
-    }));
+    const constructorData: any = useSelector<TStore>(store => store.burgerConstructor.items);
+    const bunData: any = useSelector<TStore>(store => store.burgerConstructor.bun);
 
-    const moveConstructorIngredient = useCallback((dragIndex, hoverIndex) => {
+    const moveConstructorIngredient = useCallback((dragIndex: number, hoverIndex: number) => {
         const dragConstructorIngredient = constructorData[dragIndex];
         const newConstructorIngredients = [...constructorData];
 
@@ -23,10 +29,10 @@ function BurgerConstructorList() {
         newConstructorIngredients.splice(hoverIndex, 0, dragConstructorIngredient)
         
         dispatch({
-          type: UPDATE_CONSTRUCTOR_LIST,
-          payload: newConstructorIngredients,
+            type: UPDATE_CONSTRUCTOR_LIST,
+            payload: newConstructorIngredients,
         })
-      }, [constructorData, dispatch]);
+    }, [constructorData, dispatch]);
 
     return (
         <>
@@ -46,7 +52,7 @@ function BurgerConstructorList() {
                         }         
                         { constructorData.length ?
                                 <ul className={classNames(constructorStyle.list, 'scroll-block')}>
-                                    {constructorData.map((goods, index) => <BurgerConstructorListItem key={goods.u_id} idx={index} {...goods} moveConstructorIngredient={moveConstructorIngredient}/>)}
+                                    {constructorData.map((goods: TFullIngredient, index: number) => <BurgerConstructorListItem key={goods.u_id} idx={index} {...goods} moveConstructorIngredient={moveConstructorIngredient}/>)}
                                 </ul> : null
                         }
                         { bunData &&

@@ -1,15 +1,17 @@
+import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useDrag } from 'react-dnd';
 
 import classNames from 'classnames';
 import goodsStyle from './burger-ingredients-goods.module.css';
-import { goodsPropTypes, INGREDIENTS_DETAIL_MODAL_TITLE, INGREDIENTS_TYPE } from '../../../../utils/const';
+import { INGREDIENTS_TYPE } from '../../../../utils/const';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { OPEN_MODAL } from '../../../../services/actions/modals';
+import { TFullIngredient } from '../../../../utils/types';
 
-function BurgerGoods({ goods }) {
+const BurgerGoods: FC<TFullIngredient> = ({ ...goods }) => {
     const dispatch = useDispatch();
     const location = useLocation();
 
@@ -17,14 +19,11 @@ function BurgerGoods({ goods }) {
         type: 'items',
         item: { ...goods },
         collect: monitor => ({
-          opacity: monitor.isDragging() ? 'opacity' : ''
+            opacity: monitor.isDragging() ? 'opacity' : ''
         })
     });
 
-    const onOpenModal = () => dispatch({ type: OPEN_MODAL, payload: {
-        type: INGREDIENTS_TYPE,
-        title: INGREDIENTS_DETAIL_MODAL_TITLE
-    }})
+    const onOpenModal = () => dispatch({ type: OPEN_MODAL, payload: INGREDIENTS_TYPE})
 
     return (
         <li className={`${goodsStyle.item} ${opacity && goodsStyle.opacity}`} onClick={onOpenModal} ref={ingredientRef}>
@@ -49,10 +48,6 @@ function BurgerGoods({ goods }) {
             </Link>
         </li>
     )
-}
-
-BurgerGoods.propTypes = {
-    goods: goodsPropTypes.isRequired,
 }
 
 export default BurgerGoods;

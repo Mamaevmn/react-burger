@@ -4,24 +4,29 @@ import { useSelector } from 'react-redux'
 import classNames from 'classnames';
 
 import modalContentStyle from './modal-ingredient-details.module.css'
+import { TFullIngredient } from '../../utils/types';
 
-import { ingredientPropTypes } from '../../utils/const';
+type TStore = {
+    ingredients: {items: TFullIngredient},
+    modals: {title: string}
+}
 
 function IngredientDetails() {
-    const { id } = useParams();
-    const [ item, setItem ] = useState({})
-    const { items, title } = useSelector(store => ({
-        items: store.ingredients.items,
-        title: store.modals.title,
-    }));
+    const { id } = useParams<{ id?: string }>();
+    const [ item, setItem ] = useState<TFullIngredient>()
 
+    const items: any = useSelector<TStore>(store => store.ingredients.items);
+    
     useEffect(() => {
-        setItem(items.find(item => id === item._id))
+        setItem(items.find((item: TFullIngredient) => id === item._id));
     }, [setItem, items, id])
 
     return (
         <div className={modalContentStyle.modal_content}>
-            {title && <p className={classNames(modalContentStyle.title, 'text', 'text_type_main-large')}>{title}</p>}
+            <p className={classNames(modalContentStyle.title, 'text', 'text_type_main-large')}>
+                Детали ингредиента
+            </p>
+            
             <img className={modalContentStyle.modal_content_img} src={item?.image_large} alt={item?.name}/>
             <p className="text text_type_main-medium pt-4 pb-8">{item?.name}</p>
             <div className={modalContentStyle.modal_content_compound}>
@@ -45,7 +50,5 @@ function IngredientDetails() {
         </div>
     )
 }
-
-IngredientDetails.propTypes = ingredientPropTypes.isRequired;
 
 export default IngredientDetails

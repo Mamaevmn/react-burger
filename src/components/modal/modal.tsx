@@ -1,33 +1,38 @@
-import { useEffect } from "react";
+import { useEffect, FC } from "react";
 import PortalReactDOM from "react-dom";
 import { useDispatch } from "react-redux";
-import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 import modalStyle from './modal.module.css'
 
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import { ESC_KEYCODE } from "../../utils/const";
-import { CLOSE_MODAL } from "../../services/actions/modals";
+import { calcWidthScrollbar, ESC_KEYCODE } from "../../utils/const";
 
 const modalRoot = document.getElementById("react-modals");
 
-function Modal({ children, onClose }) {
+type TModal = {
+    onClose: () => void;
+    children: React.ReactNode;
+}
+
+const Modal: FC<TModal> = ({ children, onClose }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const onKeyPressCloseModal = (e) => {
-            if (e.keyCode === ESC_KEYCODE) dispatch({ type: CLOSE_MODAL });
+        const onKeyPressCloseModal = (e: KeyboardEvent) => {
+            if (e.keyCode === ESC_KEYCODE) onClose()
         }
 
         document.body.style.overflow = 'hidden'
+        document.documentElement.style.setProperty('--padding-right', `${calcWidthScrollbar()}px`);
         window.addEventListener('keyup', onKeyPressCloseModal);
 
         return (() => {
             document.body.style.overflow = 'unset'
-            window.removeEventListener('keyup', onKeyPressCloseModal)
+            document.documentElement.style.setProperty('--padding-right', '0');
+        window.removeEventListener('keyup', onKeyPressCloseModal)
         })
-    }, [dispatch])
+    }, [dispatch, onClose])
 
     return PortalReactDOM.createPortal(
         <>
@@ -39,11 +44,6 @@ function Modal({ children, onClose }) {
         </>,
         modalRoot
     )
-}
-
-Modal.propTypes = {
-    children: PropTypes.element.isRequired,
-    onClose: PropTypes.func.isRequired
 }
 
 export default Modal

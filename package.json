@@ -10,7 +10,10 @@
     "@types/node": "^16.11.62",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "@types/react-redux": "^7.1.24",
+    "@types/uuid": "^8.3.4",
     "@ya.praktikum/react-developer-burger-ui-components": "^1.13.4",
+    "babel-eslint": "^10.1.0",
     "classnames": "^2.3.2",
     "nanoid": "^4.0.0",
     "os": "^0.1.2",
@@ -36,10 +39,21 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
     "extends": [
       "react-app",
-      "react-app/jest"
-    ]
+      "react-app/jest",
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "linebreak-style": 0,
+      "@typescript-eslint/no-explicit-any": "off"
+    }
   },
   "browserslist": {
     "production": [
@@ -55,6 +69,12 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "redux-devtools-extension": "^2.13.9"
   }
 }

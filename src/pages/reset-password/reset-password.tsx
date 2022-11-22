@@ -8,14 +8,19 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import { getUser } from '../../services/actions/user';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
+type TStore = {
+    recovery: {recoveryPasswordSuccess: boolean}
+    user: {auth: boolean},
+}
+
 function ResetPassword() {
     const dispatch = useDispatch();
     const location = useLocation();
     const [fieldsNotEmpty, setFiledsNotEmpty] = useState(false);
-    const { authUser, recoveryPasswordSuccess } = useSelector(store => ({
-        authUser: store.user.auth,
-        recoveryPasswordSuccess: store.recovery.recoveryPasswordSuccess,
-    }))
+
+    const recoveryPasswordSuccess: any = useSelector<TStore>(store => store.recovery.recoveryPasswordSuccess);
+    const userAuth: any = useSelector<TStore>(store => store.user.auth);
+
     const { values, handleChange, errors, isValid } = useFormAndValidation({ code: '', password: ''})
 
     useEffect(() => {
@@ -25,17 +30,17 @@ function ResetPassword() {
     }, [fieldsNotEmpty, values])
 
     useEffect(() => {
-        dispatch(getUser());
+        dispatch<any>(getUser());
     }, [dispatch])
 
-    const submitForm = useCallback((e) => {
+    const submitForm = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log('password is reset');
     }, [])
 
-    if (!authUser && recoveryPasswordSuccess) {
+    if (!userAuth && recoveryPasswordSuccess) {
         return (
-            <form className={ styles.wrapper } onSubmit={(e) => submitForm(e)}>
+            <form className={ styles.wrapper } onSubmit={submitForm}>
                 <h2 className='text text_type_main-medium mb-6'>
                     Восстановление пароля
                 </h2>

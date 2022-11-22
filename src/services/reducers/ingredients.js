@@ -16,6 +16,7 @@ import {
     SET_CURRENT_TAB,
     INCREASE_ITEM_COUNT,
     DECREASE_ITEM_COUNT,
+    CLEAR_ITEMS_COUNT
   } from '../actions/ingredients';
 
 const ingredientsInitialState = {
@@ -95,6 +96,12 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
           items: [...state.items].map(item => item._id === action.payload ? { ...item, counter: --item.counter } : item)
         }
       } else break
+    }
+    case CLEAR_ITEMS_COUNT: {
+      return {
+        ...state,
+        items: [...state.items].map(item => item.counter !== 0 ? { ...item, counter: 0 } : item)
+      }
     }
     default: {
       return state;

@@ -14,9 +14,9 @@ export const loginReducer = (state = loginInitialState, action) => {
     switch (action.type) {
         case LOGIN_REQUEST: {
             return {
-              ...state,
-              loginRequest: true,
-              loginSuccess: false,
+                ...state,
+                loginRequest: true,
+                loginSuccess: false,
             };
         }
         case LOGIN_SUCCESS: {
