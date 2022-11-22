@@ -38,7 +38,7 @@ function Registration() {
         dispatch<any>(getUser());
     }, [dispatch])
 
-    const registration = useCallback((e: React.ChangeEvent<HTMLFormElement>) => {
+    const registration = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         dispatch<any>(setUserRegistration(values.name, values.email, values.password));
     }, [dispatch, values])
@@ -55,7 +55,7 @@ function Registration() {
 
     if (!userAuth) {
         return (
-            <form className={ styles.wrapper } onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => registration(e)}>
+            <form className={ styles.wrapper } onSubmit={registration}>
                 <h2 className='text text_type_main-medium mb-6'>
                     Регистрация
                 </h2>

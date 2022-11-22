@@ -15,8 +15,7 @@ function IngredientDetails() {
     const { id } = useParams<{ id?: string }>();
     const [ item, setItem ] = useState<TFullIngredient>()
 
-    const items: any = useSelector<TStore>(store => store.ingredients.items)
-    const title: any = useSelector<TStore>(store => store.modals.title)
+    const items: any = useSelector<TStore>(store => store.ingredients.items);
     
     useEffect(() => {
         setItem(items.find((item: TFullIngredient) => id === item._id));
@@ -24,7 +23,10 @@ function IngredientDetails() {
 
     return (
         <div className={modalContentStyle.modal_content}>
-            {title && <p className={classNames(modalContentStyle.title, 'text', 'text_type_main-large')}>{title}</p>}
+            <p className={classNames(modalContentStyle.title, 'text', 'text_type_main-large')}>
+                Детали ингредиента
+            </p>
+            
             <img className={modalContentStyle.modal_content_img} src={item?.image_large} alt={item?.name}/>
             <p className="text text_type_main-medium pt-4 pb-8">{item?.name}</p>
             <div className={modalContentStyle.modal_content_compound}>

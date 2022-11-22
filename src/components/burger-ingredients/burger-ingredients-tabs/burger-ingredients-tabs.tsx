@@ -26,15 +26,15 @@ function Tabs() {
     [ dispatch, ingredientTypes ] 
   );
 
-  const setCurrentTab = (e: MouseEvent) => {
-    dispatch({ type: SET_CURRENT_TAB, payload: e})
+  const setCurrentTab = (currType: string) => {
+    dispatch({ type: SET_CURRENT_TAB, payload: currType})
   };
 
   return (
     <ul className={typesStyle.wrapper}>
       {ingredientTypes.map((type: TIngredientsType) => 
       <li key={type.u_id} data-tab={type.type}>
-        <Tab value={type.type} active={currentTab === type.type} onClick={(e) => setCurrentTab}>
+        <Tab value={type.type} active={currentTab === type.type} onClick={() => setCurrentTab(type.type)}>
           {type.name}
         </Tab>
       </li>

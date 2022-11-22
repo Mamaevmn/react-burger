@@ -12,8 +12,8 @@ import Loader from '../../components/loader/loader';
 import { ILocation } from '../../utils/types';
 
 type TStore = {
-    user: {auth: boolean},
-    login: {loginRequest: boolean}
+    user: {auth: boolean};
+    login: {loginRequest: boolean};
 }
 
 function Login() {
@@ -35,14 +35,14 @@ function Login() {
         dispatch<any>(getUser());
     }, [dispatch])
 
-    const login = useCallback((e: React.ChangeEvent<HTMLFormElement>) => {
+    const login = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         dispatch<any>(setLogin(values.email, values.password))
     }, [dispatch, values])
 
     if (!userAuth) {
         return (
-            <form className={ styles.wrapper } onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => login(e)}>
+            <form className={ styles.wrapper } onSubmit={login}>
                 {loading ? 
                     <Loader /> :
                     <>

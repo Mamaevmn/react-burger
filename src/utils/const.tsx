@@ -1,10 +1,6 @@
 import { BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { 
-    TESC_KEYCODE,
-    TINGREDIENTS_DETAIL_MODAL_TITLE,
-    TINGREDIENTS_TYPE, 
-    TORDER_TYPE, 
     THeaderLinks,
     TProfileTabs,
     TIngredientsTypesName,
@@ -49,11 +45,10 @@ export const profileTabs: Array<TProfileTabs> = [
     },
 ];
 
-export const ESC_KEYCODE: TESC_KEYCODE = 27;
+export const ESC_KEYCODE = 27 as const;
 
-export const INGREDIENTS_TYPE: TINGREDIENTS_TYPE = 'ingredient';
-export const ORDER_TYPE: TORDER_TYPE = 'order';
-export const INGREDIENTS_DETAIL_MODAL_TITLE: TINGREDIENTS_DETAIL_MODAL_TITLE = 'Детали ингредиента';
+export const INGREDIENTS_TYPE = 'ingredient' as const;
+export const ORDER_TYPE = 'order' as const;
 
 export const BUN_TYPE: TIngredientsTypesName = 'bun'
 export const MAIN_TYPE: TIngredientsTypesName = 'main'
@@ -63,9 +58,24 @@ export const BUN_TYPE_RU_TRANSLATE: TIngredientsTypesNameOnRussia = 'Булка'
 export const MAIN_TYPE_RU_TRANSLATE: TIngredientsTypesNameOnRussia = 'Начинка'
 export const SAUCE_TYPE_RU_TRANSLATE: TIngredientsTypesNameOnRussia = 'Соус'
 
-export const checkResponse = (res: any) => {
+export const checkResponse = (res: Response) => {
     if (res.ok) {
         return res.json();
     }
     return Promise.reject(`Ошибка ${res.status}`);
+}
+
+export const calcWidthScrollbar = ():number => {
+    const div: HTMLDivElement = document.createElement('div');
+
+    div.style.overflowY = 'scroll';
+    div.style.width = '50px';
+    div.style.height = '50px';
+
+    document.body.append(div);
+    const scrollWidth: number = div.offsetWidth - div.clientWidth;
+
+    div.remove();
+
+    return scrollWidth;
 }

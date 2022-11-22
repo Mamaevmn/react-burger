@@ -17,6 +17,7 @@ import Modal from '../components/modal/modal';
 import IngredientDetails from '../components/modal-ingredient-details/modal-ingredient-details';
 import { CLOSE_MODAL, OPEN_MODAL } from '../services/actions/modals';
 import { ILocation } from '../utils/types';
+import ProtectedRoute from '../protected-route/protected-route';
 
 type TStore = {
   modals: {visible: boolean},
@@ -49,8 +50,8 @@ function App() {
         <Route path="/registration" exact component={ Registration } />
         <Route path="/recovery-password" exact component={ RecoveryPassword } />
         <Route path="/reset-password" exact component={ ResetPassword } />
-        <Route path="/profile" exact component={ Profile } />
-        <Route path="/profile/orders" exact component={ Orders } />
+        <ProtectedRoute><Route path="/profile" exact component={ Profile } /></ProtectedRoute>
+        <ProtectedRoute><Route path="/profile/orders" exact component={ Orders } /></ProtectedRoute>
         <Route path="/ingredients/:id" exact component={ Ingredients } />
         <Route component={ NotFound } />
       </Switch>

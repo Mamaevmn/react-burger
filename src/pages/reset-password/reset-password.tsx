@@ -33,14 +33,14 @@ function ResetPassword() {
         dispatch<any>(getUser());
     }, [dispatch])
 
-    const submitForm = useCallback((e: React.ChangeEvent<HTMLFormElement>) => {
+    const submitForm = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log('password is reset');
     }, [])
 
     if (!userAuth && recoveryPasswordSuccess) {
         return (
-            <form className={ styles.wrapper } onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => submitForm(e)}>
+            <form className={ styles.wrapper } onSubmit={submitForm}>
                 <h2 className='text text_type_main-medium mb-6'>
                     Восстановление пароля
                 </h2>

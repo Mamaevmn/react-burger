@@ -33,8 +33,6 @@ function orderFailedRequestAC() {
 function openModalAC() {
     return { 
         type: OPEN_MODAL, 
-        payload: {
-            type: 'order'
-        } 
+        payload: 'order'
     }
 }

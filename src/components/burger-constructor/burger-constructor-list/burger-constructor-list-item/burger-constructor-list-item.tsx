@@ -11,7 +11,7 @@ import touchSvg from './../../../../images/icons/touch-btn.svg'
 import { DELETE_INGREDIENTS } from '../../../../services/actions/constructor';
 import { OPEN_MODAL } from '../../../../services/actions/modals';
 import { DECREASE_ITEM_COUNT } from '../../../../services/actions/ingredients';
-import { BUN_TYPE, INGREDIENTS_DETAIL_MODAL_TITLE, INGREDIENTS_TYPE } from '../../../../utils/const';
+import { BUN_TYPE, INGREDIENTS_TYPE } from '../../../../utils/const';
 import classNames from 'classnames';
 import { TFullIngredient } from '../../../../utils/types';
 
@@ -76,12 +76,7 @@ const BurgerConstructorListItem: FC<TBurgerConstructorListItem> = (props) => {
 
   ingredientRef(drop(ref))
 
-  const onOpenModal = () => dispatch({
-    type: OPEN_MODAL, payload: {
-      type: INGREDIENTS_TYPE,
-      title: INGREDIENTS_DETAIL_MODAL_TITLE
-    }
-  })
+  const onOpenModal = () => dispatch({ type: OPEN_MODAL, payload: INGREDIENTS_TYPE })
 
   const deleteConstructorIngredient = (e: MouseEvent) => {
     e.stopPropagation();
