@@ -5,8 +5,6 @@ import classNames from 'classnames';
 
 import modalContentStyle from './modal-ingredient-details.module.css'
 
-import { ingredientPropTypes } from '../../utils/const';
-
 function IngredientDetails() {
     const { id } = useParams();
     const [ item, setItem ] = useState({})
@@ -45,7 +43,5 @@ function IngredientDetails() {
         </div>
     )
 }
-
-IngredientDetails.propTypes = ingredientPropTypes.isRequired;
 
 export default IngredientDetails

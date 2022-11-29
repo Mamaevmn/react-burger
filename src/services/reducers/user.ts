@@ -1,14 +1,23 @@
-import { 
+import { TUserActions } from "../actions/user";
+import {
     SET_USER_DATA,
-    SET_USER_NAME_VALUE,
-    SET_USER_EMAIL_VALUE,
-    SET_USER_PASSWORD_VALUE,
     CLEAR_USER_DATA,
     USER_REQUEST,
     USER_SUCCESS,
     USER_FAILED,
-    CLEAR_USER_CHANGING,
-} from "../actions/user";
+} from "../constants";
+import { TEmail, TName, TPassword } from "../types/data";
+
+export type TUserInitialState = {
+    name: TName,
+    email: TEmail,
+    password: TPassword,
+    token: string,
+    refreshToken: string,
+    auth: boolean,
+    userRequest: boolean,
+    userFailed: boolean
+};
 
 const userInitialState = {
     name: '',
@@ -22,7 +31,10 @@ const userInitialState = {
     userFailed: false
 };
 
-export const userReducer = (state = userInitialState, action) => {
+export const userReducer = (
+    state = userInitialState,
+    action: TUserActions
+) => {
     switch (action.type) {
         case SET_USER_DATA: {
             return {
@@ -33,29 +45,6 @@ export const userReducer = (state = userInitialState, action) => {
                 token: action.payload.token,
                 refreshToken: action.payload.refreshToken,
                 auth: true,
-            }
-        }
-        case SET_USER_NAME_VALUE: {
-            return {
-                ...state,
-                name: action.payload,
-            }
-        }
-        case SET_USER_EMAIL_VALUE: {
-            return {
-                ...state,
-                email: action.payload,
-            }
-        }
-        case SET_USER_PASSWORD_VALUE: {
-            return {
-                ...state,
-                password: action.payload,
-            }
-        }
-        case CLEAR_USER_CHANGING: {
-            return {
-                ...state,
             }
         }
         case CLEAR_USER_DATA: {
@@ -71,25 +60,25 @@ export const userReducer = (state = userInitialState, action) => {
         }
         case USER_REQUEST: {
             return {
-              ...state,
-              userRequest: true,
-              auth: false,
+                ...state,
+                userRequest: true,
+                auth: false,
             };
         }
         case USER_SUCCESS: {
-            return { 
-                ...state, 
+            return {
+                ...state,
                 name: action.payload.name,
                 email: action.payload.email,
-                userRequest: false, 
-                userFailed: false, 
+                userRequest: false,
+                userFailed: false,
                 auth: true,
             };
         }
         case USER_FAILED: {
-            return { 
-                ...state, 
-                userFailed: true, 
+            return {
+                ...state,
+                userFailed: true,
                 userRequest: false,
                 auth: false,
             };

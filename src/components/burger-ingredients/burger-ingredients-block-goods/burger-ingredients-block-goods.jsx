@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import typesStyle from './burger-ingredients-block-goods.module.css';
 import BurgerGoods from './burger-ingredients-goods/burger-ingredients-goods';
-import { SET_CURRENT_TAB } from '../../../services/actions/ingredients';
+import { SET_CURRENT_TAB } from '../../../services/constants';
 
 function BurgerIngredientsTypes() {
     const list = useRef()

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import constructorStyle from './burger-constructor-list.module.css'
 
 import BurgerConstructorListItem from './burger-constructor-list-item/burger-constructor-list-item';
-import { UPDATE_CONSTRUCTOR_LIST } from '../../../services/actions/constructor';
+import { UPDATE_CONSTRUCTOR_LIST } from '../../../services/constants';
 
 function BurgerConstructorList() {
     const dispatch = useDispatch();

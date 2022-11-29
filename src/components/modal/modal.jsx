@@ -7,8 +7,8 @@ import classNames from 'classnames';
 import modalStyle from './modal.module.css'
 
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import { ESC_KEYCODE } from "../../utils/const";
-import { CLOSE_MODAL } from "../../services/actions/modals";
+import {calcWidthScrollbar, ESC_KEYCODE} from "../../utils/const";
+import { CLOSE_MODAL } from "../../services/constants";
 
 const modalRoot = document.getElementById("react-modals");
 
@@ -21,10 +21,12 @@ function Modal({ children, onClose }) {
         }
 
         document.body.style.overflow = 'hidden'
+        document.documentElement.style.setProperty('--padding-right', `${calcWidthScrollbar()}px`);
         window.addEventListener('keyup', onKeyPressCloseModal);
 
         return (() => {
             document.body.style.overflow = 'unset'
+            document.documentElement.style.setProperty('--padding-right', '0');
             window.removeEventListener('keyup', onKeyPressCloseModal)
         })
     }, [dispatch])

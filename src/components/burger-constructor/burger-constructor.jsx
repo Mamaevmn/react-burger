@@ -6,8 +6,7 @@ import constructorStyle from './burger-constructor.module.css'
 
 import BurgerConstructorTotal from './burger-constructor-total/burger-constructor-total';
 import BurgerConstructorList from './burger-constructor-list/burger-constructor-list';
-import { ADD_BUN, ADD_INGREDIENT } from '../../services/actions/constructor';
-import { INCREASE_ITEM_COUNT } from '../../services/actions/ingredients';
+import { ADD_BUN, ADD_INGREDIENT, INCREASE_ITEM_COUNT } from '../../services/constants';
 import { v4 as uuidv4 } from 'uuid';
 import { BUN_TYPE } from '../../utils/const';
 

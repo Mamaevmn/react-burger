@@ -1,26 +1,37 @@
-import { 
+import { TConstructorActions } from "../actions/constructor";
+import {
     ADD_BUN,
-    ADD_INGREDIENT, 
-    CALCULATE_TOTAL_PRICE, 
-    CLEAR_CONSTRUCTOR, 
-    DELETE_INGREDIENTS, 
+    ADD_INGREDIENT,
+    CALCULATE_TOTAL_PRICE,
+    CLEAR_CONSTRUCTOR,
+    DELETE_INGREDIENTS,
     UPDATE_CONSTRUCTOR_LIST
-} from "../actions/constructor";
+} from "../constants";
+import { TFullIngredient } from "../types/data";
 
-const constructorInitialState = {
+export type TConstructorInitialState = {
+    items: ReadonlyArray<TFullIngredient>;
+    bun: TFullIngredient;
+    totalPrice: number;
+};
+
+const constructorInitialState: TConstructorInitialState = {
     items: [],
     bun: null,
 
     totalPrice: 0,
 };
 
-export const constructorReducer = (state = constructorInitialState, action) => {
+export const constructorReducer = (
+    state = constructorInitialState,
+    action: TConstructorActions
+) => {
     switch (action.type) {
         case ADD_BUN: {
             return {
                 ...state,
                 bun: action.payload
-            } 
+            }
         }
         case ADD_INGREDIENT: {
             return {
@@ -44,7 +55,7 @@ export const constructorReducer = (state = constructorInitialState, action) => {
             }
         }
         case CALCULATE_TOTAL_PRICE: {
-            let total = state.bun ? (state.items.reduce((sum, item) => sum + item.price, 0) + state.bun.price * 2) : state.items.reduce((sum, item) => sum + item.price, 0);
+            const total = state.bun ? (state.items.reduce((sum, item) => sum + item.price, 0) + state.bun.price * 2) : state.items.reduce((sum, item) => sum + item.price, 0);
             return {
                 ...state,
                 totalPrice: total,
@@ -54,7 +65,7 @@ export const constructorReducer = (state = constructorInitialState, action) => {
             return {
                 items: [],
                 bun: null,
-            
+
                 totalPrice: 0,
             }
         }

@@ -12,7 +12,7 @@ import Modal from '../../components/modal/modal';
 import OrderDetails from '../../components/modal-order-details/modal-order-details';
 import { ORDER_TYPE } from '../../utils/const';
 import { getUser } from '../../services/actions/user';
-import { CLOSE_MODAL } from '../../services/actions/modals';
+import { CLOSE_MODAL } from '../../services/constants';
 import Loader from '../../components/loader/loader';
 
 function Main() {

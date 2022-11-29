@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import typesStyle from './burger-ingredients-tabs.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { SET_CURRENT_TAB } from '../../../services/actions/ingredients';
+import { SET_CURRENT_TAB } from '../../../services/constants';
 
 function Tabs() {
   const dispatch = useDispatch();

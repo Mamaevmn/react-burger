@@ -15,7 +15,7 @@ import Orders from '../pages/orders/orders';
 import { getIngredients } from '../services/actions/ingredients';
 import Modal from '../components/modal/modal';
 import IngredientDetails from '../components/modal-ingredient-details/modal-ingredient-details';
-import { CLOSE_MODAL, OPEN_MODAL } from '../services/actions/modals';
+import { CLOSE_MODAL, OPEN_MODAL } from '../services/constants';
 
 function App() {
   const dispatch = useDispatch();

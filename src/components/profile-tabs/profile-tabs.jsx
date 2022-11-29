@@ -6,7 +6,8 @@ import styles from './profile-tabs.module.css';
 import classNames from 'classnames';
 
 import { profileTabs } from "../../utils/const"
-import { CLEAR_USER_DATA, userLogout } from '../../services/actions/user';
+import { CLEAR_USER_DATA } from '../../services/constants';
+import { userLogout } from '../../services/actions/user';
 
 function ProfileTabs() {
     const history = useHistory();

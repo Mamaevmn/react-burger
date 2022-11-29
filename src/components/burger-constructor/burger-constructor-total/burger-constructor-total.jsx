@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import totalStyle from './burger-constructor-total.module.css';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CALCULATE_TOTAL_PRICE, CLEAR_CONSTRUCTOR } from '../../../services/actions/constructor';
+import {CALCULATE_TOTAL_PRICE, CLEAR_CONSTRUCTOR, CLEAR_ITEMS_COUNT} from '../../../services/constants';
 import { getOrder } from '../../../services/actions/order';
 
 function BurgerConstructorTotal() {
@@ -29,6 +29,7 @@ function BurgerConstructorTotal() {
         if (userAuth) {
             const orderIdArray = createGoodsIdArray();
             dispatch(getOrder(orderIdArray))
+            dispatch({ type: CLEAR_ITEMS_COUNT })
             dispatch({ type: CLEAR_CONSTRUCTOR })
         } else {
             history.replace({ pathname: '/login'})
