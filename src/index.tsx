@@ -8,9 +8,6 @@ import App from './app/App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './services/store';
 
-
-// export type RootState = ReturnType<typeof store.getState>
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

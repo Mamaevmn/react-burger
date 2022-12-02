@@ -1,6 +1,6 @@
-import { ThunkAction } from 'redux-thunk';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { Action, ActionCreator } from 'redux';
-import {RootState, store} from '../store';
+import { RootState } from '../store';
 import { TIngredientsActions } from '../actions/ingredients';
 import { TLoginActions } from '../actions/login';
 import { TOrderActions } from '../actions/order';
@@ -12,7 +12,7 @@ import { TConstructorActions } from '../actions/constructor';
 import { TModalsActions } from '../actions/modals';
 import { TWSActions } from '../actions/use-socket';
 
-type TApplicationActions = 
+export type TApplicationActions =
     | TModalsActions
     | TConstructorActions
     | TIngredientsActions
@@ -24,7 +24,9 @@ type TApplicationActions =
     | TWSActions
     | TUserActions;
 
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = ActionCreator<
+    ThunkDispatch<RootState, never, TApplicationActions>
+>;
 export type AppThunk<ReturnType = void> = ActionCreator<
     ThunkAction<ReturnType, Action, RootState, TApplicationActions>
 >;

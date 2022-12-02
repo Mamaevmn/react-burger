@@ -14,7 +14,7 @@ import Orders from '../pages/orders/orders';
 import { getIngredients } from '../services/actions/ingredients';
 import Modal from '../components/modal/modal';
 import IngredientDetails from '../components/modal-ingredient-details/modal-ingredient-details';
-import { CLOSE_MODAL, OPEN_MODAL } from '../services/constants';
+import { CLOSE_MODAL, OPEN_MODAL, WS_CONNECTION_START } from '../services/constants';
 import { ILocation } from '../utils/types';
 import ProtectedRoute from '../protected-route/protected-route';
 import OrderInfo from "../pages/order-info/order-info";
@@ -29,6 +29,7 @@ function App() {
   const history = useHistory();
   const background = location.state && location.state.background;
   const modalVisible = useSelector(store => store.modals.visible);
+  const data = useSelector(store => store.ws.messages);
     
   useEffect(() => {
     if (background) dispatch({ type: OPEN_MODAL })
@@ -51,11 +52,11 @@ function App() {
         <Route path="/recovery-password" exact component={ RecoveryPassword } />
         <Route path="/reset-password" exact component={ ResetPassword } />
         <Route path="/ingredients/:id" exact component={ Ingredients } />
+        <ProtectedRoute path="/profile" exact component={Profile} /> 
+        <ProtectedRoute path="/profile/orders" exact component={Orders} /> 
+        <ProtectedRoute path="/profile/orders/:id" exact component={OrderInfo} /> 
         <Route path="/feed/" exact component={ Feed } />
         <Route path="/feed/:id" exact component={ FeedInfo } />
-        <ProtectedRoute><Route path="/profile" exact component={ Profile } /></ProtectedRoute>
-        <ProtectedRoute><Route path="/profile/orders" exact component={ Orders } /></ProtectedRoute>
-        <ProtectedRoute><Route path="/profile/orders/:id" exact component={ OrderInfo } /></ProtectedRoute>
         <Route component={ NotFound } />
       </Switch>
 

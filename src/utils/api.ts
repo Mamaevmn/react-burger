@@ -1,7 +1,11 @@
 import { checkResponse } from "./const";
 import { getCookie } from "./cookie";
 
-export const BASE_API_URL = 'https://norma.nomoreparties.space/api' as const;
+const WS = 'wss://'
+const HTTPS = 'https://'
+
+export const BASE_URL = `norma.nomoreparties.space` as const;
+export const BASE_API_URL = `${HTTPS}${BASE_URL}/api` as const;
 export const INGREDIENTS_URL = `${BASE_API_URL}/ingredients` as const;
 export const ORDERS_URL = `${BASE_API_URL}/orders` as const;
 export const PASSWORD_RECOVERY_URL = `${BASE_API_URL}/password-reset` as const;
@@ -13,6 +17,8 @@ export const LOGOUT_URL = `${AUTH_URL}/logout` as const;
 export const UPDATE_TOKEN_URL = `${AUTH_URL}/token` as const;
 export const USER_REGISTRATION_URL = `${AUTH_URL}/register` as const;
 export const USER_INFO_URL = `${AUTH_URL}/user` as const;
+
+export const WS_URL = `${WS}${BASE_URL}/orders/all` as const;
 
 export const getData = () => request(INGREDIENTS_URL, null)
 

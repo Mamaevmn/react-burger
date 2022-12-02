@@ -1,11 +1,25 @@
+import { useEffect } from 'react';
 import styles from './orders-list.module.css';
 import OrderItem from "./order-item/order-item";
 import classNames from "classnames";
+import { useDispatch, useSelector } from '../../services/hooks';
 
 function OrdersList() {
+    const { connected, messages } = useSelector(store => ({
+        connected: store.ws.wsConnected,
+        messages: store.ws.messages,
+    }))
+
+    useEffect(() => {
+        if (connected) {
+            console.log(messages.orders);
+        }
+    }, [connected, messages])
+
     return (
+        connected && messages.orders &&
         <ul className={classNames(styles.list, 'scroll-block', 'pr-2')}>
-            <OrderItem />
+            {messages.orders.map((order: any) => <OrderItem key={order._id} {...order}/>)}
         </ul>
     )
 }

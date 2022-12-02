@@ -1,11 +1,15 @@
-import { useEffect, FC } from 'react';
-import { Redirect, useLocation } from "react-router-dom";
+import { useEffect, FC, ReactElement } from 'react';
+import { Redirect, Route, useLocation } from "react-router-dom";
 import { getUser } from "../services/actions/user";
 import {useDispatch, useSelector} from "../services/hooks";
 
-type TProtectedRoute = { children: React.ReactNode }
+type TProtectedRoute = { 
+    path: string;
+    exact: boolean;
+    component: () => ReactElement
+}
 
-const ProtectedRoute: FC<TProtectedRoute> = ({ children }: any) => {
+const ProtectedRoute: FC<TProtectedRoute> = ({ ...props }) => {
     const dispatch = useDispatch();
     const location = useLocation();
 
@@ -13,10 +17,12 @@ const ProtectedRoute: FC<TProtectedRoute> = ({ children }: any) => {
 
     useEffect(() => {
         if (!userAuth) dispatch(getUser());
+        console.log(props);
+        
     }, [dispatch, userAuth])
 
     return userAuth
-        ? children
+        ? <Route {...props} />
         : <Redirect
             to={{
                 pathname: '/login',

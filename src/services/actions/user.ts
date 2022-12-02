@@ -54,11 +54,11 @@ export type TUserActions =
     | ISetUserDataAC
     | IClearUserDataAC;
 
-function userRequestAC() {
+function userRequestAC(): IUserRequestAC {
     return { type: USER_REQUEST }
 }
 
-function userSuccessRequestAC(name: TName, email: TEmail) {
+function userSuccessRequestAC(name: TName, email: TEmail): IUserSuccessRequestAC {
     return {
         type: USER_SUCCESS,
         payload: {
@@ -68,11 +68,11 @@ function userSuccessRequestAC(name: TName, email: TEmail) {
     }
 }
 
-function userFailedRequestAC() {
+function userFailedRequestAC(): IUserFailedRequestAC {
     return { type: USER_FAILED }
 }
 
-function clearUserDataAC() {
+function clearUserDataAC(): IClearUserDataAC {
     return { type: CLEAR_USER_DATA }
 }
 
@@ -81,7 +81,6 @@ export const getUser: AppThunk = () => (dispatch: AppDispatch) => {
     getUserInfo().then(res => {
         dispatch(userSuccessRequestAC(res.user.name, res.user.email))
     }).catch(() => {
-        // @ts-ignore
         dispatch(updateToken())
         dispatch(userFailedRequestAC())
     });

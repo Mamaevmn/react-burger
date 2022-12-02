@@ -36,11 +36,11 @@ export type TLoginActions =
     | ILoginSuccessRequestAC
     | ILoginFailedRequestAC;
 
-function loginRequestAC() {
+function loginRequestAC(): ILoginRequestAC {
     return { type: LOGIN_REQUEST }
 }
 
-function loginSetUserDataAC(name: TName, email: TEmail, password: TPassword) {
+function loginSetUserDataAC(name: TName, email: TEmail, password: TPassword): ILoginSetUserDataAC {
     return {
         type: SET_USER_DATA,
         payload: {
@@ -51,11 +51,11 @@ function loginSetUserDataAC(name: TName, email: TEmail, password: TPassword) {
     }
 }
 
-function loginSuccessRequestAC() {
+function loginSuccessRequestAC(): ILoginSuccessRequestAC {
     return { type: LOGIN_SUCCESS }
 }
 
-function loginFailedRequestAC() {
+function loginFailedRequestAC(): ILoginFailedRequestAC {
     return { type: LOGIN_FAILED }
 }
 

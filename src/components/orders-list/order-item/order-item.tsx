@@ -4,14 +4,32 @@ import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation} from "react-router-dom";
 import {OPEN_MODAL} from "../../../services/constants";
 import {ORDER_INFO_TYPE} from "../../../utils/const";
-import {useDispatch} from "../../../services/hooks";
+import {useDispatch, useSelector} from "../../../services/hooks";
 
-function OrderItem() {
+function OrderItem({ ...props }) {
     const dispatch = useDispatch()
     const location = useLocation()
     const id = '034535'
 
+    const { ingredients } = useSelector(store => ({
+        ingredients: store.ingredients.items,
+    }))
+
     const onOpenModal = () => dispatch({ type: OPEN_MODAL, payload: ORDER_INFO_TYPE})
+
+    function translateStatus(status: string) {
+        let translate;
+        switch (status) {
+            case 'done':
+                translate = 'Выполнен'
+                break;
+            default:
+                translate = status
+                break
+        }
+
+        return translate;
+    }
 
     return(
         <li onClick={onOpenModal}>
@@ -24,16 +42,16 @@ function OrderItem() {
                 }}
             >
                 <span className={classNames(styles.date, 'text', 'text_type_main-default', 'text_color_inactive')}>
-                    Сегодня, 16:20
+                    { props.createdAt }
                 </span>
                 <p className={classNames('text', 'text_type_digits-default', 'mb-6')}>
-                    #{ id }
+                    #{ props.number }
                 </p>
                 <h3 className={classNames('text', 'text_type_main-medium', 'mb-2')}>
-                    Death Star Starship Main бургер
+                    { props.name }
                 </h3>
-                <p className={classNames('text', 'text_type_main-default', 'mb-6')}>
-                    Создан
+                <p className={classNames('text', 'text_type_main-default', 'mb-6', props.status === 'done' && 'text_color_success')}>
+                    { translateStatus(props.status) }
                 </p>
                 <div className={styles.footer}>
                     <ul className={styles.ingredients}>

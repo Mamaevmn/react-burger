@@ -44,7 +44,7 @@ function Profile() {
                     value={ values.name || '' }
                     error={ isValid === false }
                     errorText={ errors.name || '' }
-                    onChange={() => handleChange}/> 
+                    onChange={handleChange}/> 
                 <Input 
                     extraClass='mb-6' 
                     name='email'
@@ -53,7 +53,7 @@ function Profile() {
                     value={ values.email || '' } 
                     error={ isValid === false }
                     errorText={ errors.email || '' }
-                    onChange={() => handleChange}
+                    onChange={handleChange}
                     /> 
                 <Input 
                     extraClass='mb-6'
@@ -63,7 +63,7 @@ function Profile() {
                     value={ values.password || '' }
                     error={ isValid === false }
                     errorText={ errors.password || '' }
-                    onChange={() => handleChange}/> 
+                    onChange={handleChange}/> 
                 <div className={classNames(styles.buttons, !fieldsIsChange ? 'hidden' : '')}>
                     <button className={classNames(styles.btn_reset, 'mr-5', 'text', 'text_type_main-default', 'text_color_accent')}
                         type="reset"

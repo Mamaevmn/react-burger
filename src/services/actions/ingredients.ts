@@ -58,22 +58,22 @@ export type TIngredientsActions =
   | IDecreaseItemCountAC
   | IClearItemCountAC;
 
-function ingredientsRequestAC() {
+function ingredientsRequestAC(): IIngredientsRequestAC {
   return { type: GET_INGREDIENTS_REQUEST }
 }
 
-function ingredientsSuccessRequestAC(data: any) {
+function ingredientsSuccessRequestAC(data: any):IIngredientsSuccessRequestAC {
   return {
     type: GET_INGREDIENTS_SUCCESS,
     payload: data,
   }
 }
 
-function ingredientsFailedRequestAC() {
+function ingredientsFailedRequestAC(): IIngredientsFailedRequestAC {
   return { type: GET_INGREDIENTS_FAILED }
 }
 
-function getIngredientsTypesAC() {
+function getIngredientsTypesAC(): IGetIngredientsTypesAC {
   return { type: GET_INGREDIENTS_TYPES }
 }
 
