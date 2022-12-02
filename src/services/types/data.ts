@@ -1,6 +1,6 @@
 export type TIngredientsTypesName = 'bun' | 'main' | 'sauce';
 export type TIngredientsTypesNameOnRussia = 'Булка' | 'Начинка' | 'Соус';
-export type TModalTypes = 'order' | '';
+export type TModalTypes = 'order' | 'order-info' | '';
 
 export type TName = {name: string}
 export type TEmail = {email: string}

@@ -2,6 +2,12 @@
   --padding-right: 0;
 }
 
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding-right: var(--padding-right) !important;
@@ -26,7 +32,7 @@ ul {
 .container {
   margin: 0 auto;
   width: 100%;
-  max-width: 1280px;
+  max-width: 1240px;
 }
 
 .color-text--primary {
@@ -38,7 +44,7 @@ ul {
 }
 
 .scroll-block {
-  overflow: auto;
+  overflow-y: auto;
 }
 
 .scroll-block::-webkit-scrollbar {

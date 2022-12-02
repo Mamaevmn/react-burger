@@ -4,20 +4,22 @@ import { Link, Redirect, useLocation } from 'react-router-dom';
 import styles from './registration.module.css';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
 import { setUserRegistration } from '../../services/actions/registration';
 import { getUser } from '../../services/actions/user';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+import {useDispatch, useSelector} from "../../services/hooks";
 
 function Registration() {
     const dispatch = useDispatch();
     const location = useLocation();
     const [fieldsNotEmpty, setFiledsNotEmpty] = useState(false);
-    const { registrationSuccess, registrationFailed, authUser } = useSelector(store => ({
+
+    const {registrationSuccess, registrationFailed, userAuth} = useSelector(store => ({
         registrationSuccess: store.registration.registrationSuccess,
         registrationFailed: store.registration.registrationFailed,
-        authUser: store.user.auth
-    }))
+        userAuth: store.user.auth
+    }));
+
     const { values, handleChange, errors, isValid } = useFormAndValidation({ name: '', email: '', password: ''})
 
     useEffect(() => {
@@ -30,7 +32,7 @@ function Registration() {
         dispatch(getUser());
     }, [dispatch])
 
-    const registration = useCallback((e) => {
+    const registration = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         dispatch(setUserRegistration(values.name, values.email, values.password));
     }, [dispatch, values])
@@ -45,9 +47,9 @@ function Registration() {
         );
     }
 
-    if (!authUser) {
+    if (!userAuth) {
         return (
-            <form className={ styles.wrapper } onSubmit={(e) => registration(e)}>
+            <form className={ styles.wrapper } onSubmit={registration}>
                 <h2 className='text text_type_main-medium mb-6'>
                     Регистрация
                 </h2>

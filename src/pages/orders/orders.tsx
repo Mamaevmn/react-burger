@@ -5,6 +5,7 @@ import styles from './orders.module.css';
 import ProfileTabs from '../../components/profile-tabs/profile-tabs';
 
 function Orders() {
+    console.log('init')
     return (
         <section className={ classNames(styles.wrapper, 'container')} >
             <ProfileTabs />

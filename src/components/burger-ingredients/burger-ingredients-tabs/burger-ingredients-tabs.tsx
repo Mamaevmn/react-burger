@@ -1,34 +1,35 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import typesStyle from './burger-ingredients-tabs.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { SET_CURRENT_TAB } from '../../../services/constants';
+import { TIngredientsType, TIngredientsTypesName } from '../../../utils/types';
+import {useDispatch, useSelector} from "../../../services/hooks";
 
 function Tabs() {
   const dispatch = useDispatch();
 
-  const { ingredientTypes, currentTab} = useSelector(store => ({
+  const {ingredientTypes, currentTab} = useSelector(store => ({
     ingredientTypes: store.ingredients.ingredientTypes,
     currentTab: store.ingredients.currentTab
-  }));
+  }))
 
   useEffect(() => {
-      if (ingredientTypes.length) dispatch({ type: SET_CURRENT_TAB, payload: ingredientTypes[0].type})
+      if (ingredientTypes.length) dispatch({ type: SET_CURRENT_TAB, payload: ingredientTypes[0].type as TIngredientsTypesName})
     }, 
     [ dispatch, ingredientTypes ] 
   );
 
-  const setCurrentTab = (e) => {
-    dispatch({ type: SET_CURRENT_TAB, payload: e})
+  const setCurrentTab = (currType: string) => {
+    dispatch({ type: SET_CURRENT_TAB, payload: currType})
   };
 
   return (
     <ul className={typesStyle.wrapper}>
-      {ingredientTypes.map(type => 
+      {ingredientTypes.map((type: TIngredientsType) => 
       <li key={type.u_id} data-tab={type.type}>
-        <Tab value={type.type} active={currentTab === type.type} onClick={setCurrentTab}>
+        <Tab value={type.type} active={currentTab === type.type} onClick={() => setCurrentTab(type.type)}>
           {type.name}
         </Tab>
       </li>

@@ -1,29 +1,29 @@
-import { useCallback, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback, useEffect, useRef, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
-import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 import typesStyle from './burger-ingredients-block-goods.module.css';
 import BurgerGoods from './burger-ingredients-goods/burger-ingredients-goods';
 import { SET_CURRENT_TAB } from '../../../services/constants';
+import { TFullIngredient, TIngredientsType } from '../../../utils/types';
+import {useDispatch, useSelector} from "../../../services/hooks";
 
 function BurgerIngredientsTypes() {
-    const list = useRef()
+    const list = useRef<HTMLUListElement>()
 
-    const { ingredientTypes, currentTab } = useSelector(store => ({
+    const {ingredientTypes, currentTab} = useSelector(store => ({
         ingredientTypes: store.ingredients.ingredientTypes,
         currentTab: store.ingredients.currentTab
     }));
 
     const scrollBlock = useCallback(() => {
         if (currentTab) {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const listToTop = Math.ceil(list.current.getBoundingClientRect().top + scrollTop);
-            const activeBlock = list.current.querySelector(`[data-tab-content=${currentTab}`);
+            const scrollTop: number = window.pageYOffset || document.documentElement.scrollTop;
+            const listToTop: number = Math.ceil(list.current.getBoundingClientRect().top + scrollTop);
+            const activeBlock = list.current.querySelector(`[data-tab-content=${currentTab}`) as HTMLElement;
             
             if (activeBlock) {
-                const activeBlockInnerPosition = activeBlock.offsetTop - listToTop;
+                const activeBlockInnerPosition: number = activeBlock.offsetTop - listToTop;
 
                 list.current.scrollTo({
                     top: activeBlockInnerPosition,
@@ -39,7 +39,7 @@ function BurgerIngredientsTypes() {
 
     return (
         <ul className={classNames(typesStyle.wrapper, 'scroll-block', 'mt-10')} ref={list}>
-            {ingredientTypes.map(type => 
+            {ingredientTypes.map((type: TIngredientsType) => 
                 <BurgerIngredientsTypesTab key={type.u_id} {...type} />
             )}
         </ul>
@@ -48,7 +48,7 @@ function BurgerIngredientsTypes() {
 
 export default BurgerIngredientsTypes
 
-function BurgerIngredientsTypesTab({ type, name}) {
+const BurgerIngredientsTypesTab: FC<TIngredientsType> = ({ type, name}) => {
     const dispatch = useDispatch()
     const items = useSelector(store => store.ingredients.items);
 
@@ -66,13 +66,8 @@ function BurgerIngredientsTypesTab({ type, name}) {
                 {name}
             </p>
             <ul className={classNames(typesStyle.list, 'pb-6', 'pl-4', 'pr-4')}>
-                { items.map(goods => type === goods.type && <BurgerGoods key={goods._id} goods={goods}/>) }
+                { items.map((goods: TFullIngredient) => type === goods.type && <BurgerGoods key={goods._id} {...goods}/>) }
             </ul>
         </li>
     )
-} 
-
-BurgerIngredientsTypesTab.propTypes = {
-    name: PropTypes.string,
-    type: PropTypes.string
 }

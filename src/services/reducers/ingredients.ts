@@ -22,11 +22,11 @@ import {
 import { TFullIngredient, TIngredientsType, TIngredientsTypesName } from '../types/data';
 
 export type TIngredientsInitialState = {
-  items: ReadonlyArray<TFullIngredient>;
+  items: Array<TFullIngredient>;
   itemsRequest: boolean;
   itemsFailed: boolean;
-  ingredientTypes: ReadonlyArray<TIngredientsType>;
-  currentTab: TIngredientsTypesName | '';
+  ingredientTypes: Array<TIngredientsType>;
+  currentTab: TIngredientsTypesName;
 };
 
 const ingredientsInitialState: TIngredientsInitialState = {
@@ -34,7 +34,7 @@ const ingredientsInitialState: TIngredientsInitialState = {
   itemsRequest: false,
   itemsFailed: false,
   ingredientTypes: [],
-  currentTab: '',
+  currentTab: null,
 };
 
 export const ingredientsReducer = (

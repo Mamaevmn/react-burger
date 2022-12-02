@@ -1,4 +1,3 @@
-import { useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
 
 import classNames from 'classnames';
@@ -9,6 +8,7 @@ import BurgerConstructorList from './burger-constructor-list/burger-constructor-
 import { ADD_BUN, ADD_INGREDIENT, INCREASE_ITEM_COUNT } from '../../services/constants';
 import { v4 as uuidv4 } from 'uuid';
 import { BUN_TYPE } from '../../utils/const';
+import {useDispatch} from "../../services/hooks";
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
@@ -25,12 +25,12 @@ function BurgerConstructor() {
 
     const borderColor = isHover ? constructorStyle.section__lightgreen : null;
 
-    const addIngredient = (item) => {
+    const addIngredient = (item: any) => {
         if (item.type === BUN_TYPE) {
             dispatch({ type: ADD_BUN, payload: item });
             dispatch({ type: INCREASE_ITEM_COUNT, payload: item._id });
             return
-        };
+        }
         
         dispatch({ type: ADD_INGREDIENT, payload: {
             ...item,

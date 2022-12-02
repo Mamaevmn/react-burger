@@ -10,7 +10,7 @@ import {
 import { TFullIngredient } from "../types/data";
 
 export type TConstructorInitialState = {
-    items: ReadonlyArray<TFullIngredient>;
+    items: Array<TFullIngredient>;
     bun: TFullIngredient;
     totalPrice: number;
 };

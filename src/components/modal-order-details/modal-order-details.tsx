@@ -1,8 +1,7 @@
-import { useSelector } from 'react-redux';
-
 import classNames from 'classnames';
 import modalContentStyle from './modal-order-details.module.css'
 import accessIcon from './../../images/icons/access-icon.svg'
+import {useSelector} from "../../services/hooks";
 
 function OrderDetails() {
     const number = useSelector(store => store.order.orderNumber);
@@ -10,7 +9,7 @@ function OrderDetails() {
     return (
         <div className={modalContentStyle.modal_content}>
             <p className={classNames(modalContentStyle.modal_content_title, 'text', 'text_type_digits-large')}>
-                {number}
+                { number as number}
             </p>
             <p className='text text_type_main-medium pt-8 pb-10'>идентификатор заказа</p>
             <img className='pt-5 pb-5' src={accessIcon} alt='access'/>

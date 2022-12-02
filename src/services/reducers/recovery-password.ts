@@ -12,7 +12,7 @@ export type TRecoveryInitialState = {
     recoveryPasswordFailed: boolean,
 };
 
-const recoveryInitialState = {
+const recoveryInitialState: TRecoveryInitialState = {
     recoveryPasswordMessage: '',
     recoveryPasswordSuccess: false,
     recoveryPasswordRequest: false,

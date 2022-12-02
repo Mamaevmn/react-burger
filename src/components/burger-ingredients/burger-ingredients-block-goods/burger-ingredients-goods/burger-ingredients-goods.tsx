@@ -1,5 +1,5 @@
+import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useDrag } from 'react-dnd';
 
 import classNames from 'classnames';
@@ -8,8 +8,10 @@ import { INGREDIENTS_TYPE } from '../../../../utils/const';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { OPEN_MODAL } from '../../../../services/constants';
+import { TFullIngredient } from '../../../../utils/types';
+import {useDispatch} from "../../../../services/hooks";
 
-function BurgerGoods({ goods }) {
+const BurgerGoods: FC<TFullIngredient> = ({ ...goods }) => {
     const dispatch = useDispatch();
     const location = useLocation();
 
@@ -17,7 +19,7 @@ function BurgerGoods({ goods }) {
         type: 'items',
         item: { ...goods },
         collect: monitor => ({
-          opacity: monitor.isDragging() ? 'opacity' : ''
+            opacity: monitor.isDragging() ? 'opacity' : ''
         })
     });
 

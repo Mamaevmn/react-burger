@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 
 import styles from './recovery-password.module.css';
@@ -8,22 +7,24 @@ import { setPasswordRecovery } from '../../services/actions/recovery-password';
 import { useCallback, useEffect } from 'react';
 import { getUser } from '../../services/actions/user';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+import {useDispatch, useSelector} from "../../services/hooks";
 
 function RecoveryPassword() {
     const dispatch = useDispatch();
     const location = useLocation();
-    const { recoveryPasswordSuccess, userAuth } = useSelector(store => ({
+
+    const {recoveryPasswordSuccess, userAuth} = useSelector(store => ({
         recoveryPasswordSuccess: store.recovery.recoveryPasswordSuccess,
         userAuth: store.user.auth
     }));
-    const {values, handleChange, errors, isValid} = useFormAndValidation({ email: ''})
 
+    const {values, handleChange, errors, isValid} = useFormAndValidation({ email: ''})
 
     useEffect(() => {
         dispatch(getUser());
     }, [dispatch])
 
-    const resetPassword = useCallback((e) => {
+    const resetPassword = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         dispatch(setPasswordRecovery(values.email))
     },[values, dispatch]); 
@@ -40,7 +41,7 @@ function RecoveryPassword() {
 
     if (!userAuth) {
         return (
-            <form className={ styles.wrapper } onSubmit={(e) => resetPassword(e)}>
+            <form className={ styles.wrapper } onSubmit={resetPassword}>
                 <h2 className='text text_type_main-medium mb-6'>
                     Восстановление пароля
                 </h2>

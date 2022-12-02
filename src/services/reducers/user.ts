@@ -19,12 +19,12 @@ export type TUserInitialState = {
     userFailed: boolean
 };
 
-const userInitialState = {
-    name: '',
-    email: '',
-    password: '',
-    token: '',
-    refreshToken: '',
+const userInitialState: TUserInitialState = {
+    name: null,
+    email: null,
+    password: null,
+    token: null,
+    refreshToken: null,
     auth: false,
 
     userRequest: false,

@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -14,23 +13,24 @@ import { ORDER_TYPE } from '../../utils/const';
 import { getUser } from '../../services/actions/user';
 import { CLOSE_MODAL } from '../../services/constants';
 import Loader from '../../components/loader/loader';
+import {useDispatch, useSelector} from "../../services/hooks";
 
 function Main() {
     const dispatch = useDispatch();
-
-    const { visibleModal, modalType, loading } = useSelector(store => ({
+    
+    const {visibleModal, modalType, loading} = useSelector(store => ({
         visibleModal: store.modals.visible,
         modalType: store.modals.type,
-        loading: store.order.orderRequest,
+        loading: store.order.orderRequest
     }));
 
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(getUser());
     }, [dispatch])
 
     const handleModalClose = () => {    
         dispatch({ type: CLOSE_MODAL })
-      }
+    }
 
     return (
         <main className='pt-10 pb-20'>

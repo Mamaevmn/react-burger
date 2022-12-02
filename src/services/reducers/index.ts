@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { combineReducers} from 'redux';
 import { ingredientsReducer } from './ingredients';
 import { constructorReducer } from './constructor';
 import { modalsReducer } from './modals';
