@@ -1,21 +1,56 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styles from './modal-order-info.module.css'
 import classNames from "classnames";
-import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector} from "../../services/hooks";
+import { TFullIngredient } from '../../utils/types';
+import Loader from '../loader/loader';
 
 function ModalOrderInfo() {
-    const modalVisible = useSelector(store => store.modals.visible);
+    const { id } = useParams<{ id?: string }>();
+    const [ order, setOrder ] = useState<any>({})
 
+    const { modalVisible, messages, connected, ingredients } = useSelector(store => ({
+        modalVisible: store.modals.visible,
+        connected: store.ws.wsConnected,
+        messages: store.ws.messages,
+        ingredients: store.ingredients.items
+    }));
+
+    useEffect(() => {
+        if (connected && messages.orders) setOrder(messages.orders.find((order: any) => +id === order.number));
+    }, [connected, messages, order])
+
+    const translateStatus = (status: string): string => {
+        let translate;
+        switch (status) {
+            case 'done':
+                translate = 'Выполнен'
+                break;
+            default:
+                translate = status
+                break
+        }
+
+        return translate;
+    }
+
+    // const findMatchIngredient = () => order.ingredients.map((id: string) => ingredients.find((ingredient: TFullIngredient) => ingredient._id === id))
+
+    if (order && ingredients) console.log(order.ingredients);
+    
     return (
+        connected && messages.orders && order ?
         <div className={classNames(classNames(styles.wrapper, modalVisible && styles.modal))}>
             <p className={classNames(styles.number, modalVisible && styles.modal_title, 'text', 'text_type_digits-default', 'mb-10')}>
-                #034535
+                #{ id }
             </p>
             <h3 className={classNames('text', 'text_type_main-medium', 'mb-3')}>
-                Black Hole Singularity острый бургер
+                {order.name}
             </h3>
-            <p className={classNames('text', 'text_type_main-default', 'mb-15')}>
-                Создан
+            <p className={classNames('text', 'text_type_main-default', 'mb-6', order.status === 'done' && 'text_color_success')}>
+                { translateStatus(order.status)}
             </p>
             <p className={classNames('text', 'text_type_main-medium', 'mb-6')}>
                 Состав:
@@ -103,16 +138,17 @@ function ModalOrderInfo() {
             </ul>
             <div className={styles.footer}>
                 <span className={classNames(styles.date, 'text', 'text_type_main-default', 'text_color_inactive')}>
-                    Сегодня, 16:20
+                    <FormattedDate date={new Date(order.createdAt)} />
                 </span>
                 <p className={classNames(styles.text, 'text', 'text_type_digits-default', 'ml-2')}>
                     <span className='mr-2'>
                         480
+                        
                     </span>
                     <CurrencyIcon type="primary" />
                 </p>
             </div>
-        </div>
+        </div> : <Loader />
     )
 }
 

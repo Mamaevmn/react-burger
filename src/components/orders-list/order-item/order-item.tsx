@@ -1,23 +1,22 @@
 import styles from './order-item.module.css';
 import classNames from "classnames";
-import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation} from "react-router-dom";
 import {OPEN_MODAL} from "../../../services/constants";
 import {ORDER_INFO_TYPE} from "../../../utils/const";
 import {useDispatch, useSelector} from "../../../services/hooks";
+import { TFullIngredient } from '../../../utils/types';
+import { nanoid } from 'nanoid';
 
 function OrderItem({ ...props }) {
     const dispatch = useDispatch()
     const location = useLocation()
-    const id = '034535'
 
-    const { ingredients } = useSelector(store => ({
-        ingredients: store.ingredients.items,
-    }))
+    const ingredients = useSelector(store => store.ingredients.items)
 
     const onOpenModal = () => dispatch({ type: OPEN_MODAL, payload: ORDER_INFO_TYPE})
 
-    function translateStatus(status: string) {
+    const translateStatus = (status: string): string => {
         let translate;
         switch (status) {
             case 'done':
@@ -31,18 +30,20 @@ function OrderItem({ ...props }) {
         return translate;
     }
 
+    const findMatchIngredient = () => props.ingredients.map((id: string) => ingredients.find((ingredient: TFullIngredient) => ingredient._id === id))
+
     return(
         <li onClick={onOpenModal}>
             <Link className={classNames(styles.item, 'p-6', 'text_color_primary')}
                 to={{
-                    pathname: `${location.pathname}/${id}`,
+                    pathname: `${location.pathname}/${props.number}`,
                     state: {
                         background: location
                     }
                 }}
             >
                 <span className={classNames(styles.date, 'text', 'text_type_main-default', 'text_color_inactive')}>
-                    { props.createdAt }
+                    <FormattedDate date={new Date(props.createdAt)} />
                 </span>
                 <p className={classNames('text', 'text_type_digits-default', 'mb-6')}>
                     #{ props.number }
@@ -55,15 +56,28 @@ function OrderItem({ ...props }) {
                 </p>
                 <div className={styles.footer}>
                     <ul className={styles.ingredients}>
-                        <li className={styles.ingredient}></li>
-                        <li className={styles.ingredient}></li>
-                        <li className={styles.ingredient}></li>
-                        <li className={styles.ingredient}></li>
-                        <li className={styles.ingredient}></li>
+                        {
+                            props.ingredients.length > 5 && 
+                            findMatchIngredient().reverse().map((item: TFullIngredient, idx: number) => (idx === 5) && 
+                                <li key={nanoid()} className={styles.ingredient}>
+                                    <span className={classNames(styles.ingredient_text, 'text', 'text_type_main-default')}>
+                                        +{props.ingredients.length - 5}
+                                    </span>
+                                    <img className={styles.ingredient_image} src={item.image_mobile} alt={item.name} title={item.name} />
+                                </li>
+                            )
+                        }
+                        {
+                            findMatchIngredient().reverse().map((item: TFullIngredient, idx: number) => (idx < 5) && 
+                                <li key={nanoid()} className={styles.ingredient}>
+                                    <img className={styles.ingredient_image} src={item.image_mobile} alt={item.name} title={item.name} />
+                                </li>
+                            )
+                        }
                     </ul>
                     <p className={classNames(styles.text, 'text', 'text_type_digits-default', 'ml-6')}>
                         <span className='mr-2'>
-                            480
+                            { findMatchIngredient().reduce((accumulator: number, item: TFullIngredient) => accumulator + item.price, 0) }
                         </span>
                         <CurrencyIcon type="primary" />
                     </p>

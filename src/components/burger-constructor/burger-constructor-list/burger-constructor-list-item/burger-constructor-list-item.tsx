@@ -106,7 +106,7 @@ const BurgerConstructorListItem: FC<TBurgerConstructorListItem> = (props) => {
             text={props.text ? props.text : props.name}
             price={props.price}
             thumbnail={props.image_mobile}
-            handleClose={() => deleteConstructorIngredient}
+            handleClose={() => deleteConstructorIngredient(event)}
           />
         </Link>
       </li> :
@@ -125,7 +125,6 @@ const BurgerConstructorListItem: FC<TBurgerConstructorListItem> = (props) => {
           text={props.text ? props.text : props.name}
           price={props.price}
           thumbnail={props.image_mobile}
-          handleClose={() => deleteConstructorIngredient}
         />
       </Link>
   )

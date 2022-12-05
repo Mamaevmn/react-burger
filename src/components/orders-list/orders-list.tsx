@@ -10,12 +10,6 @@ function OrdersList() {
         messages: store.ws.messages,
     }))
 
-    useEffect(() => {
-        if (connected) {
-            console.log(messages.orders);
-        }
-    }, [connected, messages])
-
     return (
         connected && messages.orders &&
         <ul className={classNames(styles.list, 'scroll-block', 'pr-2')}>

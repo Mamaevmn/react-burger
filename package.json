@@ -10,7 +10,7 @@
     "@types/node": "^16.11.62",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
-    "@ya.praktikum/react-developer-burger-ui-components": "^1.13.4",
+    "@ya.praktikum/react-developer-burger-ui-components": "^1.14.0",
     "classnames": "^2.3.2",
     "nanoid": "^4.0.0",
     "os": "^0.1.2",
@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3",
+    "@types/uuid": "^9.0.0",
     "redux-devtools-extension": "^2.13.9"
   }
 }

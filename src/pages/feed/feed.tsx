@@ -11,14 +11,17 @@ import Loader from '../../components/loader/loader';
 
 function Feed() {
     const dispatch = useDispatch();
-    const connected = useSelector(store => store.ws.wsConnected)
+    const { connected, messages } = useSelector(store => ({
+        connected: store.ws.wsConnected,
+        messages: store.ws.messages,
+    }))
     
     useEffect(() => {
         dispatch({ type: WS_CONNECTION_START });
-    }, [dispatch])
+    }, [dispatch, connected])
 
     return (
-        !connected ?
+        !connected && !messages.orders ?
             <Loader /> :
             <section className={classNames(styles.wrapper, 'container')} >
                 <OrdersList />

@@ -11,7 +11,7 @@ import { RootState } from '../store';
 import { AppDispatch, TApplicationActions } from '../types';
 
 export const socketMiddleware = (wsUrl: string): Middleware => {
-    return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
+    return ((store: MiddlewareAPI<AppDispatch | any, RootState>) => {
         let socket: WebSocket = null;
 
         return next => (action: TApplicationActions | any) => {

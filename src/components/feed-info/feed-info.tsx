@@ -1,8 +1,11 @@
 import classNames from 'classnames';
+import { useSelector } from '../../services/hooks';
 
 import styles from './feed-info.module.css';
 
 function FeedInfo() {
+    const messages = useSelector(store => store.ws.messages)
+
     return (
         <section>
             <div className={classNames(styles.status, 'mb-15')}>
@@ -31,13 +34,13 @@ function FeedInfo() {
                 Выполнено за все время:
             </p>
             <p className={classNames(styles.count_number, 'text', 'text_type_digits-large', 'mb-15')}>
-                28 752
+                {messages.total}
             </p>
             <p className={classNames('text', 'text_type_main-medium')}>
                 Выполнено за сегодня:
             </p>
             <p className={classNames(styles.count_number, 'text', 'text_type_digits-large')}>
-                138
+                {messages.totalToday}
             </p>
         </section>
     )
