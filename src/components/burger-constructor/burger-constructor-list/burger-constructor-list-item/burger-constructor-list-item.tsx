@@ -76,7 +76,8 @@ const BurgerConstructorListItem: FC<TBurgerConstructorListItem> = (props) => {
 
   const onOpenModal = () => dispatch({ type: OPEN_MODAL, payload: INGREDIENTS_TYPE })
 
-  const deleteConstructorIngredient = (e: MouseEvent) => {
+  const deleteConstructorIngredient = (e?: MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     dispatch({ type: DELETE_INGREDIENTS, payload: props.u_id });
     dispatch({ type: DECREASE_ITEM_COUNT, payload: props._id });
@@ -106,7 +107,7 @@ const BurgerConstructorListItem: FC<TBurgerConstructorListItem> = (props) => {
             text={props.text ? props.text : props.name}
             price={props.price}
             thumbnail={props.image_mobile}
-            handleClose={() => deleteConstructorIngredient(event)}
+            handleClose={deleteConstructorIngredient}
           />
         </Link>
       </li> :

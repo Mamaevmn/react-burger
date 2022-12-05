@@ -10,6 +10,7 @@ import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import Loader from '../../components/loader/loader';
 import { ILocation } from '../../utils/types';
 import {useDispatch, useSelector} from "../../services/hooks";
+import { getCookie } from '../../utils/cookie';
 
 function Login() {
     const dispatch = useDispatch();
@@ -29,7 +30,7 @@ function Login() {
     }, [fieldsNotEmpty, values])
 
     useEffect(() => {
-        dispatch(getUser());
+        if (getCookie('token') && getCookie('refreshToken')) dispatch(getUser());
     }, [dispatch])
 
     const login = useCallback((e: React.FormEvent<HTMLFormElement>) => {

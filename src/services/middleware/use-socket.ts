@@ -24,26 +24,16 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
             }
             if (socket) {
                 // функция, которая вызывается при открытии сокета
-                socket.onopen = event => {
-                    dispatch({ type: WS_CONNECTION_SUCCESS, payload: event });
-                };
-
+                socket.onopen = () => {dispatch({ type: WS_CONNECTION_SUCCESS })};
                 // функция, которая вызывается при ошибке соединения
-                socket.onerror = event => {
-                    dispatch({ type: WS_CONNECTION_ERROR, payload: event });
-                };
-
+                socket.onerror = event => {dispatch({ type: WS_CONNECTION_ERROR, payload: event })};
                 // функция, которая вызывается при получения события от сервера
                 socket.onmessage = event => {
                     const data = JSON.parse(event.data);
-                    console.log(data);
-                    
                     dispatch({ type: WS_GET_MESSAGE, payload: data });
                 };
                 // функция, которая вызывается при закрытии соединения
-                socket.onclose = event => {
-                    dispatch({ type: WS_CONNECTION_CLOSED, payload: event });
-                };
+                socket.onclose = () => {dispatch({ type: WS_CONNECTION_CLOSED })};
 
                 if (type === WS_SEND_MESSAGE) {
                     const message = payload;

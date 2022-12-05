@@ -14,12 +14,11 @@ import Orders from '../pages/orders/orders';
 import { getIngredients } from '../services/actions/ingredients';
 import Modal from '../components/modal/modal';
 import IngredientDetails from '../components/modal-ingredient-details/modal-ingredient-details';
-import { CLOSE_MODAL, OPEN_MODAL, WS_CONNECTION_START } from '../services/constants';
+import { CLOSE_MODAL, OPEN_MODAL, WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../services/constants';
 import { ILocation } from '../utils/types';
 import ProtectedRoute from '../protected-route/protected-route';
 import OrderInfo from "../pages/order-info/order-info";
 import Feed from "../pages/feed/feed";
-import FeedInfo from "../components/feed-info/feed-info";
 import {useDispatch, useSelector} from "../services/hooks";
 import ModalOrderInfo from "../components/modal-order-info/modal-order-info";
 
@@ -29,13 +28,17 @@ function App() {
   const history = useHistory();
   const background = location.state && location.state.background;
   const modalVisible = useSelector(store => store.modals.visible);
-  const data = useSelector(store => store.ws.messages);
     
   useEffect(() => {
     if (background) dispatch({ type: OPEN_MODAL })
   }, [dispatch, modalVisible, background])
 
   useEffect(() => { dispatch(getIngredients()) }, [dispatch]);
+
+  useEffect(() => {    
+    if (location.pathname.includes('orders') || location.pathname.includes('feed')) dispatch({ type: WS_CONNECTION_START })
+    else dispatch({ type: WS_CONNECTION_CLOSED })
+  }, [location, dispatch])
 
   const handleModalClose = () => {    
     history.goBack()
@@ -54,9 +57,9 @@ function App() {
         <Route path="/ingredients/:id" exact component={ Ingredients } />
         <ProtectedRoute path="/profile" exact component={Profile} /> 
         <ProtectedRoute path="/profile/orders" exact component={Orders} /> 
-        <ProtectedRoute path="/profile/orders/:id" exact component={OrderInfo} /> 
+        <ProtectedRoute path="/profile/orders/:id" exact component={ OrderInfo } /> 
         <Route path="/feed/" exact component={ Feed } />
-        <Route path="/feed/:id" exact component={ FeedInfo } />
+        <Route path="/feed/:id" exact component={ OrderInfo } />
         <Route component={ NotFound } />
       </Switch>
 
@@ -79,7 +82,7 @@ function App() {
               }
           />
           <Route
-              path='/profile/order/:id'
+              path='/profile/orders/:id'
               children={
                 <Modal onClose={handleModalClose}>
                   <ModalOrderInfo />

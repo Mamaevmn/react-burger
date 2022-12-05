@@ -17,8 +17,6 @@ const ProtectedRoute: FC<TProtectedRoute> = ({ ...props }) => {
 
     useEffect(() => {
         if (!userAuth) dispatch(getUser());
-        console.log(props);
-        
     }, [dispatch, userAuth])
 
     return userAuth

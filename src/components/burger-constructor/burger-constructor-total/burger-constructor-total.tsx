@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import totalStyle from './burger-constructor-total.module.css';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CALCULATE_TOTAL_PRICE, CLEAR_CONSTRUCTOR, CLEAR_ITEMS_COUNT } from '../../../services/constants';
+import { CALCULATE_TOTAL_PRICE, CLEAR_CONSTRUCTOR, CLEAR_ITEMS_COUNT, WS_SEND_MESSAGE } from '../../../services/constants';
 import { getOrder } from '../../../services/actions/order';
 import { TFullIngredient } from '../../../utils/types';
 import {useDispatch, useSelector} from "../../../services/hooks";
@@ -29,6 +29,7 @@ function BurgerConstructorTotal() {
         if (userAuth) {
             const orderIdArray = createGoodsIdArray();
             dispatch(getOrder(orderIdArray))
+            dispatch({type: WS_SEND_MESSAGE, payload: orderIdArray})
             dispatch({ type: CLEAR_CONSTRUCTOR })
             dispatch({ type: CLEAR_ITEMS_COUNT })
         } else {

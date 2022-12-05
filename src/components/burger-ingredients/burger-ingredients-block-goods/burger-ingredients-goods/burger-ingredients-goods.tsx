@@ -37,7 +37,7 @@ const BurgerGoods: FC<TFullIngredient> = ({ ...goods }) => {
                 { !!goods.counter && <Counter count={goods.counter} size="default" /> }
                 <img className='pl-4 pr-4' src={goods.image} alt="" />
                 <p className={classNames(goodsStyle.price, 'text_type_main-medium', 'mb-1', 'mt-1')}>
-                    <span className='mr-2'>
+                    <span className='mr-2 text_type_digits-default'>
                         {goods.price}
                     </span>
                     <CurrencyIcon type="primary" />

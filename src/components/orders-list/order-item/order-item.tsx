@@ -22,6 +22,12 @@ function OrderItem({ ...props }) {
             case 'done':
                 translate = 'Выполнен'
                 break;
+            case 'pending':
+                translate = 'Готовится'
+                break;
+            case 'canceled':
+                translate = 'Отменен'
+                break;
             default:
                 translate = status
                 break

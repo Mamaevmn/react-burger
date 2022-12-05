@@ -22,7 +22,7 @@ export const WS_URL = `${WS}${BASE_URL}/orders/all` as const;
 
 export const getData = () => request(INGREDIENTS_URL, null)
 
-export const postOrder = (goodsIdArray: Array<string>) => request(ORDERS_URL, {
+export const postOrder = (goodsIdArray: Array<string>) => request(`${ORDERS_URL}?token=${getCookie('token')}`, {
   method: 'POST',
   mode: 'cors',
   cache: 'no-cache',

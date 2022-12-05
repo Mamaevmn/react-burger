@@ -88,3 +88,7 @@ p.input__error {
   position: relative !important;
   transform: none !important;
 }
+
+.mh-none {
+  max-height: none !important;
+}
