@@ -1,7 +1,7 @@
 import {useState, useCallback} from 'react';
 
 interface IFormValidation {
-  [key: string]: string;
+  [key: string]: any;
 }
 
 export const useFormAndValidation = (props: IFormValidation) => {

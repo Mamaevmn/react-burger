@@ -40,7 +40,7 @@ const ingredientsInitialState: TIngredientsInitialState = {
 export const ingredientsReducer = (
   state = ingredientsInitialState,
   action: TIngredientsActions
-) => {
+): TIngredientsInitialState => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -60,7 +60,7 @@ export const ingredientsReducer = (
       return { ...state, itemsFailed: true, itemsRequest: false };
     }
     case GET_INGREDIENTS_TYPES: {
-      const typesObjArray = state.items.reduce((types, item) => {
+      const typesObjArray: TIngredientsType | any = state.items.reduce((types, item) => {
         if (!types.includes(item.type)) types.push(item.type)
         return types
       }, []).map(type => ({

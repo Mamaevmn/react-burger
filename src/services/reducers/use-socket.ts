@@ -13,7 +13,7 @@ const WSinitialState: TWSState = {
     messages: []
 };
 
-export const wsReducer = (state = WSinitialState, action: TWSActions) => {
+export const wsReducer = (state = WSinitialState, action: TWSActions): TWSState => {
     switch (action.type) {
         case WS_CONNECTION_SUCCESS:
             return {

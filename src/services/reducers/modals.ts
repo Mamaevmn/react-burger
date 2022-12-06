@@ -18,7 +18,7 @@ const modalsInitialState: TModalsInitialState = {
 export const modalsReducer = (
     state = modalsInitialState,
     action: TModalsActions
-) => {
+): TModalsInitialState => {
     switch (action.type) {
         case OPEN_MODAL: {
             return {

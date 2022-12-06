@@ -30,7 +30,7 @@ const resetPasswordInitialState: TResetPasswordInitialState = {
 export const resetPasswordReducer = (
     state = resetPasswordInitialState,
     action: TResetPasswordActions
-) => {
+): TResetPasswordInitialState => {
     switch (action.type) {
         case PASSWORD_REQUEST: {
             return {

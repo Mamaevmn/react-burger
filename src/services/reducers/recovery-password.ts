@@ -22,7 +22,7 @@ const recoveryInitialState: TRecoveryInitialState = {
 export const recoveryReducer = (
     state = recoveryInitialState,
     action: TRecoveryPasswordActions
-) => {
+): TRecoveryInitialState => {
     switch (action.type) {
         case RECOVERY_PASSWORD_REQUEST: {
             return {

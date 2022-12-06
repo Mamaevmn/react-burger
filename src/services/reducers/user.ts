@@ -34,7 +34,7 @@ const userInitialState: TUserInitialState = {
 export const userReducer = (
     state = userInitialState,
     action: TUserActions
-) => {
+): TUserInitialState => {
     switch (action.type) {
         case SET_USER_DATA: {
             return {
@@ -50,11 +50,11 @@ export const userReducer = (
         case CLEAR_USER_DATA: {
             return {
                 ...state,
-                name: '',
-                email: '',
-                password: '',
-                token: '',
-                refreshToken: '',
+                name: null,
+                email: null,
+                password: null,
+                token: null,
+                refreshToken: null,
                 auth: false,
             }
         }

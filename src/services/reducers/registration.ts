@@ -20,7 +20,7 @@ const registrationInitialState: TRegistrationInitialState = {
 export const registrationReducer = (
     state = registrationInitialState,
     action: TRegistrationActions
-) => {
+): TRegistrationInitialState => {
     switch (action.type) {
         case REGISTRATION_DATA_REQUEST: {
             return {
