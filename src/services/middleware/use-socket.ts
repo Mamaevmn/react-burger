@@ -10,17 +10,17 @@ import {
 import { RootState } from '../store';
 import { AppDispatch, TApplicationActions } from '../types';
 
-export const socketMiddleware = (wsUrl: string): Middleware => {
+export const socketMiddleware = (): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch | any, RootState>) => {
         let socket: WebSocket = null;
 
         return next => (action: TApplicationActions | any) => {
-            const { dispatch, getState } = store;
+            const { dispatch } = store;
             const { type, payload } = action;
 
             if (type === WS_CONNECTION_START) {
                 // объект класса WebSocket
-                socket = new WebSocket(wsUrl);
+                socket = new WebSocket(payload);
             }
             if (socket) {
                 // функция, которая вызывается при открытии сокета

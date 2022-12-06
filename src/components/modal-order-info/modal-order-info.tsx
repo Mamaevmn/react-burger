@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './modal-order-info.module.css'
 import classNames from "classnames";
@@ -39,12 +39,12 @@ function ModalOrderInfo() {
         return translate;
     }
 
-    const findMatchIngredient = () => order.ingredients.map((id: string) => ingredients.find((ingredient: TFullIngredient) => ingredient._id === id))
+    const findMatchIngredient = useCallback(() => order.ingredients.map((id: string) => ingredients.find((ingredient: TFullIngredient) => ingredient._id === id)), [order.ingredients, ingredients])
 
     useEffect(() => {
         if (connected && messages.orders) setOrder(messages.orders.find((order: any) => +id === order.number));
         if (Object.keys(order).length > 0) setOrderСompound(Array.from(new Set(findMatchIngredient())));
-    }, [connected, messages, order])
+    }, [connected, messages, order, id, findMatchIngredient])
 
     return (
         Object.keys(order).length > 0 ?

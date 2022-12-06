@@ -4,7 +4,6 @@ import { rootReducer } from './reducers';
 
 import { compose } from 'redux';
 import { socketMiddleware } from './middleware/use-socket';
-import { WS_URL } from '../utils/api';
 
 declare global {
     interface Window {
@@ -16,7 +15,7 @@ export const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || c
 
 const enhancer = composeEnhancers(applyMiddleware(
     thunk,
-    socketMiddleware(WS_URL)
+    socketMiddleware()
 ));
 
 export const store = createStore(rootReducer, enhancer);

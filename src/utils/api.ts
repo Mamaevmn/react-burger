@@ -19,16 +19,18 @@ export const USER_REGISTRATION_URL = `${AUTH_URL}/register` as const;
 export const USER_INFO_URL = `${AUTH_URL}/user` as const;
 
 export const WS_URL = `${WS}${BASE_URL}/orders/all` as const;
+export const WS_URL_ORDERS = `${WS}${BASE_URL}/orders?token=${getCookie('token')}` as const;
 
 export const getData = () => request(INGREDIENTS_URL, null)
 
-export const postOrder = (goodsIdArray: Array<string>) => request(`${ORDERS_URL}?token=${getCookie('token')}`, {
+export const postOrder = (goodsIdArray: Array<string>) => request(`${ORDERS_URL}`, {
   method: 'POST',
   mode: 'cors',
   cache: 'no-cache',
   credentials: 'same-origin',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + getCookie('token')
   },
   redirect: 'follow',
   referrerPolicy: 'no-referrer',

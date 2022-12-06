@@ -21,6 +21,7 @@ import OrderInfo from "../pages/order-info/order-info";
 import Feed from "../pages/feed/feed";
 import {useDispatch, useSelector} from "../services/hooks";
 import ModalOrderInfo from "../components/modal-order-info/modal-order-info";
+import { WS_URL, WS_URL_ORDERS } from '../utils/api';
 
 function App() {
   const dispatch = useDispatch();
@@ -35,8 +36,9 @@ function App() {
 
   useEffect(() => { dispatch(getIngredients()) }, [dispatch]);
 
-  useEffect(() => {    
-    if (location.pathname.includes('orders') || location.pathname.includes('feed')) dispatch({ type: WS_CONNECTION_START })
+  useEffect(() => {
+    if (location.pathname.includes('feed')) dispatch({ type: WS_CONNECTION_START, payload: WS_URL })
+    if (location.pathname.includes('orders')) dispatch({ type: WS_CONNECTION_START, payload: WS_URL_ORDERS })
     else dispatch({ type: WS_CONNECTION_CLOSED })
   }, [location, dispatch])
 
