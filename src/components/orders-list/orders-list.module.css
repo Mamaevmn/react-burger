@@ -1,6 +1,5 @@
 .list {
-    display: grid;
-    gap: 24px;
+    display: flex;
     flex-direction: column;
     width: 100%;
     max-height: calc(100% - 64px);

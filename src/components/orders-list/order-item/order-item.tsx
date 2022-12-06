@@ -39,7 +39,7 @@ function OrderItem({ ...props }) {
     const findMatchIngredient = () => props.ingredients.map((id: string) => ingredients.find((ingredient: TFullIngredient) => ingredient._id === id))
 
     return(
-        <li onClick={onOpenModal}>
+        <li onClick={onOpenModal} className={styles.wrapper}>
             <Link className={classNames(styles.item, 'p-6', 'text_color_primary')}
                 to={{
                     pathname: `${location.pathname}/${props.number}`,

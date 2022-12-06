@@ -1,3 +1,11 @@
+.wrapper {
+    display: flex;
+}
+
+.wrapper:not(:last-child) {
+    margin-bottom: 24px;
+}
+
 .item {
     position: relative;
     box-sizing: border-box;
