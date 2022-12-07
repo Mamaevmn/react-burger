@@ -2,11 +2,6 @@ import { editUserInfo, getUserInfo, postUpdateToken, postUserLogout } from "../.
 import { deleteCookie, setCookie } from "../../utils/cookie";
 import { AppDispatch, AppThunk } from "../types";
 import { 
-    TEmail, 
-    TName, 
-    TPassword 
-} from "../types/data";
-import { 
     CLEAR_USER_DATA, 
     SET_USER_DATA, 
     USER_FAILED, 
@@ -22,17 +17,17 @@ export interface IUserRequestAC {
 export interface IUserSuccessRequestAC {
     readonly type: typeof USER_SUCCESS;
     readonly payload: {
-        name: TName;
-        email: TEmail
+        name: string;
+        email: string
     }
 }
 
 export interface ISetUserDataAC {
     readonly type: typeof SET_USER_DATA;
     readonly payload: {
-        name: TName;
-        email: TEmail;
-        password: TPassword;
+        name: string;
+        email: string;
+        password: string;
         token: string;
         refreshToken: string;
         auth: boolean;
@@ -58,7 +53,7 @@ function userRequestAC(): IUserRequestAC {
     return { type: USER_REQUEST }
 }
 
-function userSuccessRequestAC(name: TName, email: TEmail): IUserSuccessRequestAC {
+function userSuccessRequestAC(name: string, email: string): IUserSuccessRequestAC {
     return {
         type: USER_SUCCESS,
         payload: {
@@ -107,7 +102,7 @@ export const updateToken: AppThunk = () => (dispatch: AppDispatch) => {
     }).catch(() => dispatch(userFailedRequestAC()));
 };
 
-export const setUserData: AppThunk = (name: TName, email: TEmail, password: TPassword) => (dispatch: AppDispatch) => {
+export const setUserData: AppThunk = (name: string, email: string, password: string) => (dispatch: AppDispatch) => {
     dispatch(userRequestAC());
     editUserInfo(name, email, password).then().catch(() => dispatch(userFailedRequestAC()));
 };

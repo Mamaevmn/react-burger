@@ -7,10 +7,11 @@ import classNames from 'classnames';
 import { profileTabs } from "../../utils/const"
 import { userLogout } from '../../services/actions/user';
 import {useDispatch} from "../../services/hooks";
+import { ILocation } from '../../services/types/data';
 
 function ProfileTabs() {
     const history = useHistory();
-    const location = useLocation();
+    const location = useLocation<ILocation>();
     const dispatch = useDispatch();
 
     const logout = useCallback(

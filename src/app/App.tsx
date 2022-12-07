@@ -14,14 +14,13 @@ import Orders from '../pages/orders/orders';
 import { getIngredients } from '../services/actions/ingredients';
 import Modal from '../components/modal/modal';
 import IngredientDetails from '../components/modal-ingredient-details/modal-ingredient-details';
-import { CLOSE_MODAL, OPEN_MODAL, WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../services/constants';
-import { ILocation } from '../utils/types';
+import { CLOSE_MODAL, OPEN_MODAL } from '../services/constants';
 import ProtectedRoute from '../protected-route/protected-route';
 import OrderInfo from "../pages/order-info/order-info";
 import Feed from "../pages/feed/feed";
 import {useDispatch, useSelector} from "../services/hooks";
 import ModalOrderInfo from "../components/modal-order-info/modal-order-info";
-import { WS_URL, WS_URL_ORDERS } from '../utils/api';
+import { ILocation } from '../services/types/data';
 
 function App() {
   const dispatch = useDispatch();
@@ -35,12 +34,6 @@ function App() {
   }, [dispatch, modalVisible, background])
 
   useEffect(() => { dispatch(getIngredients()) }, [dispatch]);
-
-  useEffect(() => {
-    if (location.pathname.includes('feed')) dispatch({ type: WS_CONNECTION_START, payload: WS_URL })
-    if (location.pathname.includes('orders')) dispatch({ type: WS_CONNECTION_START, payload: WS_URL_ORDERS })
-    else dispatch({ type: WS_CONNECTION_CLOSED })
-  }, [location, dispatch])
 
   const handleModalClose = () => {    
     history.goBack()

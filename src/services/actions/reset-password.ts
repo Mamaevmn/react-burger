@@ -5,7 +5,6 @@ import {
     PASSWORD_SUCCESS
 } from "../constants";
 import { AppDispatch } from "../types";
-import { TEmail } from "../types/data";
 
 export interface IResetPasswordRequestAC {
     readonly type: typeof PASSWORD_REQUEST;
@@ -40,7 +39,7 @@ function resetPasswordFailedRequestAC(): IResetPasswordFailedRequestAC {
     return { type: PASSWORD_FAILED }
 }
 
-export const setPasswordReset = (email: TEmail) => (dispatch: AppDispatch) => {
+export const setPasswordReset = (email: string) => (dispatch: AppDispatch) => {
     dispatch(resetPasswordRequestAC());
     postPasswordReset(email).then(res => {
         dispatch(resetPasswordSuccessRequestAC(res.message));

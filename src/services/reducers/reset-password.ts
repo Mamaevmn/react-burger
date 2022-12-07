@@ -4,10 +4,9 @@ import {
     PASSWORD_SUCCESS,
     PASSWORD_FAILED
 } from "../constants";
-import { TPassword } from "../types/data";
 
 export type TResetPasswordInitialState = {
-    password: TPassword,
+    password: string,
     code: string | number,
     passwordIsValid: boolean,
     codeIsValid: boolean,

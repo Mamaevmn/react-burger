@@ -5,8 +5,8 @@ import constructorStyle from './burger-constructor-list.module.css'
 
 import BurgerConstructorListItem from './burger-constructor-list-item/burger-constructor-list-item';
 import {UPDATE_CONSTRUCTOR_LIST} from '../../../services/constants';
-import {TFullIngredient} from '../../../utils/types';
 import {useDispatch, useSelector} from "../../../services/hooks";
+import { TFullIngredient } from '../../../services/types/data';
 
 function BurgerConstructorList() {
     const dispatch = useDispatch();
@@ -45,8 +45,7 @@ function BurgerConstructorList() {
                         {constructorData.length ?
                             <ul className={classNames(constructorStyle.list, 'scroll-block')}>
                                 {constructorData.map((goods: TFullIngredient, index: number) =>
-                                    <BurgerConstructorListItem key={goods.u_id} idx={index} {...goods}
-                                                               moveConstructorIngredient={moveConstructorIngredient}/>)}
+                                    <BurgerConstructorListItem key={goods.u_id} idx={index} {...goods} moveConstructorIngredient={moveConstructorIngredient}/>)}
                             </ul> : null
                         }
                         {bunData &&

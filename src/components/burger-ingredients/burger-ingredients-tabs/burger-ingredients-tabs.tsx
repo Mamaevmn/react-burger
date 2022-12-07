@@ -4,8 +4,8 @@ import typesStyle from './burger-ingredients-tabs.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { SET_CURRENT_TAB } from '../../../services/constants';
-import { TIngredientsType, TIngredientsTypesName } from '../../../utils/types';
 import {useDispatch, useSelector} from "../../../services/hooks";
+import { TIngredientsType, TIngredientsTypesName } from '../../../services/types/data';
 
 function Tabs() {
   const dispatch = useDispatch();

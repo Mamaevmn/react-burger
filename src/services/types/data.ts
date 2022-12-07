@@ -2,11 +2,6 @@ export type TIngredientsTypesName = 'bun' | 'main' | 'sauce';
 export type TIngredientsTypesNameOnRussia = 'Булка' | 'Начинка' | 'Соус';
 export type TModalTypes = 'order' | 'order-info' | '';
 
-export type TName = {name: string}
-export type TEmail = {email: string}
-export type TPassword = {password: string}
-export type TToken = {token: string}
-
 export type TLink = {
     link: string;
     text: string;
@@ -34,7 +29,8 @@ export type TProfileTabs = TLink & {
     help?: string;
 }
 
-export type TShortIngredient = TName & TCompound & {
+export type TShortIngredient = TCompound & {
+    name: string;
     image_large: string;
 }
 
@@ -54,4 +50,14 @@ export interface ILocation {
         pathname: string
     }
     background?: Location
+}
+
+export interface IOrder {
+    _id: string;
+    name: string;
+    status: string;
+    createdAt: string;
+    updateAt: string;
+    ingredients: string[];
+    number: number;
 }

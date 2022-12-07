@@ -10,8 +10,8 @@ import touchSvg from './../../../../images/icons/touch-btn.svg'
 import { DELETE_INGREDIENTS, OPEN_MODAL, DECREASE_ITEM_COUNT } from '../../../../services/constants';
 import { BUN_TYPE, INGREDIENTS_TYPE } from '../../../../utils/const';
 import classNames from 'classnames';
-import { TFullIngredient } from '../../../../utils/types';
 import {useDispatch} from "../../../../services/hooks";
+import { ILocation, TFullIngredient } from '../../../../services/types/data';
 
 type TBurgerConstructorListItem = TFullIngredient & {
   idx?: number;
@@ -27,7 +27,7 @@ type TDndItem = TFullIngredient & {
 
 const BurgerConstructorListItem: FC<TBurgerConstructorListItem> = (props) => {
   const dispatch = useDispatch();
-  const location = useLocation()
+  const location = useLocation<ILocation>()
 
   const ref = useRef(null);
   const [{ handlerId }, drop] = useDrop<TDndItem, void, { handlerId: Identifier | null }>({

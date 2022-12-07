@@ -5,6 +5,14 @@
     padding-top: 40px;
 }
 
+.not_modal {
+    padding-top: 0;
+}
+
+.not_modal > p {
+    align-self: center;
+}
+
 .title {
     align-self: flex-start;
     line-height: 64px;

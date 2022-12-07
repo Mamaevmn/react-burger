@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
 import styles from './orders-list.module.css';
 import OrderItem from "./order-item/order-item";
 import classNames from "classnames";
-import { useDispatch, useSelector } from '../../services/hooks';
+import { useSelector } from '../../services/hooks';
+import { IOrder } from '../../services/types/data';
 
 function OrdersList() {
     const { connected, messages } = useSelector(store => ({
@@ -13,7 +13,7 @@ function OrdersList() {
     return (
         connected && messages.orders &&
         <ul className={classNames(styles.list, 'scroll-block', 'pr-2')}>
-            {messages.orders.map((order: any) => <OrderItem key={order._id} {...order}/>)}
+            {messages.orders.map((order: IOrder) => <OrderItem key={order._id} {...order}/>)}
         </ul>
     )
 }

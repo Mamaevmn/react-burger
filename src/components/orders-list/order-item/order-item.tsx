@@ -5,12 +5,11 @@ import {Link, useLocation} from "react-router-dom";
 import {OPEN_MODAL} from "../../../services/constants";
 import {ORDER_INFO_TYPE} from "../../../utils/const";
 import {useDispatch, useSelector} from "../../../services/hooks";
-import { TFullIngredient } from '../../../utils/types';
-import { nanoid } from 'nanoid';
+import { ILocation, TFullIngredient } from '../../../services/types/data';
 
 function OrderItem({ ...props }) {
     const dispatch = useDispatch()
-    const location = useLocation()
+    const location = useLocation<ILocation>()
 
     const ingredients = useSelector(store => store.ingredients.items)
 
@@ -65,7 +64,7 @@ function OrderItem({ ...props }) {
                         {
                             props.ingredients.length > 5 && 
                             findMatchIngredient().reverse().map((item: TFullIngredient, idx: number) => (idx === 5) && 
-                                <li key={nanoid()} className={styles.ingredient}>
+                                <li key={idx} className={styles.ingredient}>
                                     <span className={classNames(styles.ingredient_text, 'text', 'text_type_main-default')}>
                                         +{props.ingredients.length - 5}
                                     </span>
@@ -75,7 +74,7 @@ function OrderItem({ ...props }) {
                         }
                         {
                             findMatchIngredient().reverse().map((item: TFullIngredient, idx: number) => (idx < 5) && 
-                                <li key={nanoid()} className={styles.ingredient}>
+                                <li key={idx} className={styles.ingredient}>
                                     <img className={styles.ingredient_image} src={item.image_mobile} alt={item.name} title={item.name} />
                                 </li>
                             )

@@ -5,8 +5,8 @@ import classNames from 'classnames';
 import typesStyle from './burger-ingredients-block-goods.module.css';
 import BurgerGoods from './burger-ingredients-goods/burger-ingredients-goods';
 import { SET_CURRENT_TAB } from '../../../services/constants';
-import { TFullIngredient, TIngredientsType } from '../../../utils/types';
 import {useDispatch, useSelector} from "../../../services/hooks";
+import { TFullIngredient, TIngredientsType } from '../../../services/types/data';
 
 function BurgerIngredientsTypes() {
     const list = useRef<HTMLUListElement>()
@@ -65,7 +65,7 @@ const BurgerIngredientsTypesTab: FC<TIngredientsType> = ({ type, name}) => {
             <p className="text text_type_main-medium mb-6">
                 {name}
             </p>
-            <ul className={classNames(typesStyle.list, 'pb-6', 'pl-4', 'pr-4')}>
+            <ul className={classNames(typesStyle.list, 'pb-6', 'pl-4', 'pr-2')}>
                 { items.map((goods: TFullIngredient) => type === goods.type && <BurgerGoods key={goods._id} {...goods}/>) }
             </ul>
         </li>

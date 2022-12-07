@@ -2,29 +2,32 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
 
-import modalContentStyle from './modal-ingredient-details.module.css'
-import { TFullIngredient } from '../../utils/types';
+import styles from './modal-ingredient-details.module.css'
 import {useSelector} from "../../services/hooks";
+import { TFullIngredient } from '../../services/types/data';
 
 function IngredientDetails() {
     const { id } = useParams<{ id?: string }>();
     const [ item, setItem ] = useState<TFullIngredient>()
 
-    const items = useSelector(store => store.ingredients.items);
+    const { items, modalVisible } = useSelector(store => ({
+        items: store.ingredients.items,
+        modalVisible: store.modals.visible,
+    }));
     
     useEffect(() => {
-        setItem(items.find((item: TFullIngredient) => id === item._id));
+        setItem(items.find(item => id === item._id));
     }, [setItem, items, id])
 
     return (
-        <div className={modalContentStyle.modal_content}>
-            <p className={classNames(modalContentStyle.title, 'text', 'text_type_main-large')}>
+        <div className={classNames(styles.modal_content, !modalVisible && styles.not_modal)}>
+            <p className={classNames(styles.title, 'text', 'text_type_main-large')}>
                 Детали ингредиента
             </p>
             
-            <img className={modalContentStyle.modal_content_img} src={item?.image_large} alt={item?.name}/>
+            <img className={styles.modal_content_img} src={item?.image_large} alt={item?.name}/>
             <p className="text text_type_main-medium pt-4 pb-8">{item?.name}</p>
-            <div className={modalContentStyle.modal_content_compound}>
+            <div className={styles.modal_content_compound}>
                 <p className="text text_type_main-default text_color_inactive pr-5">
                     <span>Калории,ккал</span>
                     <span className="text text_type_digits-default">{item?.calories}</span>

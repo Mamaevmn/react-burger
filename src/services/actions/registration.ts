@@ -5,7 +5,6 @@ import {
     REGISTRATION_DATA_SUCCESS
 } from "../constants";
 import { AppDispatch, AppThunk } from "../types";
-import { TEmail, TName, TPassword } from "../types/data";
 
 export interface IRegistrationRequestAC {
     readonly type: typeof REGISTRATION_DATA_REQUEST;
@@ -41,7 +40,7 @@ function registrationFailedRequestAC(): IRegistrationFailedRequestAC {
     }
 }
 
-export const setUserRegistration: AppThunk = (name: TName, email: TEmail, password: TPassword) => (dispatch: AppDispatch) => {
+export const setUserRegistration: AppThunk = (name: string, email: string, password: string) => (dispatch: AppDispatch) => {
     dispatch(registrationRequestAC());
     postUserRegistration(name, email, password).then(() => {
         dispatch(registrationSuccessRequestAC());

@@ -1,13 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import styles from './modal-order-info.module.css'
 import classNames from "classnames";
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "../../services/hooks";
-import { TFullIngredient } from '../../utils/types';
+import { useDispatch, useSelector } from "../../services/hooks";
 import Loader from '../loader/loader';
+import { ILocation, IOrder, TFullIngredient } from '../../services/types/data';
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/constants';
+import { WS_URL, WS_URL_ORDERS } from '../../utils/api';
 
 function ModalOrderInfo() {
+    const dispatch = useDispatch();
+    const location = useLocation<ILocation>()
     const { id } = useParams<{ id?: string }>();
     const [order, setOrder] = useState<any>({})
     const [orderСompound, setOrderСompound] = useState<any>([])
@@ -18,6 +22,12 @@ function ModalOrderInfo() {
         messages: store.ws.messages,
         ingredients: store.ingredients.items
     }));
+
+    useEffect(() => {
+        if (location.pathname.includes('feed')) dispatch({ type: WS_CONNECTION_START, payload: WS_URL })
+        if (location.pathname.includes('orders')) dispatch({ type: WS_CONNECTION_START, payload: WS_URL_ORDERS })
+        return () => {connected && dispatch({ type: WS_CONNECTION_CLOSED })}
+    }, [dispatch, connected, location]);
 
     const translateStatus = (status: string): string => {
         let translate;
@@ -42,7 +52,7 @@ function ModalOrderInfo() {
     const findMatchIngredient = useCallback(() => order.ingredients.map((id: string) => ingredients.find((ingredient: TFullIngredient) => ingredient._id === id)), [order.ingredients, ingredients])
 
     useEffect(() => {
-        if (connected && messages.orders) setOrder(messages.orders.find((order: any) => +id === order.number));
+        if (connected && messages.orders) setOrder(messages.orders.find((order: IOrder) => +id === order.number));
         if (Object.keys(order).length > 0) setOrderСompound(Array.from(new Set(findMatchIngredient())));
     }, [connected, messages, order, id, findMatchIngredient])
 

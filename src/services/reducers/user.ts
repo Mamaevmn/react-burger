@@ -6,12 +6,11 @@ import {
     USER_SUCCESS,
     USER_FAILED,
 } from "../constants";
-import { TEmail, TName, TPassword } from "../types/data";
 
 export type TUserInitialState = {
-    name: TName,
-    email: TEmail,
-    password: TPassword,
+    name: string,
+    email: string,
+    password: string,
     token: string,
     refreshToken: string,
     auth: boolean,

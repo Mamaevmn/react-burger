@@ -2,6 +2,7 @@ import { useEffect, FC, ReactElement } from 'react';
 import { Redirect, Route, useLocation } from "react-router-dom";
 import { getUser } from "../services/actions/user";
 import {useDispatch, useSelector} from "../services/hooks";
+import { ILocation } from '../services/types/data';
 
 type TProtectedRoute = { 
     path: string;
@@ -11,7 +12,7 @@ type TProtectedRoute = {
 
 const ProtectedRoute: FC<TProtectedRoute> = ({ ...props }) => {
     const dispatch = useDispatch();
-    const location = useLocation();
+    const location = useLocation<ILocation>();
 
     const userAuth = useSelector(store => store.user.auth);
 

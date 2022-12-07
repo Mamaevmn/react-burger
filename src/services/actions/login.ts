@@ -7,7 +7,6 @@ import {
     SET_USER_DATA
 } from "../constants";
 import { AppDispatch, AppThunk } from "../types";
-import { TEmail, TName, TPassword } from "../types/data";
 
 export interface ILoginRequestAC {
     readonly type: typeof LOGIN_REQUEST;
@@ -16,9 +15,9 @@ export interface ILoginRequestAC {
 export interface ILoginSetUserDataAC {
     readonly type: typeof SET_USER_DATA;
     readonly payload: {
-        name: TName;
-        email: TEmail;
-        password: TPassword;
+        name: string;
+        email: string;
+        password: string;
     }
 }
 
@@ -40,7 +39,7 @@ function loginRequestAC(): ILoginRequestAC {
     return { type: LOGIN_REQUEST }
 }
 
-function loginSetUserDataAC(name: TName, email: TEmail, password: TPassword): ILoginSetUserDataAC {
+function loginSetUserDataAC(name: string, email: string, password: string): ILoginSetUserDataAC {
     return {
         type: SET_USER_DATA,
         payload: {
@@ -59,7 +58,7 @@ function loginFailedRequestAC(): ILoginFailedRequestAC {
     return { type: LOGIN_FAILED }
 }
 
-export const setLogin: AppThunk = (email: TEmail, password: TPassword) => (dispatch: AppDispatch) => {
+export const setLogin: AppThunk = (email: string, password: string) => (dispatch: AppDispatch) => {
     dispatch(loginRequestAC());
     postUserLogin(email, password).then(res => {
         const authToken = res.accessToken.split('Bearer ')[1];

@@ -1,33 +1,9 @@
-import { BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-
 import { 
-    THeaderLinks,
     TProfileTabs,
     TIngredientsTypesName,
     TIngredientsTypesNameOnRussia, 
 } from "../services/types/data";
 
-
-export const headerLinks: Array<THeaderLinks> = [
-    {   
-        link: '/',
-        text: 'Конструктор',
-        classes: ['color-text--primary', 'mr-2', 'pr-5', 'pt-4', 'pb-4'],
-        icon: <BurgerIcon type="primary" />,
-    },
-    {   
-        link: '/feed',
-        text: 'Лента заказов',
-        classes: ['text_color_inactive', 'pr-5', 'pl-5', 'pt-4', 'pb-4'],
-        icon: <ListIcon type="secondary" />,
-    },
-    {   
-        link: '/login',
-        text: 'Личный кабинет',
-        classes: ['text_color_inactive', 'pr-5', 'pl-5', 'pt-4', 'pb-4', 'ml-a'],
-        icon: <ProfileIcon type="secondary" />,
-    },
-];
 
 export const profileTabs: Array<TProfileTabs> = [
     {   

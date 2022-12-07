@@ -6,8 +6,8 @@ import totalStyle from './burger-constructor-total.module.css';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CALCULATE_TOTAL_PRICE, CLEAR_CONSTRUCTOR, CLEAR_ITEMS_COUNT, WS_SEND_MESSAGE } from '../../../services/constants';
 import { getOrder } from '../../../services/actions/order';
-import { TFullIngredient } from '../../../utils/types';
 import {useDispatch, useSelector} from "../../../services/hooks";
+import { TFullIngredient } from '../../../services/types/data';
 
 function BurgerConstructorTotal() {
     const dispatch = useDispatch();

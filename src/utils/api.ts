@@ -39,10 +39,10 @@ export const postOrder = (goodsIdArray: Array<string>) => request(`${ORDERS_URL}
   })
 }) 
 
-export const postUserRegistration = <TName, TEmail, TPassword>(
-    name: TName, 
-    email: TEmail, 
-    password: TPassword
+export const postUserRegistration = (
+    name: string, 
+    email: string, 
+    password: string
   ) => request( USER_REGISTRATION_URL, {
   method: 'POST',
   mode: 'cors',
@@ -60,9 +60,9 @@ export const postUserRegistration = <TName, TEmail, TPassword>(
   })
 })
 
-export const postUserLogin = <TEmail, TPassword>( 
-    email: TEmail, 
-    password: TPassword
+export const postUserLogin = ( 
+    email: string, 
+    password: string
   ) => request(LOGIN_URL, {
   method: 'POST',
   mode: 'cors',
@@ -107,10 +107,10 @@ export const getUserInfo = () => request(USER_INFO_URL, {
   referrerPolicy: 'no-referrer'
 })
 
-export const editUserInfo = <TName, TEmail, TPassword>(
-    name: TName, 
-    email: TEmail, 
-    password: TPassword
+export const editUserInfo = (
+    name: string, 
+    email: string, 
+    password: string
   ) => request(USER_INFO_URL, {
   method: 'PATCH',
   mode: 'cors',
@@ -129,8 +129,8 @@ export const editUserInfo = <TName, TEmail, TPassword>(
   })
 })
 
-export const postPasswordReсovery = <TEmail>(
-    email: TEmail
+export const postPasswordReсovery = (
+    email: string
   ) => request(PASSWORD_RECOVERY_URL, {
   method: 'POST',
   mode: 'cors',
@@ -146,8 +146,8 @@ export const postPasswordReсovery = <TEmail>(
   })
 })
 
-export const postPasswordReset = <TPassword>(
-    password: TPassword,
+export const postPasswordReset = (
+    password: string,
   ) => request(PASSWORD_RESET_URL,{
   method: 'POST',
   mode: 'cors',

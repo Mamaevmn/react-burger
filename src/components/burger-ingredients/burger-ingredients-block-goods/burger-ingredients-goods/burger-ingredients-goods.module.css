@@ -10,6 +10,10 @@
     opacity: 0.5;
 }
 
+.image {
+    width: 100%;
+}
+
 .name {
     min-height: 48px;
 }
@@ -18,4 +22,28 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.add_btn {
+    display: none;
+    text-align: center;
+    padding: 0;
+    width: 76px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.add_btn:hover,
+.add_btn:focus {
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .add_btn {
+        display: unset;
+    }
 }

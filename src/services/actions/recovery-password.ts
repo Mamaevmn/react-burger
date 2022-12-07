@@ -5,7 +5,6 @@ import {
     RECOVERY_PASSWORD_SUCCESS 
 } from "../constants";
 import { AppDispatch, AppThunk } from "../types";
-import { TEmail } from "../types/data";
 
 export interface IRecoveryPasswordRequestAC {
     readonly type: typeof RECOVERY_PASSWORD_REQUEST;
@@ -40,7 +39,7 @@ function recoveryPasswordFailedRequestAC(): IRecoveryPasswordFailedRequestAC {
     return { type: RECOVERY_PASSWORD_FAILED }
 }
 
-export const setPasswordRecovery: AppThunk = (email: TEmail) => (dispatch: AppDispatch) => {
+export const setPasswordRecovery: AppThunk = (email: string) => (dispatch: AppDispatch) => {
         dispatch(recoveryPasswordRequestAC());
         postPasswordReсovery(email).then(res => {
             dispatch(recoveryPasswordSuccessRequestAC(res.message));

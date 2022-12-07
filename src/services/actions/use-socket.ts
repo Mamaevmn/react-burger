@@ -3,7 +3,8 @@ import {
     WS_CONNECTION_ERROR, 
     WS_CONNECTION_START, 
     WS_CONNECTION_SUCCESS, 
-    WS_GET_MESSAGE, 
+    WS_GET_MESSAGE,
+    WS_SEND_MESSAGE, 
 } from "../constants";
 
 export interface IWSConnectionStartAC {
@@ -31,9 +32,24 @@ export interface IWSGetMessageAC {
     readonly payload: any
 }
 
+export interface IWSSendMessageAC {
+    readonly type: typeof WS_SEND_MESSAGE;
+    readonly payload: any
+}
+
 export type TWSActions =
     | IWSConnectionStartAC
     | IWSConnectionSuccessAC
     | IWSConnectionErrorAC
     | IWSConnectionClosedAC
-    | IWSGetMessageAC;
+    | IWSGetMessageAC
+    | IWSSendMessageAC;
+
+export interface IWSTypeActions {
+    wsStart: typeof WS_CONNECTION_START,
+    onOpen: typeof WS_CONNECTION_SUCCESS,
+    onError: typeof WS_CONNECTION_ERROR,
+    onMessage: typeof WS_GET_MESSAGE
+    wsSendMessage: typeof WS_SEND_MESSAGE,
+    onClose: typeof WS_CONNECTION_CLOSED,
+}
