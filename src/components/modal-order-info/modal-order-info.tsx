@@ -6,48 +6,31 @@ import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burge
 import { useDispatch, useSelector } from "../../services/hooks";
 import Loader from '../loader/loader';
 import { ILocation, IOrder, TFullIngredient } from '../../services/types/data';
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/constants';
-import { WS_URL, WS_URL_ORDERS } from '../../utils/api';
+import { WS_CONNECTION_START } from '../../services/constants';
+import { WS_URL_ORDERS, WS_URL_ORDERS_ALL } from '../../utils/api';
+import { getCookie } from '../../utils/cookie';
+import { translateStatus } from '../../utils/const';
 
 function ModalOrderInfo() {
     const dispatch = useDispatch();
     const location = useLocation<ILocation>()
+    const background = location.state && location.state.background;
     const { id } = useParams<{ id?: string }>();
     const [order, setOrder] = useState<any>({})
     const [orderСompound, setOrderСompound] = useState<any>([])
 
-    const { modalVisible, messages, connected, ingredients } = useSelector(store => ({
+    const { modalVisible, messages, connected, ingredients, userAuth } = useSelector(store => ({
         modalVisible: store.modals.visible,
         connected: store.ws.wsConnected,
         messages: store.ws.messages,
-        ingredients: store.ingredients.items
+        ingredients: store.ingredients.items,
+        userAuth: store.user.auth
     }));
 
     useEffect(() => {
-        if (location.pathname.includes('feed')) dispatch({ type: WS_CONNECTION_START, payload: WS_URL })
-        if (location.pathname.includes('orders')) dispatch({ type: WS_CONNECTION_START, payload: WS_URL_ORDERS })
-        return () => {connected && dispatch({ type: WS_CONNECTION_CLOSED })}
-    }, [dispatch, connected, location]);
-
-    const translateStatus = (status: string): string => {
-        let translate;
-        switch (status) {
-            case 'done':
-                translate = 'Выполнен'
-                break;
-            case 'pending':
-                translate = 'Готовится'
-                break;
-            case 'canceled':
-                translate = 'Отменен'
-                break;
-            default:
-                translate = status
-                break
-        }
-
-        return translate;
-    }
+        if (location.pathname.includes('feed') && !connected) dispatch({ type: WS_CONNECTION_START, payload: WS_URL_ORDERS_ALL })
+        if (location.pathname.includes('orders') && userAuth && !connected) dispatch({ type: WS_CONNECTION_START, payload: `${WS_URL_ORDERS}?token=${getCookie('token')}` })
+    }, [dispatch, connected, location, userAuth]);
 
     const findMatchIngredient = useCallback(() => order.ingredients.map((id: string) => ingredients.find((ingredient: TFullIngredient) => ingredient._id === id)), [order.ingredients, ingredients])
 
@@ -58,8 +41,8 @@ function ModalOrderInfo() {
 
     return (
         Object.keys(order).length > 0 ?
-            <div className={classNames(classNames(styles.wrapper, modalVisible && styles.modal))}>
-                <p className={classNames(styles.number, modalVisible && styles.modal_title, 'text', 'text_type_digits-default', 'mb-10')}>
+            <div className={classNames(classNames(styles.wrapper, background && styles.modal))}>
+                <p className={classNames(styles.number, background && styles.modal_title, 'text', 'text_type_digits-default', 'mb-10')}>
                     #{id}
                 </p>
                 <h3 className={classNames('text', 'text_type_main-medium', 'mb-3')}>
@@ -71,7 +54,7 @@ function ModalOrderInfo() {
                 <p className={classNames('text', 'text_type_main-medium', 'mb-6')}>
                     Состав:
                 </p>
-                <ul className={classNames(styles.ingredients, 'mb-10', modalVisible && orderСompound.length > 3 && 'pr-6', modalVisible && orderСompound.length > 3 && 'scroll-block', !modalVisible && 'mh-none')}>
+                <ul className={classNames(styles.ingredients, 'mb-10', background && orderСompound.length > 3 && 'pr-6', background && orderСompound.length > 3 && 'scroll-block', !modalVisible && 'mh-none')}>
                     {orderСompound.map((item: TFullIngredient) => <li key={item._id} className={styles.ingredient}>
                             <div className={classNames(styles.img_wrapper, 'mr-4')}>
                                 <img src={item.image_mobile} alt={item.name} title={item.name} />

@@ -3,7 +3,7 @@ import classNames from "classnames";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation} from "react-router-dom";
 import {OPEN_MODAL} from "../../../services/constants";
-import {ORDER_INFO_TYPE} from "../../../utils/const";
+import {ORDER_INFO_TYPE, translateStatus} from "../../../utils/const";
 import {useDispatch, useSelector} from "../../../services/hooks";
 import { ILocation, TFullIngredient } from '../../../services/types/data';
 
@@ -14,26 +14,6 @@ function OrderItem({ ...props }) {
     const ingredients = useSelector(store => store.ingredients.items)
 
     const onOpenModal = () => dispatch({ type: OPEN_MODAL, payload: ORDER_INFO_TYPE})
-
-    const translateStatus = (status: string): string => {
-        let translate;
-        switch (status) {
-            case 'done':
-                translate = 'Выполнен'
-                break;
-            case 'pending':
-                translate = 'Готовится'
-                break;
-            case 'canceled':
-                translate = 'Отменен'
-                break;
-            default:
-                translate = status
-                break
-        }
-
-        return translate;
-    }
 
     const findMatchIngredient = () => props.ingredients.map((id: string) => ingredients.find((ingredient: TFullIngredient) => ingredient._id === id))
 

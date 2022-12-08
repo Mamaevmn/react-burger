@@ -27,14 +27,14 @@ function Header() {
                         Конструктор
                     </p>
                 </Link>
-                <Link className={classNames(styles.link, location.pathname === '/feed' ? 'color-text--primary' : 'text_color_inactive', 'pr-5', 'pl-5', 'pt-4', 'pb-4')} to='/feed' title='Лента заказов'>
-                    <ListIcon type={location.pathname === '/feed' ? 'primary' : 'secondary'} />
+                <Link className={classNames(styles.link, location.pathname.includes('/feed') ? 'color-text--primary' : 'text_color_inactive', 'pr-5', 'pl-5', 'pt-4', 'pb-4')} to='/feed' title='Лента заказов'>
+                    <ListIcon type={location.pathname.includes('/feed') ? 'primary' : 'secondary'} />
                     <p className='text text_type_main-default ml-2'>
                         Лента заказов
                     </p>
                 </Link>
-                <Link className={classNames(styles.link, location.pathname === '/profile' ? 'color-text--primary' : 'text_color_inactive', 'pr-5', 'pl-5', 'pt-4', 'pb-4', 'ml-a')} to='/profile' title='Личный кабинет'>
-                    <ProfileIcon type={location.pathname === '/profile' ? 'primary' : 'secondary'} />
+                <Link className={classNames(styles.link, location.pathname.includes('/profile') ? 'color-text--primary' : 'text_color_inactive', 'pr-5', 'pl-5', 'pt-4', 'pb-4', 'ml-a')} to='/profile' title='Личный кабинет'>
+                    <ProfileIcon type={location.pathname.includes('/profile') ? 'primary' : 'secondary'} />
                     <p className='text text_type_main-default ml-2'>
                         {!userAuth ? 'Личный кабинет' : name}
                     </p>

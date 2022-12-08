@@ -57,3 +57,26 @@ export const calcWidthScrollbar = ():number => {
 
     return scrollWidth;
 }
+
+export const translateStatus = (status: string): string => {
+    let translate;
+    switch (status) {
+        case 'done':
+            translate = 'Выполнен'
+            break;
+        case 'created':
+            translate = 'Создан'
+            break;
+        case 'pending':
+            translate = 'Готовится'
+            break;
+        case 'canceled':
+            translate = 'Отменен'
+            break;
+        default:
+            translate = status
+            break
+    }
+
+    return translate;
+}

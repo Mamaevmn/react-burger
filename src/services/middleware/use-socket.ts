@@ -15,6 +15,7 @@ export const socketMiddleware = (wsActions: IWSTypeActions): Middleware => ((sto
             if (type === wsStart) {
                 socket = new WebSocket(payload);
             }
+
             if (socket) {
                 socket.onopen = () => {dispatch({ type: onOpen })};
                 socket.onerror = event => {dispatch({ type: onError, payload: event })};
@@ -25,8 +26,6 @@ export const socketMiddleware = (wsActions: IWSTypeActions): Middleware => ((sto
                 socket.onclose = event => { dispatch({ type: onClose, payload: event})};
 
                 if (type === onClose) {
-                    console.log('close');
-                    
                     socket.close()
                 }
 

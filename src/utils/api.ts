@@ -18,8 +18,8 @@ export const UPDATE_TOKEN_URL = `${AUTH_URL}/token` as const;
 export const USER_REGISTRATION_URL = `${AUTH_URL}/register` as const;
 export const USER_INFO_URL = `${AUTH_URL}/user` as const;
 
-export const WS_URL = `${WS}${BASE_URL}/orders/all` as const;
-export const WS_URL_ORDERS = `${WS}${BASE_URL}/orders?token=${getCookie('token')}` as const;
+export const WS_URL_ORDERS = `${WS}${BASE_URL}/orders` as const;
+export const WS_URL_ORDERS_ALL = `${WS_URL_ORDERS}/all` as const;
 
 export const getData = () => request(INGREDIENTS_URL, null)
 

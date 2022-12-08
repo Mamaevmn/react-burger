@@ -7,8 +7,8 @@ import OrdersList from "../../components/orders-list/orders-list";
 import FeedInfo from "../../components/feed-info/feed-info";
 import { useDispatch, useSelector } from '../../services/hooks';
 import Loader from '../../components/loader/loader';
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/constants';
-import { WS_URL } from '../../utils/api';
+import { WS_CONNECTION_START } from '../../services/constants';
+import { WS_URL_ORDERS_ALL } from '../../utils/api';
 
 function Feed() {
     const dispatch = useDispatch();
@@ -18,9 +18,8 @@ function Feed() {
     }))
 
     useEffect(() => {
-        dispatch({ type: WS_CONNECTION_START, payload: WS_URL })
-        return () => {isConnected && dispatch({ type: WS_CONNECTION_CLOSED })}
-    }, [dispatch, isConnected]);
+        dispatch({ type: WS_CONNECTION_START, payload: WS_URL_ORDERS_ALL })
+    }, [dispatch]);
 
     return (
         !isConnected && !messages.orders ?

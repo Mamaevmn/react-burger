@@ -53,7 +53,7 @@ function openModalAC(): IOpenModalAC {
     }
 }
 
-export const getOrder: AppThunk = (array) => (dispatch: AppThunk) => {
+export const postUserOrder: AppThunk = (array) => (dispatch: AppThunk) => {
         dispatch(orderRequestAC());
         postOrder(array).then(res => {
             dispatch(orderSuccessRequestAC(res.order.number));

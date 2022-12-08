@@ -14,11 +14,11 @@ import Orders from '../pages/orders/orders';
 import { getIngredients } from '../services/actions/ingredients';
 import Modal from '../components/modal/modal';
 import IngredientDetails from '../components/modal-ingredient-details/modal-ingredient-details';
-import { CLOSE_MODAL, OPEN_MODAL } from '../services/constants';
+import { CLOSE_MODAL, WS_CONNECTION_CLOSED } from '../services/constants';
 import ProtectedRoute from '../protected-route/protected-route';
 import OrderInfo from "../pages/order-info/order-info";
 import Feed from "../pages/feed/feed";
-import {useDispatch, useSelector} from "../services/hooks";
+import {useDispatch} from "../services/hooks";
 import ModalOrderInfo from "../components/modal-order-info/modal-order-info";
 import { ILocation } from '../services/types/data';
 
@@ -27,13 +27,12 @@ function App() {
   const location = useLocation<ILocation | Location | any>();
   const history = useHistory();
   const background = location.state && location.state.background;
-  const modalVisible = useSelector(store => store.modals.visible);
     
-  useEffect(() => {
-    if (background) dispatch({ type: OPEN_MODAL })
-  }, [dispatch, modalVisible, background])
-
   useEffect(() => { dispatch(getIngredients()) }, [dispatch]);
+
+  useEffect(()=> {
+    if (!location.pathname.includes('feed') && !location.pathname.includes('orders')) dispatch({ type: WS_CONNECTION_CLOSED })
+  }, [location, dispatch])
 
   const handleModalClose = () => {    
     history.goBack()

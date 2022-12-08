@@ -1,5 +1,10 @@
 import { TWSActions } from "../actions/use-socket";
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE } from "../constants";
+import { 
+    WS_CONNECTION_CLOSED, 
+    WS_CONNECTION_ERROR, 
+    WS_CONNECTION_SUCCESS, 
+    WS_GET_MESSAGE 
+} from "../constants";
 
 type TWSState = {
     wsConnected: boolean;
@@ -32,6 +37,7 @@ export const wsReducer = (state = WSinitialState, action: TWSActions): TWSState 
         case WS_CONNECTION_CLOSED:
             return {
                 ...state,
+                messages: [],
                 error: undefined,
                 wsConnected: false
             };
