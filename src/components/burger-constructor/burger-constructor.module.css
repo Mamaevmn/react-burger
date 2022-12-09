@@ -9,3 +9,20 @@
 .section__lightgreen {
     border-color: lightgreen;
 }
+
+@media (max-width: 1023px) {
+    .section {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .section {
+        padding-top: 0;
+        max-width: none;
+    }
+    .list {
+        grid-template-columns: 1fr 1fr;
+    }
+}

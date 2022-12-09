@@ -73,4 +73,24 @@
 .text {
     display: flex;
     align-items: center;
+    margin-left: auto;
+}
+
+@media (max-width: 1023px) {
+    .title {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .ingredient {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+@media (max-width: 575px) {
+    .ingredient {
+        width: 32px;
+        height: 32px;
+    }
 }

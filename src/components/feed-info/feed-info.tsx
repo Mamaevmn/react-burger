@@ -22,7 +22,7 @@ function FeedInfo() {
         <section>
             <div className={classNames(styles.status, 'mb-15')}>
                 <div>
-                    <h3 className={classNames('text', 'text_type_main-medium', 'mb-6')}>
+                    <h3 className={classNames(styles.text,'text', 'text_type_main-medium', 'mb-6')}>
                         Готовы:
                     </h3>
                     <ul className={styles.orders}>
@@ -34,7 +34,7 @@ function FeedInfo() {
                     </ul>
                 </div>
                 <div>
-                    <h3 className={classNames('text', 'text_type_main-medium', 'mb-6')}>
+                    <h3 className={classNames(styles.text,'text', 'text_type_main-medium', 'mb-6')}>
                         В работе:
                     </h3>
                     <ul className={styles.orders}>
@@ -46,13 +46,13 @@ function FeedInfo() {
                     </ul>
                 </div>
             </div>
-            <p className={classNames('text', 'text_type_main-medium')}>
+            <p className={classNames(styles.text, 'text', 'text_type_main-medium')}>
                 Выполнено за все время:
             </p>
             <p className={classNames(styles.count_number, 'text', 'text_type_digits-large', 'mb-15')}>
                 {messages.total}
             </p>
-            <p className={classNames('text', 'text_type_main-medium')}>
+            <p className={classNames(styles.text,'text', 'text_type_main-medium')}>
                 Выполнено за сегодня:
             </p>
             <p className={classNames(styles.count_number, 'text', 'text_type_digits-large')}>

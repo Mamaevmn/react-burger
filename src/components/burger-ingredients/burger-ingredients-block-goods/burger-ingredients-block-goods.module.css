@@ -10,3 +10,28 @@
     grid-template-columns: 1fr 1fr;
     gap: 32px 24px;
 }
+
+@media (max-width: 1024px) {
+    .list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .wrapper {
+        margin-top: 20px;
+        max-height: none;
+        gap: 12px;
+    }
+    .list {
+        grid-template-columns: 1fr 1fr;
+        padding: 0;
+        gap: 16px;
+    }
+}
+
+/* @media (max-width: 379px) {
+    .list {
+        grid-template-columns: 1fr;
+    }
+} */

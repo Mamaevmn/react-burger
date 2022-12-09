@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    align-items: center;
     text-align: center;
     cursor: pointer;
 }
@@ -42,8 +43,23 @@
     color: #fff;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+    .name {
+        min-height: 60px;
+        margin: 8px 0;
+    }
+
     .add_btn {
         display: unset;
+    }
+}
+
+@media (max-width: 575px) {
+    .name {
+        font-size: 14px;
+    }
+
+    .price {
+        font-size: 22px;
     }
 }

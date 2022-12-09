@@ -41,6 +41,12 @@ ul {
   max-width: 1280px;
 }
 
+@media (max-width: 767px) {
+  .container {
+    padding: 0 8px;
+  }
+}
+
 .color-text--primary {
   color: #F2F2F3;
 } 
@@ -97,4 +103,9 @@ p.input__error {
 
 .mh-none {
   max-height: none !important;
+}
+
+.tab {
+  min-width: auto !important;
+  width: 100%;
 }

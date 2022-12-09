@@ -12,7 +12,6 @@ import {useDispatch} from "../../services/hooks";
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
-
     const [{ isHover }, dropTarget] = useDrop({
         accept: 'items',
         collect: monitor => ({

@@ -10,7 +10,6 @@ import { TFullIngredient } from '../../../services/types/data';
 
 function BurgerConstructorList() {
     const dispatch = useDispatch();
-
     const {constructorData, bunData} = useSelector(store => ({
         constructorData: store.burgerConstructor.items,
         bunData: store.burgerConstructor.bun

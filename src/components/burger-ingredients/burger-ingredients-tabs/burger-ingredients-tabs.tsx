@@ -9,7 +9,6 @@ import { TIngredientsType, TIngredientsTypesName } from '../../../services/types
 
 function Tabs() {
   const dispatch = useDispatch();
-
   const {ingredientTypes, currentTab} = useSelector(store => ({
     ingredientTypes: store.ingredients.ingredientTypes,
     currentTab: store.ingredients.currentTab

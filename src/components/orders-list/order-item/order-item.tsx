@@ -33,7 +33,7 @@ function OrderItem({ ...props }) {
                 <p className={classNames('text', 'text_type_digits-default', 'mb-6')}>
                     #{ props.number }
                 </p>
-                <h3 className={classNames('text', 'text_type_main-medium', 'mb-2')}>
+                <h3 className={classNames(styles.title, 'text', 'text_type_main-medium', 'mb-2')}>
                     { props.name }
                 </h3>
                 <p className={classNames('text', 'text_type_main-default', 'mb-6', props.status === 'done' && 'text_color_success')}>
@@ -60,7 +60,7 @@ function OrderItem({ ...props }) {
                             )
                         }
                     </ul>
-                    <p className={classNames(styles.text, 'text', 'text_type_digits-default', 'ml-6')}>
+                    <p className={classNames(styles.text, 'text', 'text_type_digits-default')}>
                         <span className='mr-2'>
                             { findMatchIngredient().reduce((accumulator: number, item: TFullIngredient) => accumulator + item.price, 0) }
                         </span>

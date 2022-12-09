@@ -10,7 +10,6 @@ import { TFullIngredient, TIngredientsType } from '../../../services/types/data'
 
 function BurgerIngredientsTypes() {
     const list = useRef<HTMLUListElement>()
-
     const {ingredientTypes, currentTab} = useSelector(store => ({
         ingredientTypes: store.ingredients.ingredientTypes,
         currentTab: store.ingredients.currentTab

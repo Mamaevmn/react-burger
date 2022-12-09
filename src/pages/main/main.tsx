@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import classNames from 'classnames';
-import mainStyle from './main.module.css';
+import styles from './main.module.css';
 
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
@@ -33,8 +33,11 @@ function Main() {
     }
 
     return (
-        <main className='pt-10 pb-20'>
-            <div className={classNames(mainStyle.container, 'container')}>
+        <main className={classNames(styles.main, 'pt-10', 'pb-20')}>
+            <div className={classNames(styles.container, 'container')}>
+                <h1 className={classNames(styles.title, 'text', 'text_type_main-large')}>
+                    Соберите бургер
+                </h1>
                 <DndProvider backend={HTML5Backend}>
                     <BurgerIngredients />
                     <BurgerConstructor />

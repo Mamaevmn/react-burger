@@ -28,7 +28,6 @@ type TDndItem = TFullIngredient & {
 const BurgerConstructorListItem: FC<TBurgerConstructorListItem> = (props) => {
   const dispatch = useDispatch();
   const location = useLocation<ILocation>()
-
   const ref = useRef(null);
   const [{ handlerId }, drop] = useDrop<TDndItem, void, { handlerId: Identifier | null }>({
     accept: 'component',

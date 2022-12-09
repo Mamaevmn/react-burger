@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-
+import { useMediaQuery } from "react-responsive";
 import classNames from 'classnames';
-import totalStyle from './burger-constructor-total.module.css';
+
+import styles from './burger-constructor-total.module.css';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CALCULATE_TOTAL_PRICE, CLEAR_CONSTRUCTOR, CLEAR_ITEMS_COUNT, WS_SEND_MESSAGE } from '../../../services/constants';
 import { postUserOrder } from '../../../services/actions/order';
@@ -18,6 +19,9 @@ function BurgerConstructorTotal() {
         bunData: store.burgerConstructor.bun,
         userAuth: store.user.auth
     }));
+    const isMobile = useMediaQuery({
+        query: "(max-width: 767px)"
+    });
 
     useEffect(() => {
         dispatch({ type: CALCULATE_TOTAL_PRICE })
@@ -38,15 +42,27 @@ function BurgerConstructorTotal() {
     }
 
     return (
-        (constructorData.length || !!bunData) && 
-            <div className={classNames(totalStyle.total, 'pt-10')}>
-                <p className={classNames(totalStyle.text, 'text', 'text_type_digits-medium', 'pr-10')}>
+        isMobile ? 
+            <div className={classNames(styles.total, 'pt-10', isMobile && totalPrice && styles.total_active)}>
+                <p className={classNames(styles.text, 'text', 'text_type_digits-medium', 'pr-10')}>
                     <span className='mr-2'>
                         { totalPrice }
                     </span>
                     <CurrencyIcon type="primary" />
                 </p>
-                <Button type="primary" size="large" htmlType="button" onClick={makeOrder}>
+                <Button extraClass={styles.button} type="primary" size="large" htmlType="button" onClick={makeOrder}>
+                    Оформить заказ
+                </Button>
+            </div> :
+        (constructorData.length || !!bunData) && 
+            <div className={classNames(styles.total, 'pt-10', isMobile && totalPrice && styles.total_active)}>
+                <p className={classNames(styles.text, 'text', 'text_type_digits-medium', 'pr-10')}>
+                    <span className='mr-2'>
+                        { totalPrice }
+                    </span>
+                    <CurrencyIcon type="primary" />
+                </p>
+                <Button extraClass={styles.button} type="primary" size="large" htmlType="button" onClick={makeOrder}>
                     Оформить заказ
                 </Button>
             </div>
