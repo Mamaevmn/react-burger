@@ -3,12 +3,8 @@ import modalContentStyle from './modal-order-details.module.css'
 import accessIcon from './../../images/icons/access-icon.svg'
 import {useSelector} from "../../services/hooks";
 
-type TStore = {
-    order: {orderNumber: number | null},
-}
-
 function OrderDetails() {
-    const number: any = useSelector<TStore>(store => store.order.orderNumber);
+    const number: any = useSelector(store => store.order.orderNumber);
 
     return (
         <div className={modalContentStyle.modal_content}>

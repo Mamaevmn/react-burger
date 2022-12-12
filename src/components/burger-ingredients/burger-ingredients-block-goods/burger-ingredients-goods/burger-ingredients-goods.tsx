@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
-import MediaQuery from "react-responsive";
 import { v4 as uuidv4 } from 'uuid';
+import MediaQuery, { useMediaQuery } from "react-responsive";
 
 import classNames from 'classnames';
 import styles from './burger-ingredients-goods.module.css';
@@ -23,7 +23,9 @@ const BurgerGoods: FC<TFullIngredient> = ({ ...goods }) => {
             opacity: monitor.isDragging() ? 'opacity' : ''
         })
     });
-
+    const isMobile = useMediaQuery({
+        query: "(max-width: 575px)"
+    });
     const onOpenModal = () => dispatch({ type: OPEN_MODAL, payload: INGREDIENTS_TYPE});
 
     const addIngredient = () => {
@@ -42,7 +44,7 @@ const BurgerGoods: FC<TFullIngredient> = ({ ...goods }) => {
 
     return (
         <li className={`${styles.item} ${opacity && styles.opacity}`} ref={ingredientRef}>
-            <Link className='text text_color_primary'
+            <Link className={classNames(styles.link, 'text', 'text_color_primary')}
                 to={{
                     pathname: `/ingredients/${goods._id}`,
                     state: {
@@ -50,7 +52,7 @@ const BurgerGoods: FC<TFullIngredient> = ({ ...goods }) => {
                     }
                 }} onClick={onOpenModal}>
                 { !!goods.counter && <Counter count={goods.counter} size="default" /> }
-                <img className={classNames(styles.image, 'pl-4', 'pr-4')} src={goods.image} alt="" />
+                <img className={classNames(styles.image, 'pl-4', 'pr-4')} src={!isMobile ? goods.image : goods.image_mobile} alt={goods.name} />
                 <p className={classNames(styles.price, 'text_type_main-medium', 'mb-1', 'mt-1')}>
                     <span className='mr-2 text_type_digits-default'>
                         {goods.price}
