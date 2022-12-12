@@ -1,6 +1,5 @@
 import { useRef, FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import { Identifier } from 'dnd-core';
 
@@ -8,19 +7,18 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import constructorElementStyle from './burger-constructor-list-item.module.css'
 import touchSvg from './../../../../images/icons/touch-btn.svg'
 
-import { DELETE_INGREDIENTS } from '../../../../services/actions/constructor';
-import { OPEN_MODAL } from '../../../../services/actions/modals';
-import { DECREASE_ITEM_COUNT } from '../../../../services/actions/ingredients';
+import { DELETE_INGREDIENTS, OPEN_MODAL, DECREASE_ITEM_COUNT } from '../../../../services/constants';
 import { BUN_TYPE, INGREDIENTS_TYPE } from '../../../../utils/const';
 import classNames from 'classnames';
-import { TFullIngredient } from '../../../../utils/types';
+import {useDispatch} from "../../../../services/hooks";
+import { ILocation, TFullIngredient } from '../../../../services/types/data';
 
 type TBurgerConstructorListItem = TFullIngredient & {
-  idx: number;
+  idx?: number;
   addClass?: 'top' | 'bottom';
   isLocked?: boolean;
   text?: string;
-  moveConstructorIngredient: (dragIndex: number, hoverIndex: number) => void;
+  moveConstructorIngredient?: (dragIndex: number, hoverIndex: number) => void;
 }
 
 type TDndItem = TFullIngredient & {
@@ -29,8 +27,7 @@ type TDndItem = TFullIngredient & {
 
 const BurgerConstructorListItem: FC<TBurgerConstructorListItem> = (props) => {
   const dispatch = useDispatch();
-  const location = useLocation()
-
+  const location = useLocation<ILocation>()
   const ref = useRef(null);
   const [{ handlerId }, drop] = useDrop<TDndItem, void, { handlerId: Identifier | null }>({
     accept: 'component',
@@ -78,7 +75,8 @@ const BurgerConstructorListItem: FC<TBurgerConstructorListItem> = (props) => {
 
   const onOpenModal = () => dispatch({ type: OPEN_MODAL, payload: INGREDIENTS_TYPE })
 
-  const deleteConstructorIngredient = (e: MouseEvent) => {
+  const deleteConstructorIngredient = (e?: MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     dispatch({ type: DELETE_INGREDIENTS, payload: props.u_id });
     dispatch({ type: DECREASE_ITEM_COUNT, payload: props._id });
@@ -108,7 +106,7 @@ const BurgerConstructorListItem: FC<TBurgerConstructorListItem> = (props) => {
             text={props.text ? props.text : props.name}
             price={props.price}
             thumbnail={props.image_mobile}
-            handleClose={() => deleteConstructorIngredient}
+            handleClose={deleteConstructorIngredient}
           />
         </Link>
       </li> :
@@ -127,7 +125,6 @@ const BurgerConstructorListItem: FC<TBurgerConstructorListItem> = (props) => {
           text={props.text ? props.text : props.name}
           price={props.price}
           thumbnail={props.image_mobile}
-          handleClose={() => deleteConstructorIngredient}
         />
       </Link>
   )

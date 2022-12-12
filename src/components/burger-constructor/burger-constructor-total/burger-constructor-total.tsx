@@ -1,33 +1,27 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useMediaQuery } from "react-responsive";
 import classNames from 'classnames';
-import totalStyle from './burger-constructor-total.module.css';
-import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CALCULATE_TOTAL_PRICE, CLEAR_CONSTRUCTOR } from '../../../services/actions/constructor';
-import { getOrder } from '../../../services/actions/order';
-import { CLEAR_ITEMS_COUNT } from '../../../services/actions/ingredients';
-import { TFullIngredient, TIngredientsType } from '../../../utils/types';
 
-type TStore = {
-    burgerConstructor: {
-        totalPrice: number;
-        items: TFullIngredient;
-        bun: TIngredientsType;
-    },
-    user: {
-        auth: boolean
-    }
-}
+import styles from './burger-constructor-total.module.css';
+import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CALCULATE_TOTAL_PRICE, CLEAR_CONSTRUCTOR, CLEAR_ITEMS_COUNT, WS_SEND_MESSAGE } from '../../../services/constants';
+import { postUserOrder } from '../../../services/actions/order';
+import {useDispatch, useSelector} from "../../../services/hooks";
+import { TFullIngredient } from '../../../services/types/data';
 
 function BurgerConstructorTotal() {
     const dispatch = useDispatch();
     const history = useHistory()
-    const totalPrice: any = useSelector<TStore>(store => store.burgerConstructor.totalPrice);
-    const constructorData: any = useSelector<TStore>(store => store.burgerConstructor.items);
-    const bunData: any = useSelector<TStore>(store => store.burgerConstructor.bun);
-    const userAuth: any = useSelector<TStore>(store => store.user.auth);
+    const { totalPrice, constructorData, bunData, userAuth} = useSelector(store => ({
+        totalPrice: store.burgerConstructor.totalPrice,
+        constructorData: store.burgerConstructor.items,
+        bunData: store.burgerConstructor.bun,
+        userAuth: store.user.auth
+    }));
+    const isMobile = useMediaQuery({
+        query: "(max-width: 767px)"
+    });
 
     useEffect(() => {
         dispatch({ type: CALCULATE_TOTAL_PRICE })
@@ -38,7 +32,8 @@ function BurgerConstructorTotal() {
     const makeOrder = () => {
         if (userAuth) {
             const orderIdArray = createGoodsIdArray();
-            dispatch<any>(getOrder(orderIdArray))
+            dispatch(postUserOrder(orderIdArray))
+            dispatch({type: WS_SEND_MESSAGE, payload: orderIdArray})
             dispatch({ type: CLEAR_CONSTRUCTOR })
             dispatch({ type: CLEAR_ITEMS_COUNT })
         } else {
@@ -47,15 +42,27 @@ function BurgerConstructorTotal() {
     }
 
     return (
-        (constructorData.length || !!bunData) && 
-            <div className={classNames(totalStyle.total, 'pt-10')}>
-                <p className={classNames(totalStyle.text, 'text', 'text_type_digits-medium', 'pr-10')}>
+        isMobile ? 
+            <div className={classNames(styles.total, 'pt-10', isMobile && totalPrice && styles.total_active)}>
+                <p className={classNames(styles.text, 'text', 'text_type_digits-medium', 'pr-10')}>
                     <span className='mr-2'>
                         { totalPrice }
                     </span>
                     <CurrencyIcon type="primary" />
                 </p>
-                <Button type="primary" size="large" htmlType="button" onClick={makeOrder}>
+                <Button extraClass={styles.button} type="primary" size="large" htmlType="button" onClick={makeOrder}>
+                    Оформить заказ
+                </Button>
+            </div> :
+        (constructorData.length || !!bunData) && 
+            <div className={classNames(styles.total, 'pt-10', isMobile && totalPrice && styles.total_active)}>
+                <p className={classNames(styles.text, 'text', 'text_type_digits-medium', 'pr-10')}>
+                    <span className='mr-2'>
+                        { totalPrice }
+                    </span>
+                    <CurrencyIcon type="primary" />
+                </p>
+                <Button extraClass={styles.button} type="primary" size="large" htmlType="button" onClick={makeOrder}>
                     Оформить заказ
                 </Button>
             </div>

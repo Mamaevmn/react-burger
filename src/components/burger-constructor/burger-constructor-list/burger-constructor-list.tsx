@@ -1,25 +1,19 @@
-import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {useCallback} from 'react';
 
 import classNames from 'classnames';
 import constructorStyle from './burger-constructor-list.module.css'
 
 import BurgerConstructorListItem from './burger-constructor-list-item/burger-constructor-list-item';
-import { UPDATE_CONSTRUCTOR_LIST } from '../../../services/actions/constructor';
-import { TFullIngredient, TIngredientsType } from '../../../utils/types';
-
-type TStore = {
-    burgerConstructor: {
-        items: TFullIngredient;
-        bun: TIngredientsType;
-    },
-}
+import {UPDATE_CONSTRUCTOR_LIST} from '../../../services/constants';
+import {useDispatch, useSelector} from "../../../services/hooks";
+import { TFullIngredient } from '../../../services/types/data';
 
 function BurgerConstructorList() {
     const dispatch = useDispatch();
-
-    const constructorData: any = useSelector<TStore>(store => store.burgerConstructor.items);
-    const bunData: any = useSelector<TStore>(store => store.burgerConstructor.bun);
+    const {constructorData, bunData} = useSelector(store => ({
+        constructorData: store.burgerConstructor.items,
+        bunData: store.burgerConstructor.bun
+    }));
 
     const moveConstructorIngredient = useCallback((dragIndex: number, hoverIndex: number) => {
         const dragConstructorIngredient = constructorData[dragIndex];
@@ -27,11 +21,8 @@ function BurgerConstructorList() {
 
         newConstructorIngredients.splice(dragIndex, 1)
         newConstructorIngredients.splice(hoverIndex, 0, dragConstructorIngredient)
-        
-        dispatch({
-            type: UPDATE_CONSTRUCTOR_LIST,
-            payload: newConstructorIngredients,
-        })
+
+        dispatch({ type: UPDATE_CONSTRUCTOR_LIST, payload: newConstructorIngredients })
     }, [constructorData, dispatch]);
 
     return (
@@ -42,21 +33,22 @@ function BurgerConstructorList() {
                         Тут пока пусто... Добавьте сюда ингредиенты
                     </p> :
                     <>
-                        { bunData &&
-                            <BurgerConstructorListItem 
+                        {bunData &&
+                            <BurgerConstructorListItem
                                 isLocked={true}
                                 addClass={'top'}
                                 text={`${bunData.name} (верх)`}
                                 {...bunData}
                             />
-                        }         
-                        { constructorData.length ?
-                                <ul className={classNames(constructorStyle.list, 'scroll-block')}>
-                                    {constructorData.map((goods: TFullIngredient, index: number) => <BurgerConstructorListItem key={goods.u_id} idx={index} {...goods} moveConstructorIngredient={moveConstructorIngredient}/>)}
-                                </ul> : null
                         }
-                        { bunData &&
-                            <BurgerConstructorListItem 
+                        {constructorData.length ?
+                            <ul className={classNames(constructorStyle.list, 'scroll-block')}>
+                                {constructorData.map((goods: TFullIngredient, index: number) =>
+                                    <BurgerConstructorListItem key={goods.u_id} idx={index} {...goods} moveConstructorIngredient={moveConstructorIngredient}/>)}
+                            </ul> : null
+                        }
+                        {bunData &&
+                            <BurgerConstructorListItem
                                 isLocked={true}
                                 addClass={'bottom'}
                                 text={`${bunData.name} (низ)`}

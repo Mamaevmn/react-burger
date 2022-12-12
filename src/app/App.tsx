@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Header from '../components/header/header';
 import Main from '../pages/main/main';
@@ -15,26 +14,25 @@ import Orders from '../pages/orders/orders';
 import { getIngredients } from '../services/actions/ingredients';
 import Modal from '../components/modal/modal';
 import IngredientDetails from '../components/modal-ingredient-details/modal-ingredient-details';
-import { CLOSE_MODAL, OPEN_MODAL } from '../services/actions/modals';
-import { ILocation } from '../utils/types';
+import { CLOSE_MODAL, WS_CONNECTION_CLOSED } from '../services/constants';
 import ProtectedRoute from '../protected-route/protected-route';
-
-type TStore = {
-  modals: {visible: boolean},
-}
+import OrderInfo from "../pages/order-info/order-info";
+import Feed from "../pages/feed/feed";
+import {useDispatch} from "../services/hooks";
+import ModalOrderInfo from "../components/modal-order-info/modal-order-info";
+import { ILocation } from '../services/types/data';
 
 function App() {
   const dispatch = useDispatch();
   const location = useLocation<ILocation | Location | any>();
   const history = useHistory();
   const background = location.state && location.state.background;
-  const modalVisible: any = useSelector<TStore>(store => store.modals.visible);
     
-  useEffect(() => {
-    if (background) dispatch({ type: OPEN_MODAL })
-  }, [dispatch, modalVisible, background])
+  useEffect(() => { dispatch(getIngredients()) }, [dispatch]);
 
-  useEffect(() => { dispatch<any>(getIngredients()) }, [dispatch]);
+  useEffect(()=> {
+    if (!location.pathname.includes('feed') && !location.pathname.includes('orders')) dispatch({ type: WS_CONNECTION_CLOSED })
+  }, [location, dispatch])
 
   const handleModalClose = () => {    
     history.goBack()
@@ -50,9 +48,12 @@ function App() {
         <Route path="/registration" exact component={ Registration } />
         <Route path="/recovery-password" exact component={ RecoveryPassword } />
         <Route path="/reset-password" exact component={ ResetPassword } />
-        <ProtectedRoute><Route path="/profile" exact component={ Profile } /></ProtectedRoute>
-        <ProtectedRoute><Route path="/profile/orders" exact component={ Orders } /></ProtectedRoute>
         <Route path="/ingredients/:id" exact component={ Ingredients } />
+        <ProtectedRoute path="/profile" exact component={Profile} /> 
+        <ProtectedRoute path="/profile/orders" exact component={Orders} /> 
+        <ProtectedRoute path="/profile/orders/:id" exact component={ OrderInfo } /> 
+        <Route path="/feed/" exact component={ Feed } />
+        <Route path="/feed/:id" exact component={ OrderInfo } />
         <Route component={ NotFound } />
       </Switch>
 
@@ -64,6 +65,22 @@ function App() {
               <Modal onClose={handleModalClose}>
                 <IngredientDetails /> 
               </Modal>
+              }
+          />
+          <Route
+              path='/feed/:id'
+              children={
+                <Modal onClose={handleModalClose}>
+                  <ModalOrderInfo />
+                </Modal>
+              }
+          />
+          <Route
+              path='/profile/orders/:id'
+              children={
+                <Modal onClose={handleModalClose}>
+                  <ModalOrderInfo />
+                </Modal>
               }
           />
         </Switch>

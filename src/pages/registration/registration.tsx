@@ -1,30 +1,29 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
+import { useMediaQuery } from "react-responsive";
 
 import styles from './registration.module.css';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
 import { setUserRegistration } from '../../services/actions/registration';
 import { getUser } from '../../services/actions/user';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
-
-type TStore = {
-    registration: {
-        registrationSuccess: boolean;
-        registrationFailed: boolean;
-    }
-    user: {auth: boolean},
-}
+import {useDispatch, useSelector} from "../../services/hooks";
+import classNames from 'classnames';
+import { ILocation } from '../../services/types/data';
 
 function Registration() {
     const dispatch = useDispatch();
-    const location = useLocation();
+    const location = useLocation<ILocation>();
     const [fieldsNotEmpty, setFiledsNotEmpty] = useState(false);
-
-    const registrationSuccess: any = useSelector<TStore>(store => store.registration.registrationSuccess);
-    const registrationFailed: any = useSelector<TStore>(store => store.registration.registrationFailed);
-    const userAuth: any = useSelector<TStore>(store => store.user.auth);
+    const {registrationSuccess, registrationFailed, userAuth} = useSelector(store => ({
+        registrationSuccess: store.registration.registrationSuccess,
+        registrationFailed: store.registration.registrationFailed,
+        userAuth: store.user.auth
+    }));
+    const isMobile = useMediaQuery({
+        query: "(max-width: 575px)"
+    });
 
     const { values, handleChange, errors, isValid } = useFormAndValidation({ name: '', email: '', password: ''})
 
@@ -35,12 +34,12 @@ function Registration() {
     }, [fieldsNotEmpty, values])
 
     useEffect(() => {
-        dispatch<any>(getUser());
+        dispatch(getUser());
     }, [dispatch])
 
     const registration = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch<any>(setUserRegistration(values.name, values.email, values.password));
+        dispatch(setUserRegistration(values.name, values.email, values.password));
     }, [dispatch, values])
 
     if (registrationSuccess) {
@@ -65,7 +64,7 @@ function Registration() {
                     </p>
                 }
                 <Input 
-                    extraClass='mb-6'
+                    extraClass={classNames(isMobile && styles.input, isMobile ? 'mb-5' : 'mb-6')}
                     name='name'
                     type='text' 
                     placeholder='Имя'
@@ -74,7 +73,7 @@ function Registration() {
                     errorText={ errors.name || '' }
                     onChange={(e)=> handleChange(e)}/> 
                 <Input 
-                    extraClass='mb-6' 
+                    extraClass={classNames(isMobile && styles.input, isMobile ? 'mb-5' : 'mb-6')}
                     name='email'
                     type='email'
                     placeholder='Укажите e-mail' 
@@ -84,7 +83,7 @@ function Registration() {
                     onChange={(e)=> handleChange(e)}
                     /> 
                 <Input 
-                    extraClass='mb-6'
+                    extraClass={classNames(isMobile && styles.input, isMobile ? 'mb-5' : 'mb-6')}
                     name='password'
                     type='password' 
                     placeholder='Пароль'
@@ -98,7 +97,7 @@ function Registration() {
                     htmlType="submit" >
                     Зарегистрироваться
                 </Button>
-                <p className='text text_type_main-default text_color_inactive mt-20'>
+                <p className={classNames(isMobile && styles.text, 'text', isMobile ? 'text_type_main-small' : 'text_type_main-default', 'text_color_inactive', isMobile? 'mt-10' : 'mt-20')}>
                     Уже зарегистрированы?
                     <Link className='text text_color_accent ml-1' to='/login'>
                         Войти

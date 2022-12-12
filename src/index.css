@@ -2,6 +2,17 @@
   --padding-right: 0;
 }
 
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-width: 320px;
+}
+
 body {
   margin: 0;
   padding-right: var(--padding-right) !important;
@@ -25,8 +36,15 @@ ul {
 
 .container {
   margin: 0 auto;
+  padding: 0 20px;
   width: 100%;
   max-width: 1280px;
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: 0 8px;
+  }
 }
 
 .color-text--primary {
@@ -38,7 +56,7 @@ ul {
 }
 
 .scroll-block {
-  overflow: auto;
+  overflow-y: auto;
 }
 
 .scroll-block::-webkit-scrollbar {
@@ -81,4 +99,13 @@ p.input__error {
 .input__error {
   position: relative !important;
   transform: none !important;
+}
+
+.mh-none {
+  max-height: none !important;
+}
+
+.tab {
+  min-width: auto !important;
+  width: 100%;
 }

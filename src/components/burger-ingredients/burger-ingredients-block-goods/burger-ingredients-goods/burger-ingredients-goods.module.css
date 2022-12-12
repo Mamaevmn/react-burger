@@ -2,12 +2,17 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    align-items: center;
     text-align: center;
     cursor: pointer;
 }
 
 .opacity {
     opacity: 0.5;
+}
+
+.image {
+    width: 100%;
 }
 
 .name {
@@ -18,4 +23,43 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.add_btn {
+    display: none;
+    text-align: center;
+    padding: 0;
+    width: 76px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.add_btn:hover,
+.add_btn:focus {
+    color: #fff;
+}
+
+@media (max-width: 767px) {
+    .name {
+        min-height: 60px;
+        margin: 8px 0;
+    }
+
+    .add_btn {
+        display: unset;
+    }
+}
+
+@media (max-width: 575px) {
+    .name {
+        font-size: 14px;
+    }
+
+    .price {
+        font-size: 22px;
+    }
 }

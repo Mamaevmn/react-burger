@@ -1,0 +1,12 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: calc(100% - 64px);
+}
+
+@media (max-width: 767px) {
+    /* .list {
+        padding-top: 12px;
+    } */
+}

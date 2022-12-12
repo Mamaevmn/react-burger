@@ -1,40 +1,63 @@
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import MediaQuery from "react-responsive";
 
 import classNames from 'classnames';
-import headerStyle from './header.module.css';
+import styles from './header.module.css';
 
-import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
-import HeaderLink from './header-link/header-link';
-import { headerLinks } from '../../utils/const';
-import { THeaderLinks } from '../../utils/types';
+import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {useSelector} from "../../services/hooks";
 
-type TStore = {
-    user: {
-        auth: boolean;
-        name: string;
-    },
-}
-
+import mobile_logo from './../../images/logo/logo--mobile.svg'
+import { ILocation } from '../../services/types/data';
 
 function Header() {
-    const userAuth: any = useSelector<TStore>(store => store.user.auth)
-    const name: any = useSelector<TStore>(store => store.user.name)
+    const location = useLocation<ILocation>()
+    const {userAuth, name} = useSelector(store => ({
+        userAuth: store.user.auth,
+        name: store.user.name
+    }))
+    const [ menuIsOpen, setMenuIsOpen ] = useState<boolean>(false)
+
+    const toggleMenu = () => {setMenuIsOpen(!menuIsOpen)}
+    const closeMenu = () => {setMenuIsOpen(false)}
 
     return (
-        <header className={classNames(headerStyle.header)}>
-            <div className={classNames(headerStyle.container, 'container', 'pt-4', 'pb-4')}>
-                <nav className={headerStyle.nav}>
-                    {headerLinks.map((curr_link: THeaderLinks, idx: number) => {
-                        const link: string = curr_link.link !== '/login' ? curr_link.link : userAuth ? '/profile' : curr_link.link;
-                        const linkText: any = curr_link.text !== 'Личный кабинет' ? curr_link.text : userAuth ? name : curr_link.text;
-
-                        return <HeaderLink key={idx} text={linkText} link={link} classes={curr_link.classes} icon={curr_link.icon}/>
-                    })}
+        <header className={classNames(styles.header, menuIsOpen && styles.menuIsOpen)}>
+            <div className={classNames(styles.container, 'container', 'pt-4', 'pb-4')}>
+                <nav className={styles.nav}>
+                    <Link className={classNames(styles.link, location.pathname === '/' ? 'color-text--primary' : 'text_color_inactive', 'mr-2', 'pr-5', 'pt-4', 'pb-4')} to='/' title='Конструктор' onClick={closeMenu}>
+                        <BurgerIcon type={location.pathname === '/' ? 'primary' : 'secondary'} />
+                        <p className='text text_type_main-default ml-2'>
+                            Конструктор
+                        </p>
+                    </Link>
+                    <Link className={classNames(styles.link, location.pathname.includes('/feed') ? 'color-text--primary' : 'text_color_inactive', 'pr-5', 'pl-5', 'pt-4', 'pb-4')} to='/feed' title='Лента заказов' onClick={closeMenu}>
+                        <ListIcon type={location.pathname.includes('/feed') ? 'primary' : 'secondary'} />
+                        <p className='text text_type_main-default ml-2'>
+                            Лента заказов
+                        </p>
+                    </Link>
+                    <Link className={classNames(styles.link, location.pathname.includes('/profile') ? 'color-text--primary' : 'text_color_inactive', 'pr-5', 'pl-5', 'pt-4', 'pb-4', 'ml-a')} to='/profile' title='Личный кабинет'>
+                        <ProfileIcon type={location.pathname.includes('/profile') ? 'primary' : 'secondary'} />
+                        <p className='text text_type_main-default ml-2'>
+                            {!userAuth ? 'Личный кабинет' : name}
+                        </p>
+                    </Link>
                 </nav>
-                <Link className={headerStyle.logo} to="/">
-                    <Logo />
+                <Link className={styles.logo} to="/">
+                    <MediaQuery minWidth={1024} >
+                        <Logo />
+                    </MediaQuery>
+                    <MediaQuery maxWidth={1023} >
+                        <img src={mobile_logo} alt='Stellar Burger' title='Stellar Burger'/>
+                    </MediaQuery>
                 </Link>
+                <MediaQuery maxWidth={767} >
+                    <button className={classNames(styles.burger_btn)} onClick={toggleMenu}>
+                        <span></span>
+                    </button>
+                </MediaQuery>
             </div>
         </header>
     )

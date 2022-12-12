@@ -1,18 +1,18 @@
-import { useEffect, FC } from "react";
+import { useEffect, FC, ReactNode } from "react";
 import PortalReactDOM from "react-dom";
-import { useDispatch } from "react-redux";
 
 import classNames from 'classnames';
 import modalStyle from './modal.module.css'
 
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { calcWidthScrollbar, ESC_KEYCODE } from "../../utils/const";
+import {useDispatch} from "../../services/hooks";
 
 const modalRoot = document.getElementById("react-modals");
 
 type TModal = {
     onClose: () => void;
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 const Modal: FC<TModal> = ({ children, onClose }) => {

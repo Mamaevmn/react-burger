@@ -1,26 +1,19 @@
 import { useCallback, useEffect, useRef, FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 
 import classNames from 'classnames';
 import typesStyle from './burger-ingredients-block-goods.module.css';
 import BurgerGoods from './burger-ingredients-goods/burger-ingredients-goods';
-import { SET_CURRENT_TAB } from '../../../services/actions/ingredients';
-import { TFullIngredient, TIngredientsType, TIngredientsTypesName, TIngredientsTypesNameOnRussia } from '../../../utils/types';
-
-type TStore = {
-    ingredients: {
-        items: TFullIngredient
-        ingredientTypes: Array<TIngredientsType>
-        currentTab: string;
-    },
-}
+import { SET_CURRENT_TAB } from '../../../services/constants';
+import {useDispatch, useSelector} from "../../../services/hooks";
+import { TFullIngredient, TIngredientsType } from '../../../services/types/data';
 
 function BurgerIngredientsTypes() {
     const list = useRef<HTMLUListElement>()
-
-    const ingredientTypes: any = useSelector<TStore>(store => store.ingredients.ingredientTypes);
-    const currentTab: any = useSelector<TStore>(store => store.ingredients.currentTab);
+    const {ingredientTypes, currentTab} = useSelector(store => ({
+        ingredientTypes: store.ingredients.ingredientTypes,
+        currentTab: store.ingredients.currentTab
+    }));
 
     const scrollBlock = useCallback(() => {
         if (currentTab) {
@@ -56,7 +49,7 @@ export default BurgerIngredientsTypes
 
 const BurgerIngredientsTypesTab: FC<TIngredientsType> = ({ type, name}) => {
     const dispatch = useDispatch()
-    const items: any = useSelector<TStore>(store => store.ingredients.items);
+    const items = useSelector(store => store.ingredients.items);
 
     const { ref, inView } = useInView({
         threshold: 0.25,
@@ -71,7 +64,7 @@ const BurgerIngredientsTypesTab: FC<TIngredientsType> = ({ type, name}) => {
             <p className="text text_type_main-medium mb-6">
                 {name}
             </p>
-            <ul className={classNames(typesStyle.list, 'pb-6', 'pl-4', 'pr-4')}>
+            <ul className={classNames(typesStyle.list, 'pb-6', 'pl-4', 'pr-2')}>
                 { items.map((goods: TFullIngredient) => type === goods.type && <BurgerGoods key={goods._id} {...goods}/>) }
             </ul>
         </li>

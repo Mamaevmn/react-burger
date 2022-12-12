@@ -1,24 +1,18 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import typesStyle from './burger-ingredients-tabs.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { SET_CURRENT_TAB } from '../../../services/actions/ingredients';
-import { TIngredientsType, TIngredientsTypesName } from '../../../utils/types';
-
-type TStore = {
-  ingredients: {
-    ingredientTypes: Array<TIngredientsType>
-    currentTab: string;
-  },
-}
+import { SET_CURRENT_TAB } from '../../../services/constants';
+import {useDispatch, useSelector} from "../../../services/hooks";
+import { TIngredientsType, TIngredientsTypesName } from '../../../services/types/data';
 
 function Tabs() {
   const dispatch = useDispatch();
-
-  const ingredientTypes: any = useSelector<TStore>(store => store.ingredients.ingredientTypes)
-  const currentTab: any = useSelector<TStore>(store => store.ingredients.currentTab)
+  const {ingredientTypes, currentTab} = useSelector(store => ({
+    ingredientTypes: store.ingredients.ingredientTypes,
+    currentTab: store.ingredients.currentTab
+  }))
 
   useEffect(() => {
       if (ingredientTypes.length) dispatch({ type: SET_CURRENT_TAB, payload: ingredientTypes[0].type as TIngredientsTypesName})

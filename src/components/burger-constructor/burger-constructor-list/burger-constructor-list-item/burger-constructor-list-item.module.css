@@ -26,3 +26,10 @@
     cursor: pointer;
     transform: translate(-100%, -50%);
 }
+
+@media (max-width: 767px) {
+    .ingredient,
+    .ingredient > div {
+        max-width: none;
+    }
+}

@@ -1,3 +1,20 @@
 .wrapper {
   display: flex;
 }
+
+.wrapper > li {
+  width: 100%;
+}
+
+@media (max-width: 1023px) {
+  .wrapper > li > div {
+    padding: 16px 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .wrapper {
+    margin: 0 -8px;
+    width: calc(100% + 16px);
+  }
+}

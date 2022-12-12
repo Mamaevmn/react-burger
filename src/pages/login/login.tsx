@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useMediaQuery } from "react-responsive";
 
 import styles from './login.module.css';
 
@@ -9,19 +9,21 @@ import { setLogin } from '../../services/actions/login';
 import { getUser } from '../../services/actions/user';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import Loader from '../../components/loader/loader';
-import { ILocation } from '../../utils/types';
-
-type TStore = {
-    user: {auth: boolean};
-    login: {loginRequest: boolean};
-}
+import {useDispatch, useSelector} from "../../services/hooks";
+import classNames from 'classnames';
+import { ILocation } from '../../services/types/data';
 
 function Login() {
     const dispatch = useDispatch();
     const location = useLocation<ILocation>();
     const [ fieldsNotEmpty, setFiledsNotEmpty ] = useState<boolean>(false);
-    const userAuth: any = useSelector<TStore>(store => store.user.auth)
-    const loading: any = useSelector<TStore>(store => store.login.loginRequest)
+    const {userAuth, loading} = useSelector(store => ({
+        userAuth: store.user.auth,
+        loading: store.login.loginRequest
+    }));
+    const isMobile = useMediaQuery({
+        query: "(max-width: 575px)"
+    });
 
     const { values, handleChange, errors, isValid } = useFormAndValidation({ email: '', password: ''});
 
@@ -32,12 +34,12 @@ function Login() {
     }, [fieldsNotEmpty, values])
 
     useEffect(() => {
-        dispatch<any>(getUser());
+        dispatch(getUser());
     }, [dispatch])
 
     const login = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch<any>(setLogin(values.email, values.password))
+        dispatch(setLogin(values.email, values.password))
     }, [dispatch, values])
 
     if (!userAuth) {
@@ -50,7 +52,7 @@ function Login() {
                             Вход
                         </h2>
                         <Input
-                            extraClass='mb-6' 
+                            extraClass={classNames(isMobile && styles.input, isMobile ? 'mb-5' : 'mb-6')}
                             name='email'
                             type='email'
                             placeholder='Укажите e-mail' 
@@ -60,7 +62,7 @@ function Login() {
                             onChange={(e)=> handleChange(e)}
                             /> 
                         <Input 
-                            extraClass='mb-6'
+                            extraClass={classNames(isMobile && styles.input, isMobile ? 'mb-5' : 'mb-6')}
                             name='password'
                             type='password' 
                             placeholder='Пароль'
@@ -74,7 +76,7 @@ function Login() {
                             htmlType="submit" >
                             Войти
                         </Button>
-                        <p className='text text_type_main-default text_color_inactive mt-20'>
+                        <p className={classNames(isMobile && styles.text, 'text', isMobile ? 'text_type_main-small' : 'text_type_main-default', 'text_color_inactive', isMobile? 'mt-10' : 'mt-20')}>
                             Вы — новый пользователь?
                             <Link 
                                 className='text text_color_accent ml-1' 
@@ -82,7 +84,7 @@ function Login() {
                                 Зарегистрироваться
                             </Link>
                         </p>
-                        <p className='text text_type_main-default text_color_inactive mt-4'>
+                        <p className={classNames(isMobile && styles.text, 'text', isMobile ? 'text_type_main-small' : 'text_type_main-default', 'text_color_inactive', 'mt-4')}>
                             Забыли пароль?
                             <Link 
                                 className='text text_color_accent ml-1' 

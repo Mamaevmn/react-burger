@@ -1,0 +1,6 @@
+.wrapper {
+    box-sizing: border-box;
+    padding-top: 122px;
+    height: calc(100vh - 88px);
+    max-width: 640px;
+}
