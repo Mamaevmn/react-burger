@@ -77,5 +77,10 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "redux-devtools-extension": "^2.13.9"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(nanoid)/)"
+    ]
   }
 }

@@ -25,15 +25,15 @@ export type TRegistrationActions =
     | IRegistrationFailedRequestAC;
 
 
-function registrationRequestAC(): IRegistrationRequestAC {
+export function registrationRequestAC(): IRegistrationRequestAC {
     return { type: REGISTRATION_DATA_REQUEST }
 }
 
-function registrationSuccessRequestAC(): IRegistrationSuccessRequestAC {
+export function registrationSuccessRequestAC(): IRegistrationSuccessRequestAC {
     return { type: REGISTRATION_DATA_SUCCESS }
 }
 
-function registrationFailedRequestAC(): IRegistrationFailedRequestAC {
+export function registrationFailedRequestAC(): IRegistrationFailedRequestAC {
     return {
         type: REGISTRATION_DATA_FAILED,
         payload: false,

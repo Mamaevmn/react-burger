@@ -24,18 +24,18 @@ export type TResetPasswordActions =
     | IResetPasswordSuccessRequestAC
     | IResetPasswordFailedRequestAC;
 
-function resetPasswordRequestAC(): IResetPasswordRequestAC {
+export function resetPasswordRequestAC(): IResetPasswordRequestAC {
     return { type: PASSWORD_REQUEST }
 }
 
-function resetPasswordSuccessRequestAC(message: string): IResetPasswordSuccessRequestAC {
+export function resetPasswordSuccessRequestAC(message: string): IResetPasswordSuccessRequestAC {
     return {
         type: PASSWORD_SUCCESS,
         payload: message,
     }
 }
 
-function resetPasswordFailedRequestAC(): IResetPasswordFailedRequestAC {
+export function resetPasswordFailedRequestAC(): IResetPasswordFailedRequestAC {
     return { type: PASSWORD_FAILED }
 }
 

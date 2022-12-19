@@ -13,3 +13,11 @@ export interface ICloseModalAC {
 export type TModalsActions = 
     | IOpenModalAC
     | ICloseModalAC
+
+export function openModalAC(): IOpenModalAC {
+    return { type: OPEN_MODAL }
+}
+
+export function closeModalAC(): ICloseModalAC {
+    return { type: CLOSE_MODAL }
+}

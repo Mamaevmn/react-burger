@@ -58,23 +58,48 @@ export type TIngredientsActions =
   | IDecreaseItemCountAC
   | IClearItemCountAC;
 
-function ingredientsRequestAC(): IIngredientsRequestAC {
+export function ingredientsRequestAC(): IIngredientsRequestAC {
   return { type: GET_INGREDIENTS_REQUEST }
 }
 
-function ingredientsSuccessRequestAC(data: any):IIngredientsSuccessRequestAC {
+export function ingredientsSuccessRequestAC(data: any):IIngredientsSuccessRequestAC {
   return {
     type: GET_INGREDIENTS_SUCCESS,
     payload: data,
   }
 }
 
-function ingredientsFailedRequestAC(): IIngredientsFailedRequestAC {
+export function ingredientsFailedRequestAC(): IIngredientsFailedRequestAC {
   return { type: GET_INGREDIENTS_FAILED }
 }
 
-function getIngredientsTypesAC(): IGetIngredientsTypesAC {
+export function getIngredientsTypesAC(): IGetIngredientsTypesAC {
   return { type: GET_INGREDIENTS_TYPES }
+}
+
+export function setCurrentTabAC(tab: TIngredientsTypesName): ISetCurrentTabAC {
+  return { 
+    type: SET_CURRENT_TAB,
+    payload: tab
+  }
+}
+
+export function increaseItemCountAC(item: string): IIncreaseItemCountAC {
+  return { 
+    type: INCREASE_ITEM_COUNT,
+    payload: item
+  }
+}
+
+export function decreaseItemCountAC(item: string): IDecreaseItemCountAC {
+  return { 
+    type: DECREASE_ITEM_COUNT,
+    payload: item
+  }
+}
+
+export function clearItemCountAC(): IClearItemCountAC {
+  return { type: CLEAR_ITEMS_COUNT }
 }
 
 export const getIngredients: AppThunk = () => (dispatch: AppDispatch) => {

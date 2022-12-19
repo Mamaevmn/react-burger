@@ -24,18 +24,18 @@ export type TRecoveryPasswordActions =
     | IRecoveryPasswordSuccessRequestAC
     | IRecoveryPasswordFailedRequestAC;
 
-function recoveryPasswordRequestAC(): IRecoveryPasswordRequestAC {
+export function recoveryPasswordRequestAC(): IRecoveryPasswordRequestAC {
     return { type: RECOVERY_PASSWORD_REQUEST }
 }
 
-function recoveryPasswordSuccessRequestAC(message: string): IRecoveryPasswordSuccessRequestAC {
+export function recoveryPasswordSuccessRequestAC(message: string): IRecoveryPasswordSuccessRequestAC {
     return {
         type: RECOVERY_PASSWORD_SUCCESS,
         payload: message,
     }
 }
 
-function recoveryPasswordFailedRequestAC(): IRecoveryPasswordFailedRequestAC {
+export function recoveryPasswordFailedRequestAC(): IRecoveryPasswordFailedRequestAC {
     return { type: RECOVERY_PASSWORD_FAILED }
 }
 
