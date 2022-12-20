@@ -13,7 +13,7 @@ function OrdersList() {
     return (
         connected && messages.orders &&
         <ul className={classNames(styles.list, 'scroll-block', 'pr-2')}>
-            {messages.orders.map((order: IOrder) => <OrderItem key={order._id} {...order}/>)}
+            {messages.orders.reverse().map((order: IOrder) => <OrderItem key={order._id} {...order}/>)}
         </ul>
     )
 }

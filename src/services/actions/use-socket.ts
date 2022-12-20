@@ -53,3 +53,45 @@ export interface IWSTypeActions {
     wsSendMessage: typeof WS_SEND_MESSAGE,
     onClose: typeof WS_CONNECTION_CLOSED,
 }
+
+export function wSConnectionStartAC(data: any): IWSConnectionStartAC {
+    return { 
+        type: WS_CONNECTION_START,
+        payload: data
+    }
+}
+
+export function wSConnectionSuccessAC(data: any): IWSConnectionSuccessAC {
+    return { 
+        type: WS_CONNECTION_SUCCESS,
+        payload: data
+    }
+}
+
+export function wSConnectionErrorAC(data: any): IWSConnectionErrorAC {
+    return { 
+        type: WS_CONNECTION_ERROR,
+        payload: data
+    }
+}
+
+export function wSConnectionClosedAC(data: any): IWSConnectionClosedAC {
+    return { 
+        type: WS_CONNECTION_CLOSED,
+        payload: data
+    }
+}
+
+export function wSGetMessageAC(data: any): IWSGetMessageAC {
+    return { 
+        type: WS_GET_MESSAGE,
+        payload: data
+    }
+}
+
+export function wSSendMessageAC(data: any): IWSSendMessageAC {
+    return { 
+        type: WS_SEND_MESSAGE,
+        payload: data
+    }
+}

@@ -37,7 +37,7 @@ const Modal: FC<TModal> = ({ children, onClose }) => {
     return PortalReactDOM.createPortal(
         <>
             <ModalOverlay onClose={onClose} />
-            <section className={classNames(modalStyle.modal, 'pl-10', 'pr-10', 'pb-15')}>
+            <section className={classNames(modalStyle.modal, 'pl-10', 'pr-10', 'pb-15')} data-cy-section='modal'>
                 <button className={classNames(modalStyle.modal_close_btn)} onClick={onClose}></button>
                 {children}
             </section>

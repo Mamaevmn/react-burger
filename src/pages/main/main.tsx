@@ -42,8 +42,7 @@ function Main() {
                     <BurgerIngredients />
                     <BurgerConstructor />
                 </DndProvider>
-                {loading ? 
-                    <Loader /> :
+                {
                     visibleModal && (modalType === ORDER_TYPE) &&
                     <Modal onClose={handleModalClose}>
                         <OrderDetails />

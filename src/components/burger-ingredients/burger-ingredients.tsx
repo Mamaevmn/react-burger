@@ -5,7 +5,7 @@ import BurgerIngredientsTypes from './burger-ingredients-block-goods/burger-ingr
 
 function BurgerIngredients() {
     return (
-        <section className={classNames(ingredientsStyle.section)}>
+        <section className={classNames(ingredientsStyle.section)} data-cy-section='burger-ingredients'>
             <Tabs />
             <BurgerIngredientsTypes />
         </section>

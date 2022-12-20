@@ -30,7 +30,6 @@ export interface ISetUserDataAC {
         password: string;
         token: string;
         refreshToken: string;
-        auth: boolean;
     }
 }
 
@@ -49,11 +48,11 @@ export type TUserActions =
     | ISetUserDataAC
     | IClearUserDataAC;
 
-function userRequestAC(): IUserRequestAC {
+export function userRequestAC(): IUserRequestAC {
     return { type: USER_REQUEST }
 }
 
-function userSuccessRequestAC(name: string, email: string): IUserSuccessRequestAC {
+export function userSuccessRequestAC(name: string, email: string): IUserSuccessRequestAC {
     return {
         type: USER_SUCCESS,
         payload: {
@@ -63,12 +62,31 @@ function userSuccessRequestAC(name: string, email: string): IUserSuccessRequestA
     }
 }
 
-function userFailedRequestAC(): IUserFailedRequestAC {
+export function userFailedRequestAC(): IUserFailedRequestAC {
     return { type: USER_FAILED }
 }
 
-function clearUserDataAC(): IClearUserDataAC {
+export function clearUserDataAC(): IClearUserDataAC {
     return { type: CLEAR_USER_DATA }
+}
+
+export function setUserDataAC(
+    name: string,
+    email: string,
+    password: string,
+    token: string,
+    refreshToken: string,
+): ISetUserDataAC {
+    return {
+        type: SET_USER_DATA,
+        payload: {
+            name: name,
+            email: email,
+            password: password,
+            token: token,
+            refreshToken: refreshToken,
+        }
+    }
 }
 
 export const getUser: AppThunk = () => (dispatch: AppDispatch) => {
