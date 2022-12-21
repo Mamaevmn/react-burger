@@ -1,4 +1,5 @@
-[logo]: https://github.com/Mamaevmn/react-burger/blob/main/public/favicon/android-chrome-192x192.png
+# STELLAR BURGER
+![alt-текст](https://github.com/Mamaevmn/react-burger/blob/main/public/favicon/android-chrome-192x192.png "STELLAR BURGER")
 
 Проектная работа в рамках курса **"React-разработчик"** Яндекс.Практикум (https://github.com/Mamaevmn/react-burger)
 
@@ -10,7 +11,7 @@
     - Jest;  
     - Cypress;  
 
-Задеплоиный проект: https://mamaevmn.github.io/react-burger/
+Задеплоиный проект: [Stellar Burger](https://mamaevmn.github.io/react-burger/).
 
 # Getting Started with Create React App
 
