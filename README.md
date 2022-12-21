@@ -1,16 +1,16 @@
 # STELLAR BURGER
 ![alt-текст](https://github.com/Mamaevmn/react-burger/blob/main/public/favicon/android-chrome-192x192.png "STELLAR BURGER")
 
-Проектная работа в рамках курса **"React-разработчик"** Яндекс.Практикум (https://github.com/Mamaevmn/react-burger)
+Проектная работа в рамках курса **"React-разработчик"** [Яндекс.Практикум](https://practicum.yandex.ru/).
 
 В данной проектной работе используются следующие технологии:  
-    - React (dom, router-dom, web-socket, thunk);  
-    - Redux;  
-    - React DnD;  
-    - Typescript;  
-    - Jest;  
-    - Cypress;  
+    - [React (dom, router-dom, web-socket, thunk, dnd)](https://reactjs.org/);  
+    - [Redux](https://redux.js.org/);  
+    - [Typescript](https://www.typescriptlang.org/);  
+    - [Jest](https://jestjs.io/);  
+    - [Cypress](https://www.cypress.io/);  
 
+Git репозиторий: [Stellar Burger](https://github.com/Mamaevmn/react-burger).
 Задеплоиный проект: [Stellar Burger](https://mamaevmn.github.io/react-burger/).
 
 # Getting Started with Create React App
