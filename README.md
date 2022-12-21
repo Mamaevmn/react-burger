@@ -1,12 +1,14 @@
-Проектная работа в рамках курса "React-разработчик" Яндекс.Практикум (https://github.com/Mamaevmn/react-burger)
+[logo]: https://github.com/Mamaevmn/react-burger/blob/main/public/favicon/android-chrome-192x192.png
 
-В данной проектной работе используются следующие технологии:
-    - React (dom, router-dom, web-socket, thunk);
-    - Redux;
-    - React DnD;
-    - Typescript;
-    - Jest;
-    - Cypress;
+Проектная работа в рамках курса **"React-разработчик"** Яндекс.Практикум (https://github.com/Mamaevmn/react-burger)
+
+В данной проектной работе используются следующие технологии:  
+    - React (dom, router-dom, web-socket, thunk);  
+    - Redux;  
+    - React DnD;  
+    - Typescript;  
+    - Jest;  
+    - Cypress;  
 
 Задеплоиный проект: https://mamaevmn.github.io/react-burger/
 
