@@ -10,7 +10,7 @@
     - [Jest](https://jestjs.io/);  
     - [Cypress](https://www.cypress.io/);  
 
-Git репозиторий: [Stellar Burger](https://github.com/Mamaevmn/react-burger).
+Git репозиторий: [Stellar Burger](https://github.com/Mamaevmn/react-burger).  
 Задеплоиный проект: [Stellar Burger](https://mamaevmn.github.io/react-burger/).
 
 # Getting Started with Create React App
