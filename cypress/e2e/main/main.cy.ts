@@ -1,32 +1,19 @@
 /// <reference types="cypress" />
 
+import { CONSTRUCTOR_SECTION, CY_BASE_URL, dragOnConstructorSectionSomeIngredients, INGREDIENTS_SECTION } from "../../const";
+
 describe('main e2e', () => {
     beforeEach(() => {
         cy.viewport('macbook-11')
-        cy.visit('http://localhost:3000');
+        cy.visit(CY_BASE_URL);
     });
 
     it('should have 2 sections', () => {
-        cy.get('main section[data-cy-section="burger-ingredients"]')
-        cy.get('main section[data-cy-section="burger-constructor"]')
+        cy.get(`main ${INGREDIENTS_SECTION}`)
+        cy.get(`main ${CONSTRUCTOR_SECTION}`)
     });
 
     it('drag ingredient item to constructor field', () => {
-        const draggable_bun = cy.get('section[data-cy-section="burger-ingredients"] ul li[data-tab-content="bun"] > ul li[draggable="true"] > a').eq(0)
-        const draggable_main = cy.get('section[data-cy-section="burger-ingredients"] ul li[data-tab-content="main"] > ul li[draggable="true"] > a').eq(0)
-        const draggable_sauce = cy.get('section[data-cy-section="burger-ingredients"] ul li[data-tab-content="sauce"] > ul li[draggable="true"] > a').eq(0)
-        const droppable = cy.get('section[data-cy-section="burger-constructor"]')
-
-        draggable_bun.trigger('dragstart', { dataTransfer: new DataTransfer })
-        droppable.trigger('drop', { dataTransfer: new DataTransfer })
-        cy.get('section ul li[data-tab-content="bun"] > ul li > a .counter__num').eq(0).should('have.text', '2')
-
-        draggable_main.trigger('dragstart', { dataTransfer: new DataTransfer })
-        droppable.trigger('drop', { dataTransfer: new DataTransfer })
-        cy.get('section ul li[data-tab-content="main"] > ul li > a .counter__num').eq(0).should('have.text', '1')
-
-        draggable_sauce.trigger('dragstart', { dataTransfer: new DataTransfer })
-        droppable.trigger('drop', { dataTransfer: new DataTransfer })
-        cy.get('section ul li[data-tab-content="sauce"] > ul li > a .counter__num').eq(0).eq(0).should('have.text', '1')
+        dragOnConstructorSectionSomeIngredients()
     });
 }); 

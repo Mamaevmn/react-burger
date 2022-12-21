@@ -12,16 +12,14 @@ import OrderDetails from '../../components/modal-order-details/modal-order-detai
 import { ORDER_TYPE } from '../../utils/const';
 import { getUser } from '../../services/actions/user';
 import { CLOSE_MODAL } from '../../services/constants';
-import Loader from '../../components/loader/loader';
 import {useDispatch, useSelector} from "../../services/hooks";
 
 function Main() {
     const dispatch = useDispatch();
     
-    const {visibleModal, modalType, loading} = useSelector(store => ({
+    const {visibleModal, modalType } = useSelector(store => ({
         visibleModal: store.modals.visible,
         modalType: store.modals.type,
-        loading: store.order.orderRequest
     }));
 
     useEffect(() => {
