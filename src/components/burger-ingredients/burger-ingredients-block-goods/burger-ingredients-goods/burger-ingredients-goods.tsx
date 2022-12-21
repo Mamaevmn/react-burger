@@ -59,7 +59,7 @@ const BurgerGoods: FC<TFullIngredient> = ({ ...goods }) => {
                     </span>
                     <CurrencyIcon type="primary" />
                 </p>
-                <p className={classNames(styles.name, 'text_type_main-default')}>
+                <p className={classNames(styles.name, 'text_type_main-default')} data-cy-ingredient="name">
                     { goods.name }                           
                 </p>
             </Link>

@@ -11,21 +11,6 @@ describe('main e2e', () => {
         cy.get('main section[data-cy-section="burger-constructor"]')
     });
 
-    it('click on feed link', () => {
-        cy.get('header nav a').contains('Лента заказов').click()
-        cy.visit('http://localhost:3000/feed');
-    });
-
-    it('open ingredient modal', () => {
-        cy.get('section ul li[data-tab-content="main"] > ul li > a').eq(0)
-            .invoke('attr', 'href')
-            .then(($href) => {
-                const href = $href;
-
-                cy.visit(`http://localhost:3000${href}`);
-            })
-    });
-
     it('drag ingredient item to constructor field', () => {
         const draggable_bun = cy.get('section[data-cy-section="burger-ingredients"] ul li[data-tab-content="bun"] > ul li[draggable="true"] > a').eq(0)
         const draggable_main = cy.get('section[data-cy-section="burger-ingredients"] ul li[data-tab-content="main"] > ul li[draggable="true"] > a').eq(0)
