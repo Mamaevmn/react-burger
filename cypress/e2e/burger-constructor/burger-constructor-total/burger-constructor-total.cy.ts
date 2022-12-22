@@ -11,7 +11,7 @@ describe('constructor e2e', () => {
         cy.get('input[type="password"]').type(PASSWORD)
         cy.get('button[type="submit"]').click()
 
-        cy.url().should('eq', `${CY_BASE_URL}/`)
+        cy.url().should('eq', `${CY_BASE_URL}/react-burger/`)
 
         dragOnConstructorSectionSomeIngredients()
     });

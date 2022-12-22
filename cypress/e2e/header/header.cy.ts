@@ -26,6 +26,6 @@ describe('main e2e', () => {
         cy.get('button[type="submit"]').click()
 
         cy.get(HEADER_LINK).should('not.have.text', 'Личный кабинет')
-        cy.url().should('eq', `${CY_BASE_URL}/profile`)
+        cy.url().should('eq', `${CY_BASE_URL}/react-burger/profile`)
     });
 }); 
