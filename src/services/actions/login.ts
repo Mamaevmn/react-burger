@@ -35,11 +35,11 @@ export type TLoginActions =
     | ILoginSuccessRequestAC
     | ILoginFailedRequestAC;
 
-function loginRequestAC(): ILoginRequestAC {
+export function loginRequestAC(): ILoginRequestAC {
     return { type: LOGIN_REQUEST }
 }
 
-function loginSetUserDataAC(name: string, email: string, password: string): ILoginSetUserDataAC {
+export function loginSetUserDataAC(name: string, email: string, password: string): ILoginSetUserDataAC {
     return {
         type: SET_USER_DATA,
         payload: {
@@ -50,11 +50,11 @@ function loginSetUserDataAC(name: string, email: string, password: string): ILog
     }
 }
 
-function loginSuccessRequestAC(): ILoginSuccessRequestAC {
+export function loginSuccessRequestAC(): ILoginSuccessRequestAC {
     return { type: LOGIN_SUCCESS }
 }
 
-function loginFailedRequestAC(): ILoginFailedRequestAC {
+export function loginFailedRequestAC(): ILoginFailedRequestAC {
     return { type: LOGIN_FAILED }
 }
 

@@ -6,7 +6,7 @@ import {
     WS_GET_MESSAGE 
 } from "../constants";
 
-type TWSState = {
+export type TWSState = {
     wsConnected: boolean;
     messages: any;
 

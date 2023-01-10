@@ -55,10 +55,12 @@
 }
 
 @media (max-width: 575px) {
+    .link {
+        width: 100%;
+    }
     .name {
         font-size: 14px;
     }
-
     .price {
         font-size: 22px;
     }

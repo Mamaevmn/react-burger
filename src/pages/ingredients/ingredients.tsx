@@ -4,7 +4,7 @@ import IngredientDetails from '../../components/modal-ingredient-details/modal-i
 
 function Ingredients() {
     return (
-        <section className={styles.wrapper}>
+        <section className={styles.wrapper} data-cy-ingredient="page">
             <IngredientDetails /> 
         </section>
     )

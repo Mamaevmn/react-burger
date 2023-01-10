@@ -31,22 +31,22 @@ export type TOrderActions =
     | IOrderFailedRequestAC
     | IOpenModalAC;
 
-function orderRequestAC(): IOrderRequestAC {
+export function orderRequestAC(): IOrderRequestAC {
     return { type: GET_ORDER_REQUEST }
 }
 
-function orderSuccessRequestAC(number: number): IOrderSuccessRequestAC {
+export function orderSuccessRequestAC(number: number): IOrderSuccessRequestAC {
     return {
         type: GET_ORDER_SUCCESS,
         payload: number,
     }
 }
 
-function orderFailedRequestAC(): IOrderFailedRequestAC {
+export function orderFailedRequestAC(): IOrderFailedRequestAC {
     return { type: GET_ORDER_FAILED }
 }
 
-function openModalAC(): IOpenModalAC {
+export function openModalAC(): IOpenModalAC {
     return { 
         type: OPEN_MODAL, 
         payload: 'order'

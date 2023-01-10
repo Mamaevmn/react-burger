@@ -35,7 +35,7 @@ export type TShortIngredient = TCompound & {
 }
 
 export type TFullIngredient = TShortIngredient & {
-    u_id: string;
+    u_id?: string;
     _id: string;
     __v: number;
     counter: number;

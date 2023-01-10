@@ -44,3 +44,43 @@ export type TConstructorActions =
     | IDeleteIngredientsAC
     | ICalculateTotalPriceAC
     | IClearConstructorAC;
+
+export function addBunAC(item: TFullIngredient):IAddBunAC {
+    return {
+        type: ADD_BUN,
+        payload: item,
+    }
+}
+
+export function addIngredientAC(item: TFullIngredient):IAddIngredientAC {
+    return {
+        type: ADD_INGREDIENT,
+        payload: item,
+    }
+}
+
+export function updateConstructorListAC(item: ReadonlyArray<TFullIngredient>):IUpdateConstructorListAC {
+    return {
+        type: UPDATE_CONSTRUCTOR_LIST,
+        payload: item,
+    }
+}
+
+export function deleteIngredientsAC(item: string):IDeleteIngredientsAC {
+    return {
+        type: DELETE_INGREDIENTS,
+        payload: item,
+    }
+}
+
+export function calculateTotalPriceAC():ICalculateTotalPriceAC {
+    return {
+        type: CALCULATE_TOTAL_PRICE,
+    }
+}
+
+export function clearConstructorAC():IClearConstructorAC {
+    return {
+        type: CLEAR_CONSTRUCTOR,
+    }
+}

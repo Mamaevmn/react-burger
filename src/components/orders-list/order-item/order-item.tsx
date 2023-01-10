@@ -15,7 +15,7 @@ function OrderItem({ ...props }) {
 
     const onOpenModal = () => dispatch({ type: OPEN_MODAL, payload: ORDER_INFO_TYPE})
 
-    const findMatchIngredient = () => props.ingredients.map((id: string) => ingredients.find((ingredient: TFullIngredient) => ingredient._id === id))
+    const findMatchIngredient = () => props.ingredients.map((id: string) => (id !== null) && ingredients.find((ingredient: TFullIngredient) => ingredient._id === id))
 
     return(
         <li onClick={onOpenModal} className={styles.wrapper}>
@@ -53,10 +53,13 @@ function OrderItem({ ...props }) {
                             )
                         }
                         {
-                            findMatchIngredient().reverse().map((item: TFullIngredient, idx: number) => (idx < 5) && 
-                                <li key={idx} className={styles.ingredient}>
-                                    <img className={styles.ingredient_image} src={item.image_mobile} alt={item.name} title={item.name} />
-                                </li>
+                            findMatchIngredient().reverse().map((item: TFullIngredient, idx: number) => {
+                                if (idx < 5) {
+                                    return <li key={idx} className={styles.ingredient}>
+                                        <img className={styles.ingredient_image} src={item.image_mobile} alt={item.name} title={item.name} />
+                                    </li>
+
+                                } }
                             )
                         }
                     </ul>

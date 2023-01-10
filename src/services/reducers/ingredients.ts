@@ -106,7 +106,12 @@ export const ingredientsReducer = (
           ...state,
           items: [...state.items].map(item => item._id === action.payload ? { ...item, counter: --item.counter } : item)
         }
-      } else break
+      } else {
+        return {
+          ...state,
+          items: [...state.items].map(item => item._id === action.payload ? { ...item, counter: --item.counter - 1 } : item)
+        }
+      }
     }
     case CLEAR_ITEMS_COUNT: {
       return {

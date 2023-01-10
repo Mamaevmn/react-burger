@@ -39,7 +39,7 @@ function BurgerConstructor() {
     }
     
     return (
-        <section className={classNames(constructorStyle.section, borderColor, 'pt-25', 'pl-4', 'pr-4')} ref={dropTarget}>
+        <section className={classNames(constructorStyle.section, borderColor, 'pt-25', 'pl-4', 'pr-4')} ref={dropTarget} data-cy-section='burger-constructor'>
             <BurgerConstructorList />
             <BurgerConstructorTotal />
         </section>

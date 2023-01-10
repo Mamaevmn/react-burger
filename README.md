@@ -1,3 +1,18 @@
+# STELLAR BURGER
+![alt-текст](https://github.com/Mamaevmn/react-burger/blob/main/public/favicon/android-chrome-192x192.png "STELLAR BURGER")
+
+Проектная работа в рамках курса **"React-разработчик"** [Яндекс.Практикум](https://practicum.yandex.ru/).
+
+В данной проектной работе используются следующие технологии:  
+    - [React (dom, router-dom, web-socket, thunk, dnd)](https://reactjs.org/);  
+    - [Redux](https://redux.js.org/);  
+    - [Typescript](https://www.typescriptlang.org/);  
+    - [Jest](https://jestjs.io/);  
+    - [Cypress](https://www.cypress.io/);  
+
+Git репозиторий: [Stellar Burger](https://github.com/Mamaevmn/react-burger).  
+Задеплоиный проект: [Stellar Burger](https://mamaevmn.github.io/react-burger/).
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -38,6 +53,20 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+### `npm run cypress:run`
+
+Launches the test runner in the command line.\
+See the section about [running tests](https://www.cypress.io/) for more information.
+
+### `npm run cypress:open`
+
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://www.cypress.io/) for more information.
+
+### `npm run deploy` 
+
+First does the job `npm run build` and then the project will be built and the contents of the dist folder will fall into the remote gh-pages branch. This may result in the following error: `Couldn't find remote ref refs/heads/gh-pages`, then enter the command `npx gh-pages-clean` and repeat this step. 
 
 ## Learn More
 

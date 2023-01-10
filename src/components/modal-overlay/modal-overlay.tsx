@@ -8,7 +8,7 @@ type TModalOverlay = {
 
 const ModalOverlay: FC<TModalOverlay> = ({ onClose }) => {
     return (
-        <div className={overlayStyle.overlay} onClick={onClose}>
+        <div className={overlayStyle.overlay} onClick={onClose} data-cy-modal="overlay">
         </div>
     )
 }
